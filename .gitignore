@@ -19,3 +19,6 @@ motion/semi-vox/vo2/
 motion/semi-vox/audio/
 motion/semi-vox/*.mp4
 motion/semi-vox/*.png
+motion/virt-mix/deckmedia/
+motion/virt-mix/vo/
+motion/virt-mix/*.srt

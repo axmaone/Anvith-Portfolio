@@ -1,0 +1,71 @@
+WEBVTT
+
+00:00.450 --> 00:02.971
+How can one computer behave like many?
+
+00:02.971 --> 00:07.085
+The answer is virtualisation, and the idea
+is sixty years old.
+
+00:08.635 --> 00:09.843
+Here's how it works.
+
+00:09.843 --> 00:15.824
+A thin layer of software, called a
+hypervisor, sits between the hardware and
+the operating systems.
+
+00:17.274 --> 00:20.943
+It splits one physical machine into
+several virtual machines.
+
+00:20.943 --> 00:25.274
+Each one acts like a complete computer,
+while sharing the same hardware.
+
+00:27.024 --> 00:28.997
+It began in the 1960s.
+
+00:28.997 --> 00:36.261
+Mainframes were huge and expensive, so
+IBM's CP-67 let many users share just one.
+
+00:38.611 --> 00:42.609
+In the seventies and eighties, cheap
+personal computers arrived.
+
+00:42.609 --> 00:46.483
+Everyone had their own machine, and
+virtualisation went quiet.
+
+00:48.233 --> 00:54.910
+In the late nineties, VMware brought it
+back, running several operating systems on
+one ordinary server.
+
+00:56.660 --> 01:00.920
+By the 2000s, data centres were full of
+half-idle servers.
+
+01:00.920 --> 01:06.281
+Virtualisation consolidated them: fewer
+machines, less power, less space.
+
+01:08.031 --> 01:12.225
+And in the 2010s, it became the foundation
+of the cloud.
+
+01:12.225 --> 01:15.370
+AWS, Azure and Google Cloud all run on it.
+
+01:17.120 --> 01:19.851
+Quick check. What does a hypervisor
+actually do?
+
+01:22.601 --> 01:25.950
+It shares one physical machine between
+many virtual ones.
+
+01:27.700 --> 01:30.921
+One machine. Many computers. That's
+virtualisation.
