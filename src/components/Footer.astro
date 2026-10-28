@@ -6,7 +6,11 @@ const year = new Date().getFullYear();
   <div class="wrap foot__inner">
     <span class="foot__sig" aria-hidden="true">Anvith</span>
     <p class="foot__line" data-signoffs={JSON.stringify(signOffs)}>{signOffs[0]}</p>
-    <a class="mono" href="#main">Back to top ↑</a>
+    <nav class="foot__links mono" aria-label="Profiles">
+      {person.links.linkedin && <a href={person.links.linkedin} rel="me noopener" target="_blank">LinkedIn ↗</a>}
+      {person.links.instagram && <a href={person.links.instagram} rel="me noopener" target="_blank">Instagram ↗</a>}
+      <a href="#main">Back to top ↑</a>
+    </nav>
   </div>
   <p class="wrap foot__small mono">© {year} {person.name} · Bengaluru</p>
 </footer>
@@ -17,6 +21,7 @@ const year = new Date().getFullYear();
   .foot__sig { font-family: var(--script); font-size: 54px; color: var(--red); line-height: 0.8; padding-top: 10px; }
   .foot__line { margin: 0; flex: 1 1 320px; font: italic 400 clamp(17px, 1.4vw, 22px)/1.3 var(--serif); transition: opacity 0.4s; }
   .foot a { text-decoration: none; }
+  .foot__links { display: flex; gap: 20px; flex-wrap: wrap; }
   .foot a:hover { color: var(--gold); }
   .foot__small { opacity: 0.5; margin: 16px auto 0; }
 </style>

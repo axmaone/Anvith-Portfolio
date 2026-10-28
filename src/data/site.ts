@@ -12,10 +12,10 @@ export const person = {
   now: 'Instructional Designer at UNext Learning',
   email: 'anvithma@gmail.com',
   cv: '/Anvith-M-Acharya-CV.pdf',
-  // TODO: paste your real profile links. Leave '' to hide a link.
+  // Profile links. Leave '' to hide a link.
   links: {
-    linkedin: '',
-    instagram: '',
+    linkedin: 'https://www.linkedin.com/in/anvith-m-acharya/',
+    instagram: 'https://www.instagram.com/anvith.ma/',
     behance: '',
   },
 };
