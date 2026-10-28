@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+---
+<Base title="Lost | Anvith M Acharya">
+  <Nav />
+  <main id="main" class="lost wrap">
+    <img class="sticker" src="/img/me-boat.webp" alt="" width="300" />
+    <h1 class="h-xl">Off the<br /><em class="serif italic red">syllabus.</em></h1>
+    <p>This page does not exist. Every good debrief starts with "what happened here?"</p>
+    <a class="btn" href="/">Back to the session <span class="arrow" aria-hidden="true">→</span></a>
+  </main>
+</Base>
+<style>
+  .lost { min-height: 100svh; display: grid; place-content: center; justify-items: start; gap: 20px; padding-top: 100px; }
+  .lost em { text-transform: none; font-weight: 400; }
+  .lost img { width: 160px; transform: rotate(-6deg); }
+</style>

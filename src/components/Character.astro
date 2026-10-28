@@ -1,0 +1,79 @@
+---
+// Animated 2D Anvith: messy black hair, short beard, rectangular glasses, navy shirt.
+// pose: idle (blinks, breathes) · wave · walk · talk (mouth moves). `bust` crops to head and shoulders.
+interface Props { pose?: 'idle' | 'wave' | 'walk' | 'talk'; bust?: boolean; class?: string; label?: string }
+const { pose = 'idle', bust = false, class: cls = '', label } = Astro.props;
+const vb = bust ? '30 4 140 150' : '0 0 200 330';
+---
+<svg class={`chr chr--${pose} ${bust ? 'chr--bust' : ''} ${cls}`} viewBox={vb} role={label ? 'img' : undefined} aria-label={label} aria-hidden={label ? undefined : 'true'}>
+  <g class="chr__body">
+    <!-- legs -->
+    <g class="chr__leg chr__leg--l"><rect x="74" y="214" width="24" height="88" rx="10" fill="#1d222b" /><ellipse cx="84" cy="306" rx="18" ry="8" fill="#0f1217" /></g>
+    <g class="chr__leg chr__leg--r"><rect x="102" y="214" width="24" height="88" rx="10" fill="#1d222b" /><ellipse cx="118" cy="306" rx="18" ry="8" fill="#0f1217" /></g>
+    <!-- back arm -->
+    <g class="chr__arm chr__arm--l">
+      <path d="M62 146 Q48 182 52 214" stroke="#23356e" stroke-width="20" stroke-linecap="round" fill="none" />
+      <circle cx="52" cy="220" r="10" fill="#b8754c" />
+      <rect x="44" y="200" width="16" height="7" rx="2" fill="#c9ccd2" />
+    </g>
+    <!-- torso -->
+    <path d="M60 140 Q100 124 140 140 L136 222 Q100 230 64 222 Z" fill="#23356e" />
+    <path d="M86 132 L100 156 L114 132" fill="#1a2856" stroke="#1a2856" stroke-width="2" />
+    <circle cx="100" cy="172" r="2.2" fill="#0f1a3c" /><circle cx="100" cy="190" r="2.2" fill="#0f1a3c" /><circle cx="100" cy="208" r="2.2" fill="#0f1a3c" />
+    <!-- front arm (waves) -->
+    <g class="chr__arm chr__arm--r">
+      <path d="M138 146 Q152 182 148 214" stroke="#23356e" stroke-width="20" stroke-linecap="round" fill="none" />
+      <circle cx="148" cy="220" r="10" fill="#b8754c" />
+    </g>
+    <!-- neck + head -->
+    <rect x="90" y="112" width="20" height="24" rx="6" fill="#a8683f" />
+    <g class="chr__head">
+      <ellipse cx="65" cy="86" rx="7" ry="10" fill="#b8754c" /><ellipse cx="135" cy="86" rx="7" ry="10" fill="#b8754c" />
+      <circle cx="136" cy="94" r="2" fill="#d9dde3" />
+      <ellipse cx="100" cy="84" rx="35" ry="40" fill="#c07d52" />
+      <!-- beard + goatee -->
+      <path d="M68 92 Q70 122 100 128 Q130 122 132 92 Q128 112 116 116 Q100 120 84 116 Q72 112 68 92 Z" fill="#2a1c15" opacity="0.88" />
+      <path d="M92 116 Q100 126 108 116 Q100 120 92 116 Z" fill="#1c120d" />
+      <!-- moustache + mouth -->
+      <path d="M86 103 Q100 96 114 103 Q100 101 86 103 Z" fill="#1c120d" />
+      <path class="chr__mouth" d="M90 108 Q100 115 110 108" stroke="#5a2a1e" stroke-width="2.6" fill="#7a3426" stroke-linecap="round" />
+      <!-- eyes -->
+      <g class="chr__eyes"><ellipse cx="86" cy="82" rx="4" ry="4.6" fill="#1a1414" /><ellipse cx="114" cy="82" rx="4" ry="4.6" fill="#1a1414" /></g>
+      <path d="M76 72 Q86 67 95 71" stroke="#16110f" stroke-width="3.4" fill="none" stroke-linecap="round" />
+      <path d="M105 71 Q114 67 124 72" stroke="#16110f" stroke-width="3.4" fill="none" stroke-linecap="round" />
+      <!-- glasses -->
+      <g fill="none" stroke="#1f2329" stroke-width="3"><rect x="74" y="74" width="24" height="17" rx="4" /><rect x="102" y="74" width="24" height="17" rx="4" /><path d="M98 81 h4 M74 80 l-8 -2 M126 80 l8 -2" /></g>
+      <!-- hair: big swept volume -->
+      <path d="M62 82 Q50 44 78 30 Q88 12 112 18 Q138 16 146 40 Q152 60 136 82 Q132 62 120 58 Q106 66 90 58 Q74 62 68 86 Z" fill="#15120f" />
+      <path d="M78 30 Q84 8 108 12 Q100 20 96 28 Z M112 18 Q134 6 144 26 Q132 22 124 26 Z" fill="#15120f" />
+      <path d="M88 60 Q100 46 118 52 Q108 56 100 64 Z" fill="#15120f" />
+      <path d="M80 36 Q98 26 118 34 M90 46 Q108 38 126 46" stroke="#2c2621" stroke-width="2" fill="none" opacity="0.7" />
+    </g>
+  </g>
+</svg>
+
+<style>
+  .chr { overflow: visible; }
+  .chr--bust { overflow: hidden; }
+  .chr__eyes { transform-origin: 100px 82px; animation: chr-blink 4.2s infinite; }
+  .chr__body { transform-origin: 100px 300px; animation: chr-breathe 3.6s ease-in-out infinite; }
+  .chr__arm--l { transform-origin: 62px 146px; }
+  .chr__arm--r { transform-origin: 138px 146px; }
+  .chr__leg--l { transform-origin: 86px 216px; }
+  .chr__leg--r { transform-origin: 114px 216px; }
+  .chr__head { transform-origin: 100px 120px; }
+  .chr--wave .chr__arm--r { animation: chr-wave 1.6s ease-in-out infinite; }
+  .chr--talk .chr__mouth { transform-origin: 100px 110px; animation: chr-talk 0.32s ease-in-out infinite alternate; }
+  .chr--talk .chr__head { animation: chr-nod 2.4s ease-in-out infinite; }
+  .chr--walk .chr__body { animation: chr-bob 0.5s ease-in-out infinite; }
+  .chr--walk .chr__leg--l, .chr--walk .chr__arm--r { animation: chr-swing 0.5s ease-in-out infinite alternate; }
+  .chr--walk .chr__leg--r, .chr--walk .chr__arm--l { animation: chr-swing 0.5s ease-in-out infinite alternate-reverse; }
+  @keyframes chr-blink { 0%, 94%, 100% { transform: scaleY(1); } 97% { transform: scaleY(0.1); } }
+  @keyframes chr-breathe { 50% { transform: translateY(-1.5px); } }
+  @keyframes chr-bob { 50% { transform: translateY(-4px); } }
+  @keyframes chr-wave { 0%, 100% { transform: rotate(-150deg); } 50% { transform: rotate(-115deg); } }
+  @keyframes chr-swing { from { transform: rotate(-16deg); } to { transform: rotate(16deg); } }
+  @keyframes chr-talk { from { transform: scaleY(1); } to { transform: scaleY(0.4); } }
+  @keyframes chr-nod { 50% { transform: rotate(-3deg); } }
+  @media (prefers-reduced-motion: reduce) { .chr * { animation: none !important; } }
+</style>

@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: 'Bricolage'; src: url('assets/fonts/bricolage.woff2') format('woff2'); font-weight: 200 800; font-stretch: 75% 100%; }
+      @font-face { font-family: 'FrauncesItalic'; src: url('assets/fonts/fraunces-italic.woff2') format('woff2'); font-weight: 100 900; font-style: italic; }
+      @font-face { font-family: 'JBM'; src: url('assets/fonts/jbm.woff2') format('woff2'); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #15202d; }
+      #root { position: relative; width: 100%; height: 100%; font-family: 'Bricolage', sans-serif; color: #efe8da; }
+      #bg { position: absolute; inset: 0; background: #15202d; }
+      #stage { position: absolute; inset: 0; }
+      .label { position: absolute; left: 150px; top: 96px; font: 22px 'JBM'; letter-spacing: 0.12em; text-transform: uppercase; color: #a9b1bc; }
+      .hook { position: absolute; left: 150px; top: 330px; width: 860px; font-weight: 760; font-stretch: 78%; font-size: 132px; line-height: 0.92; letter-spacing: -0.03em; }
+      .hook span { display: inline-block; margin-right: 0.22em; }
+      .hook em { font-family: 'FrauncesItalic'; font-weight: 400; color: #c99a3c; font-stretch: 100%; }
+      .step { position: absolute; left: 150px; top: 300px; width: 760px; }
+      .step .n { font: 24px 'JBM'; letter-spacing: 0.1em; color: #ef6a52; }
+      .step h2 { margin-top: 22px; font-weight: 740; font-stretch: 80%; font-size: 104px; line-height: 0.95; letter-spacing: -0.025em; }
+      .step p { margin-top: 30px; font-family: 'FrauncesItalic'; font-style: italic; font-size: 44px; line-height: 1.2; color: #cfd5dc; max-width: 700px; }
+      .end { position: absolute; left: 150px; top: 330px; width: 880px; }
+      .end h2 { font-weight: 760; font-stretch: 78%; font-size: 120px; line-height: 0.92; letter-spacing: -0.03em; }
+      .end p { margin-top: 34px; font-family: 'FrauncesItalic'; font-style: italic; font-size: 52px; line-height: 1.15; color: #c99a3c; }
+      #art { position: absolute; left: 960px; top: 110px; width: 800px; height: 800px; overflow: visible; }
+      .t { font-family: 'JBM'; font-size: 22px; letter-spacing: 0.08em; fill: #efe8da; }
+      .years { position: absolute; left: 150px; right: 150px; top: 960px; height: 40px; }
+      .years .bar { position: absolute; left: 0; right: 0; top: 18px; height: 2px; background: #3b4655; }
+      .years .fill { position: absolute; left: 0; top: 18px; height: 2px; width: 100%; background: #ef6a52; transform-origin: left; }
+      .years span { position: absolute; top: -12px; font: 20px 'JBM'; color: #a9b1bc; transform: translateX(-50%); }
+      .years .dot { position: absolute; top: 11px; width: 16px; height: 16px; margin-left: -8px; border-radius: 50%; background: #ef6a52; }
+      #laptop,#hw,#hv,#vm1,#vm2,#vm3,#mainframe,#terms,#pcs,#server,#racks,#cloud,#endwins,#t1,#t2,#t3,#t4,#t5,#t6,#end,#years { opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="37" data-width="1920" data-height="1080">
+      <div id="bg" class="clip" data-start="0" data-duration="37" data-track-index="0"></div>
+      <div id="stage" class="clip" data-start="0" data-duration="37" data-track-index="1" data-layout-allow-overlap>
+        <div class="label">Cloud computing · Virtualisation</div>
+        <h1 class="hook" id="hook"><span>How</span><span>can</span><span>one</span><span>computer</span><span>be</span><span><em>many?</em></span></h1>
+
+        <div class="step" id="t1"><div class="n">HOW IT WORKS</div><h2>A hypervisor splits one machine.</h2><p>Each virtual machine acts like a real computer, sharing the same hardware.</p></div>
+        <div class="step" id="t2"><div class="n">1960s · ORIGINS</div><h2>Share the giant.</h2><p>IBM's CP-67 let many users work on one mainframe.</p></div>
+        <div class="step" id="t3"><div class="n">1970s–80s · DECLINE</div><h2>The quiet years.</h2><p>Cheaper PCs replaced shared mainframes. Research slowed.</p></div>
+        <div class="step" id="t4"><div class="n">LATE 1990s · REVIVAL</div><h2>Back in business.</h2><p>VMware brought virtualisation to everyday x86 servers.</p></div>
+        <div class="step" id="t5"><div class="n">2000s · MAINSTREAM</div><h2>Fewer servers, same work.</h2><p>Data centres consolidated, saving cost, space and energy.</p></div>
+        <div class="step" id="t6"><div class="n">2010s · CLOUD ERA</div><h2>Then came the cloud.</h2><p>AWS, Azure and Google Cloud are built on it.</p></div>
+        <div class="end" id="end"><h2>One machine. Many computers.</h2><p>That's virtualisation, and the cloud runs on it.</p></div>
+
+        <div class="years" id="years">
+          <div class="bar"></div><div class="fill" id="yfill"></div>
+          <span style="left:0%">1960</span><span style="left:25%">1970</span><span style="left:50%">1990</span><span style="left:75%">2000</span><span style="left:100%">2010</span>
+          <div class="dot" id="ydot" style="left:0%"></div>
+        </div>
+
+        <svg id="art" viewBox="0 0 800 800">
+          <!-- laptop -->
+          <g id="laptop">
+            <rect x="170" y="230" width="460" height="290" rx="18" fill="none" stroke="#efe8da" stroke-width="8" />
+            <rect x="110" y="530" width="580" height="34" rx="12" fill="#efe8da" />
+          </g>
+          <!-- hypervisor stack -->
+          <g id="hw"><rect x="120" y="610" width="560" height="90" rx="14" fill="#efe8da" /><text class="t" x="400" y="664" text-anchor="middle" fill="#15202d" style="fill:#15202d">PHYSICAL HARDWARE</text></g>
+          <g id="hv"><rect x="120" y="520" width="560" height="74" rx="14" fill="#e2432a" /><text class="t" x="400" y="565" text-anchor="middle">HYPERVISOR</text></g>
+          <g id="vm1"><rect x="120" y="290" width="170" height="210" rx="14" fill="none" stroke="#c99a3c" stroke-width="5" /><rect x="120" y="290" width="170" height="34" rx="14" fill="#c99a3c" /><text class="t" x="205" y="420" text-anchor="middle">WINDOWS</text></g>
+          <g id="vm2"><rect x="315" y="290" width="170" height="210" rx="14" fill="none" stroke="#8fada5" stroke-width="5" /><rect x="315" y="290" width="170" height="34" rx="14" fill="#8fada5" /><text class="t" x="400" y="420" text-anchor="middle">LINUX</text></g>
+          <g id="vm3"><rect x="510" y="290" width="170" height="210" rx="14" fill="none" stroke="#a7a3d6" stroke-width="5" /><rect x="510" y="290" width="170" height="34" rx="14" fill="#a7a3d6" /><text class="t" x="595" y="420" text-anchor="middle">SERVER</text></g>
+          <!-- 1960s mainframe + terminals -->
+          <g id="mainframe">
+            <rect x="290" y="170" width="220" height="440" rx="12" fill="#3b4655" stroke="#efe8da" stroke-width="5" />
+            <circle cx="355" cy="250" r="34" fill="none" stroke="#efe8da" stroke-width="5" /><circle cx="445" cy="250" r="34" fill="none" stroke="#efe8da" stroke-width="5" />
+            <rect x="320" y="330" width="160" height="12" fill="#c99a3c" /><rect x="320" y="360" width="160" height="12" fill="#c99a3c" /><rect x="320" y="390" width="110" height="12" fill="#c99a3c" />
+            <text class="t" x="400" y="660" text-anchor="middle">IBM CP-67</text>
+          </g>
+          <g id="terms" stroke="#8fada5" stroke-width="3" fill="none">
+            <path d="M290 300 L140 220" /><path d="M290 480 L140 560" /><path d="M510 300 L660 220" /><path d="M510 480 L660 560" />
+            <g fill="#15202d" stroke="#efe8da" stroke-width="4">
+              <rect x="70" y="180" width="110" height="80" rx="8" /><rect x="70" y="520" width="110" height="80" rx="8" />
+              <rect x="620" y="180" width="110" height="80" rx="8" /><rect x="620" y="520" width="110" height="80" rx="8" />
+            </g>
+          </g>
+          <!-- 70s-80s PCs -->
+          <g id="pcs" fill="#15202d" stroke="#c99a3c" stroke-width="4"></g>
+          <!-- late 90s server -->
+          <g id="server">
+            <rect x="150" y="560" width="500" height="110" rx="14" fill="#3b4655" stroke="#efe8da" stroke-width="5" />
+            <circle cx="200" cy="615" r="10" fill="#8fada5" /><rect x="240" y="605" width="300" height="20" rx="6" fill="#15202d" />
+            <text class="t" x="400" y="715" text-anchor="middle">ONE x86 SERVER</text>
+          </g>
+          <!-- 2000s racks -->
+          <g id="racks"></g>
+          <!-- cloud -->
+          <g id="cloud">
+            <path d="M210 470 a110 110 0 0 1 60 -190 a140 140 0 0 1 250 -20 a110 110 0 0 1 80 210 Z" fill="none" stroke="#efe8da" stroke-width="7" stroke-linejoin="round" />
+            <text class="t" x="400" y="600" text-anchor="middle" fill="#c99a3c" style="fill:#c99a3c">AWS · AZURE · GOOGLE CLOUD</text>
+          </g>
+          <!-- end: laptop with two OS windows -->
+          <g id="endwins">
+            <rect x="200" y="262" width="190" height="226" rx="8" fill="#c99a3c" opacity="0.85" /><text class="t" x="295" y="385" text-anchor="middle" style="fill:#15202d">WINDOWS</text>
+            <rect x="410" y="262" width="190" height="226" rx="8" fill="#8fada5" opacity="0.85" /><text class="t" x="505" y="385" text-anchor="middle" style="fill:#15202d">LINUX</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <script>
+      const NS = 'http://www.w3.org/2000/svg';
+      const mk = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+      // 9 PCs in a grid
+      const pcs = document.getElementById('pcs');
+      for (let i = 0; i < 9; i++) {
+        const x = 150 + (i % 3) * 180, y = 190 + Math.floor(i / 3) * 150;
+        const g = mk('g', { class: 'pc' }, pcs);
+        mk('rect', { x, y, width: 130, height: 90, rx: 8 }, g); mk('rect', { x: x + 45, y: y + 96, width: 40, height: 14, fill: '#c99a3c', stroke: 'none' }, g);
+      }
+      // 10 racks (2 rows of 5); racks 0 and 5 survive consolidation
+      const racks = document.getElementById('racks');
+      for (let i = 0; i < 10; i++) {
+        const x = 120 + (i % 5) * 116, y = 220 + Math.floor(i / 5) * 230;
+        const g = mk('g', { class: 'rk' + (i === 2 || i === 7 ? ' keep' : '') }, racks);
+        mk('rect', { x, y, width: 88, height: 190, rx: 8, fill: '#3b4655', stroke: '#efe8da', 'stroke-width': 4 }, g);
+        for (let j = 0; j < 4; j++) mk('rect', { x: x + 14, y: y + 22 + j * 40, width: 60, height: 14, rx: 3, fill: j === 0 ? '#8fada5' : '#15202d' }, g);
+      }
+
+      const tl = gsap.timeline({ paused: true });
+      const textIn = (sel, t) => {
+        tl.set(sel, { opacity: 1, filter: 'blur(0px)' }, t);
+        tl.fromTo(`${sel} .n`, { opacity: 0 }, { opacity: 1, duration: 0.3 }, t);
+        tl.fromTo(`${sel} h2`, { opacity: 0, filter: 'blur(10px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.6, ease: 'expo.out' }, t + 0.08);
+        tl.fromTo(`${sel} p`, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.7, ease: 'expo.out' }, t + 0.35);
+      };
+      const textOut = (sel, t) => tl.to(sel, { opacity: 0, filter: 'blur(8px)', duration: 0.2, ease: 'power2.in' }, t);
+      const show = (sel, t) => tl.set(sel, { opacity: 1 }, t);
+      const hide = (sel, t, d = 0.3) => tl.to(sel, { opacity: 0, duration: d, ease: 'power2.in' }, t);
+      const year = (pct, t) => { tl.to('#ydot', { x: pct * 16.2, duration: 0.9, ease: 'power2.inOut' }, t); tl.to('#yfill', { scaleX: pct / 100, duration: 0.9, ease: 'power2.inOut' }, t); };
+
+      // HOOK 0–4
+      tl.fromTo('#hook span', { opacity: 0, filter: 'blur(8px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.18, stagger: 0.09 }, 0.4);
+      show('#laptop', 1.2);
+      tl.fromTo('#laptop', { scale: 0.8, svgOrigin: '400 400' }, { scale: 1, duration: 0.9, ease: 'expo.out' }, 1.2);
+      tl.to('#hook', { opacity: 0, filter: 'blur(8px)', duration: 0.22 }, 3.7);
+
+      // HOW IT WORKS 4–11
+      textIn('#t1', 4.0);
+      hide('#laptop', 4.0, 0.25);
+      show('#hw', 4.3); tl.fromTo('#hw', { y: 60 }, { y: 0, duration: 0.7, ease: 'expo.out' }, 4.3);
+      show('#hv', 5.2); tl.fromTo('#hv', { scaleX: 0, svgOrigin: '400 557' }, { scaleX: 1, duration: 0.6, ease: 'expo.out' }, 5.2);
+      ['#vm1', '#vm2', '#vm3'].forEach((v, i) => { show(v, 6.2 + i * 0.3); tl.fromTo(v, { y: 70 }, { y: 0, duration: 0.6, ease: 'expo.out' }, 6.2 + i * 0.3); });
+      textOut('#t1', 10.8);
+      hide(['#hw', '#hv', '#vm1', '#vm2', '#vm3'], 10.8);
+
+      // 1960s 11–15.5
+      textIn('#t2', 11.1);
+      show('#years', 11.0); tl.set('#yfill', { scaleX: 0 }, 11.0);
+      show('#mainframe', 11.2); tl.fromTo('#mainframe', { scale: 0.85, svgOrigin: '400 400' }, { scale: 1, duration: 0.8, ease: 'expo.out' }, 11.2);
+      show('#terms', 12.0);
+      tl.fromTo('#terms path', { opacity: 0 }, { opacity: 1, duration: 0.3, stagger: 0.12 }, 12.0);
+      tl.fromTo('#terms rect', { scale: 0, transformOrigin: '50% 50%' }, { scale: 1, duration: 0.5, stagger: 0.12, ease: 'back.out(1.6)' }, 12.1);
+      textOut('#t2', 15.3);
+
+      // 1970s–80s 15.5–20
+      textIn('#t3', 15.6); year(25, 15.5);
+      hide('#terms', 15.5); tl.to('#mainframe', { opacity: 0, duration: 0.4 }, 15.6);
+      show('#pcs', 16.2);
+      tl.fromTo('#pcs .pc', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, stagger: 0.08, ease: 'expo.out' }, 16.2);
+      textOut('#t3', 19.8);
+
+      // Late 1990s 20–24.5
+      textIn('#t4', 20.1); year(50, 20.0);
+      hide(['#pcs', '#mainframe'], 20.0);
+      show('#server', 20.4); tl.fromTo('#server', { y: 80 }, { y: 0, duration: 0.7, ease: 'expo.out' }, 20.4);
+      ['#vm1', '#vm2', '#vm3'].forEach((v, i) => { tl.to(v, { opacity: 1, duration: 0.01 }, 21.2 + i * 0.25); tl.fromTo(v, { y: 160, scale: 0.6, svgOrigin: '400 600' }, { y: 60, scale: 1, duration: 0.6, ease: 'expo.out', immediateRender: false }, 21.2 + i * 0.25); });
+      textOut('#t4', 24.3);
+
+      // 2000s 24.5–29
+      textIn('#t5', 24.6); year(75, 24.5);
+      hide(['#server', '#vm1', '#vm2', '#vm3'], 24.5);
+      show('#racks', 24.8);
+      tl.fromTo('#racks .rk', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.05, ease: 'expo.out' }, 24.8);
+      tl.to('#racks .rk:not(.keep)', { opacity: 0, scale: 0.5, transformOrigin: '50% 50%', duration: 0.5, stagger: 0.05, ease: 'power3.in' }, 26.6);
+      textOut('#t5', 28.8);
+
+      // 2010s 29–33
+      textIn('#t6', 29.1); year(100, 29.0);
+      tl.to('#racks .keep', { x: (i) => [-56, 64][i], y: (i) => [45, -185][i], scale: 0.55, transformOrigin: '50% 50%', duration: 0.8, ease: 'power2.inOut' }, 29.2);
+      show('#cloud', 29.6);
+      const cp = document.querySelector('#cloud path'); const L = cp.getTotalLength(); cp.style.strokeDasharray = L; cp.style.strokeDashoffset = L;
+      tl.to(cp, { strokeDashoffset: 0, duration: 1.2, ease: 'power2.inOut' }, 29.6);
+      tl.fromTo('#cloud text', { opacity: 0 }, { opacity: 1, duration: 0.4 }, 30.6);
+      textOut('#t6', 32.8);
+
+      // END 33–37
+      hide(['#cloud', '#racks', '#years'], 33.0);
+      show('#laptop', 33.2); tl.fromTo('#laptop', { scale: 1.2, svgOrigin: '400 400' }, { scale: 1, duration: 0.8, ease: 'expo.out', immediateRender: false }, 33.2);
+      show('#endwins', 33.6);
+      tl.fromTo('#endwins rect', { scaleY: 0, transformOrigin: '50% 100%' }, { scaleY: 1, duration: 0.5, stagger: 0.15, ease: 'expo.out' }, 33.6);
+      show('#end', 33.6);
+      tl.fromTo('#end h2', { opacity: 0, filter: 'blur(10px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.6, ease: 'expo.out' }, 33.6);
+      tl.fromTo('#end p', { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.7, ease: 'expo.out' }, 34.2);
+      tl.set({}, {}, 37);
+
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

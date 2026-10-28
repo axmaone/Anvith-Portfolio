@@ -1,0 +1,40 @@
+---
+// Opening: the name is signed in red ink, then the curtain lifts.
+// Plays once per browser session; skipped for reduced motion.
+---
+<div class="intro" id="intro" aria-hidden="true">
+  <svg class="intro__sig" viewBox="0 0 900 300">
+    <text x="50%" y="62%" text-anchor="middle">Anvith</text>
+  </svg>
+  <p class="intro__line mono">Interest · Concept · Application · Debrief</p>
+</div>
+
+<script is:inline>
+  (function () {
+    var el = document.getElementById('intro');
+    var seen = false;
+    try { seen = sessionStorage.getItem('intro-seen') === '1'; } catch (e) {}
+    if (seen || matchMedia('(prefers-reduced-motion: reduce)').matches) { el.remove(); return; }
+    document.documentElement.classList.add('intro-on');
+    try { sessionStorage.setItem('intro-seen', '1'); } catch (e) {}
+  })();
+</script>
+
+<style>
+  .intro {
+    display: none; position: fixed; inset: 0; z-index: 150; background: var(--ink);
+    place-items: center; align-content: center; gap: 8px;
+  }
+  :global(html.intro-on) .intro { display: grid; animation: lift 0.9s 2.6s var(--ease) forwards; }
+  .intro__sig { width: min(80vw, 820px); overflow: visible; }
+  .intro__sig text {
+    font-family: var(--script); font-size: 230px; fill: transparent;
+    stroke: var(--red); stroke-width: 1.6; stroke-dasharray: 1400; stroke-dashoffset: 1400;
+    animation: sign 2s 0.2s cubic-bezier(0.6, 0, 0.3, 1) forwards, ink 0.6s 1.9s forwards;
+  }
+  .intro__line { color: var(--paper); opacity: 0; animation: fade 0.6s 1.4s forwards; text-align: center; padding-inline: 16px; }
+  @keyframes sign { to { stroke-dashoffset: 0; } }
+  @keyframes ink { to { fill: var(--red); } }
+  @keyframes fade { to { opacity: 0.7; } }
+  @keyframes lift { to { transform: translateY(-100%); border-radius: 0 0 50% 50% / 0 0 20% 20%; visibility: hidden; } }
+</style>

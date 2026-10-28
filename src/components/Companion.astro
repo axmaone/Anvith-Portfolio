@@ -1,0 +1,45 @@
+---
+// The recurring "me": Anvith's avatar sticker in the corner. It pops a line as each section arrives,
+// goes quiet after a few seconds, and tucks to the edge in data-quiet sections (games, reading).
+import { companionLines } from '../data/site';
+---
+<div class="companion" id="companion" aria-hidden="true" data-lines={JSON.stringify(companionLines)}>
+  <p class="companion__bubble" id="companion-bubble">{companionLines.interest}</p>
+  <button class="companion__face" type="button" tabindex="-1" title="Say that again">
+    <img src="/img/avatar.webp" alt="" width="652" height="800" />
+  </button>
+</div>
+
+<style>
+  .companion {
+    position: fixed; right: var(--gutter); bottom: 14px; z-index: 55;
+    display: flex; align-items: flex-end; pointer-events: none;
+    transform: translateY(140%); transition: transform 0.7s var(--ease);
+  }
+  .companion > * { pointer-events: auto; }
+  .companion.is-on { transform: none; }
+  .companion.is-peek { transform: translateX(62%) rotate(-8deg); }
+  .companion__face {
+    width: 92px; padding: 0; border: 0; background: none; cursor: pointer; flex: none;
+    filter: drop-shadow(6px 8px 0 rgba(21, 32, 45, 0.18));
+    transform-origin: 50% 100%; animation: c-bob 4s ease-in-out infinite;
+  }
+  .companion__face img { width: 100%; height: auto; display: block; }
+  .companion.is-talking .companion__face { animation: c-talk 0.9s ease-in-out infinite; }
+  .companion__bubble {
+    position: relative; margin: 0 -4px 62px 0; max-width: 250px;
+    padding: 10px 14px; border: 1.5px solid var(--ink); border-radius: 16px 16px 4px 16px;
+    background: var(--white); font: 500 14px/1.35 var(--display);
+    transform-origin: 100% 100%; transition: opacity 0.35s, transform 0.35s var(--ease);
+  }
+  .companion.is-mute .companion__bubble { opacity: 0; transform: scale(0.8); pointer-events: none; }
+  .companion__bubble.pop { animation: c-pop 0.5s var(--ease); }
+  @keyframes c-pop { 0% { transform: scale(0.6) rotate(6deg); opacity: 0; } 100% { transform: none; opacity: 1; } }
+  @keyframes c-bob { 50% { transform: translateY(-4px); } }
+  @keyframes c-talk { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-4deg) translateY(-2px); } 75% { transform: rotate(3deg); } }
+  @media (max-width: 760px) {
+    .companion__face { width: 66px; }
+    .companion__bubble { font-size: 13px; max-width: 190px; margin-bottom: 46px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .companion__face { animation: none !important; } }
+</style>

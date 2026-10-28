@@ -1,0 +1,118 @@
+---
+// Visual memory game (in the spirit of Human Benchmark's "Visual Memory").
+// Tiles flash; click them back. Each level adds a tile and the grid grows. 3 lives.
+// Beat my level and I buy the coffee. Lose and you do.
+import { person, memoryGame } from '../data/site';
+---
+<div class="mg" id="game" data-companion="game" data-quiet data-my-level={memoryGame.myLevel} data-email={person.email}>
+  <div class="mg__copy">
+    <p class="mono red">Instead of "say hello"</p>
+    <h2 class="h-lg">Beat my memory.<br /><em class="serif italic">Win a coffee.</em></h2>
+    <p>Tiles light up. Click the same ones back. Every level adds a tile and the grid grows. Three wrong clicks in a level and you lose a life; three lives in total.</p>
+    <p class="mg__deal"><strong>My best: level {memoryGame.myLevel}.</strong> Beat it and I buy you a coffee. Fall short and you buy me one. Psychologists love a fair experiment.</p>
+    <dl class="mg__hud">
+      <div><dt class="mono">Level</dt><dd data-level>1</dd></div>
+      <div><dt class="mono">Lives</dt><dd data-lives>♥♥♥</dd></div>
+      <div><dt class="mono">To beat</dt><dd>{memoryGame.myLevel}</dd></div>
+    </dl>
+  </div>
+  <div class="mg__board">
+    <div class="mg__grid" data-grid aria-label="Memory grid" role="group"></div>
+    <div class="mg__overlay" data-overlay>
+      <img src="/img/avatar.webp" alt="" />
+      <p class="mg__msg" data-msg aria-live="polite">Ready when you are.</p>
+      <button class="btn" type="button" data-start>Start the game</button>
+      <a class="btn btn--ghost" data-claim hidden>Claim my coffee ☕</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .mg { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
+  .mg__copy .h-lg em { font-weight: 400; color: var(--gold); }
+  .mg__copy p { max-width: 46ch; }
+  .mg__deal { padding: 14px 18px; background: var(--white); border: 1.5px dashed var(--ink); border-radius: 14px; }
+  .mg__hud { display: flex; gap: 28px; margin: 24px 0 0; }
+  .mg__hud dt { color: var(--ink-3); }
+  .mg__hud dd { margin: 4px 0 0; font: 760 40px/1 var(--display); font-variation-settings: 'wdth' 80; }
+  .mg__hud [data-lives] { color: var(--red); letter-spacing: 0.08em; }
+  .mg__board { position: relative; aspect-ratio: 1; width: 100%; max-width: 520px; justify-self: center; background: var(--ink); border-radius: 26px; padding: 16px; }
+  .mg__grid { display: grid; gap: 8px; width: 100%; height: 100%; }
+  .mg__grid :global(button) { border: 0; border-radius: 10px; background: #26354a; cursor: pointer; transition: background 0.15s, transform 0.15s; }
+  .mg__grid :global(button:hover:not(:disabled)) { transform: scale(0.96); }
+  .mg__grid :global(button.is-flash), .mg__grid :global(button.is-hit) { background: var(--paper); }
+  .mg__grid :global(button.is-miss) { background: var(--red); }
+  .mg__overlay { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 14px; text-align: center; padding: 24px; border-radius: 26px; background: color-mix(in srgb, var(--ink) 88%, transparent); color: var(--paper); }
+  .mg__overlay[hidden] { display: none; }
+  .mg__overlay img { width: 110px; transform: rotate(-6deg); }
+  .mg__msg { font: 600 clamp(18px, 1.6vw, 24px)/1.3 var(--display); max-width: 30ch; margin: 0; }
+  .mg__overlay .btn--ghost { color: var(--paper); border-color: var(--paper); }
+  @media (max-width: 860px) { .mg { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  const root = document.getElementById('game');
+  if (root) {
+    const my = Number(root.dataset.myLevel);
+    const grid = root.querySelector<HTMLElement>('[data-grid]')!;
+    const overlay = root.querySelector<HTMLElement>('[data-overlay]')!;
+    const msg = root.querySelector<HTMLElement>('[data-msg]')!;
+    const start = root.querySelector<HTMLButtonElement>('[data-start]')!;
+    const claim = root.querySelector<HTMLAnchorElement>('[data-claim]')!;
+    const lvlEl = root.querySelector<HTMLElement>('[data-level]')!;
+    const livesEl = root.querySelector<HTMLElement>('[data-lives]')!;
+    let level = 1, lives = 3, misses = 0, targets = new Set<number>(), hits = new Set<number>(), locked = true;
+
+    const size = (l: number) => Math.min(3 + Math.floor((l - 1) / 3), 7); // 3x3 → 7x7
+    const draw = () => { lvlEl.textContent = String(level); livesEl.textContent = '♥'.repeat(lives) + '♡'.repeat(3 - lives); };
+
+    function round() {
+      const n = size(level), count = level + 2;
+      grid.style.gridTemplateColumns = `repeat(${n}, 1fr)`;
+      grid.innerHTML = '';
+      targets = new Set(); hits = new Set(); misses = 0;
+      while (targets.size < Math.min(count, n * n - 1)) targets.add(Math.floor(Math.random() * n * n));
+      for (let i = 0; i < n * n; i++) {
+        const b = document.createElement('button');
+        b.type = 'button'; b.setAttribute('aria-label', `Tile ${i + 1}`);
+        b.addEventListener('click', () => pick(i, b));
+        grid.appendChild(b);
+      }
+      draw(); locked = true;
+      const tiles = grid.children;
+      setTimeout(() => targets.forEach((i) => tiles[i].classList.add('is-flash')), 400);
+      setTimeout(() => { targets.forEach((i) => tiles[i].classList.remove('is-flash')); locked = false; }, 400 + 1100);
+    }
+
+    function pick(i: number, b: HTMLButtonElement) {
+      if (locked || hits.has(i) || b.classList.contains('is-miss')) return;
+      if (targets.has(i)) {
+        hits.add(i); b.classList.add('is-hit');
+        if (hits.size === targets.size) { locked = true; level++; setTimeout(round, 600); }
+      } else {
+        b.classList.add('is-miss'); misses++;
+        if (misses >= 3) {
+          lives--; locked = true; draw();
+          if (lives <= 0) return end();
+          setTimeout(round, 700);
+        }
+      }
+    }
+
+    function end() {
+      const reached = level - 1;
+      const won = reached > my;
+      overlay.hidden = false;
+      msg.textContent = won
+        ? `Level ${reached}. You beat my ${my}. I owe you a coffee, fair and square.`
+        : `You cleared level ${reached}. I'm at ${my}. You owe me a coffee. Black, no sugar, no excuses.`;
+      start.textContent = 'Play again';
+      const subject = won ? `I beat your memory (level ${reached}). Coffee?` : `I owe you a coffee (level ${reached})`;
+      claim.href = `mailto:${root!.dataset.email}?subject=${encodeURIComponent(subject)}`;
+      claim.textContent = won ? 'Claim my coffee ☕' : 'Fine, let\'s get coffee ☕';
+      claim.hidden = false;
+    }
+
+    start.addEventListener('click', () => { level = 1; lives = 3; overlay.hidden = true; claim.hidden = true; round(); });
+  }
+</script>

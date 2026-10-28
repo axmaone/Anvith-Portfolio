@@ -1,0 +1,89 @@
+---
+// Built-in animated diagrams, used as covers where real visuals are confidential.
+interface Props { kind: 'engine' | 'icad' | 'research'; }
+const { kind } = Astro.props;
+---
+<div class={`art art--${kind}`} aria-hidden="true">
+  {kind === 'engine' && (
+    <svg viewBox="0 0 600 400" class="plan">
+      <path class="flow" d="M485 160 V220 Q485 240 465 240 H135 Q115 240 115 260 V280" />
+      <path class="flow loop" d="M385 330 Q450 330 460 300 M470 290 l-10 10 l12 4" />
+      {[
+        { x: 30, y: 60, n: '1', a: 'Experts write', b: 'the content once', c: 'step' },
+        { x: 215, y: 60, n: '2', a: 'I turn it into', b: 'bite-size lessons', c: 'step' },
+        { x: 400, y: 60, n: '3', a: 'At three depths', b: 'for three jobs', c: 'step gold' },
+        { x: 30, y: 280, n: '4', a: 'Any trainer', b: 'can teach it', c: 'step' },
+        { x: 215, y: 280, n: '5', a: 'Feedback makes', b: 'the next version', c: 'step red' },
+      ].map((s, i) => (
+        <g class={s.c} style={`--i:${i}`}>
+          <rect x={s.x} y={s.y} width="170" height="100" rx="16" />
+          <circle cx={s.x + 26} cy={s.y + 26} r="15" class="num" />
+          <text x={s.x + 26} y={s.y + 32} class="numt">{s.n}</text>
+          <text x={s.x + 85} y={s.y + 60} class="lbl">{s.a}</text>
+          <text x={s.x + 85} y={s.y + 82} class="lbl lbl2">{s.b}</text>
+        </g>
+      ))}
+      <text x="485" y="335" class="sub">front desk</text><text x="485" y="355" class="sub">sales</text><text x="485" y="375" class="sub">branch head</text>
+      <circle class="pulse" r="7"><animateMotion dur="6s" repeatCount="indefinite" path="M115 110 H485 V240 H115 V330 H300" /></circle>
+    </svg>
+  )}
+  {kind === 'icad' && (
+    <svg viewBox="0 0 600 400">
+      <circle class="ring" cx="300" cy="200" r="130" />
+      {['Interest', 'Concept', 'Application', 'Debrief'].map((s, i) => {
+        const a = (-90 + i * 90) * Math.PI / 180;
+        const x = 300 + Math.cos(a) * 130, y = 200 + Math.sin(a) * 130;
+        return (
+          <g class="stage" style={`--i:${i}`}>
+            <circle cx={x} cy={y} r="38" />
+            <text x={x} y={y + 5}>{s[0]}</text>
+            <text class="sub" x={x + (i === 1 ? 92 : i === 3 ? -92 : 0)} y={y + (i === 0 ? -52 : i === 2 ? 62 : 5)}>{s}</text>
+          </g>
+        );
+      })}
+      <circle class="pulse" r="7"><animateMotion dur="6s" repeatCount="indefinite" path="M300 70 A130 130 0 1 1 299.9 70" /></circle>
+    </svg>
+  )}
+  {kind === 'research' && (
+    <svg viewBox="0 0 600 400">
+      {Array.from({ length: 14 }, (_, i) => (
+        <rect class="bar" x={60 + i * 36} y={330 - (40 + ((i * 53) % 190))} width="22" height={40 + ((i * 53) % 190)} rx="3" style={`--i:${i}`} />
+      ))}
+      <path class="curve" d="M50 300 C160 280 220 120 300 110 S450 260 560 90" />
+    </svg>
+  )}
+</div>
+
+<style>
+  .art { position: absolute; inset: 0; display: grid; place-items: center; background: var(--paper-2); }
+  .art svg { width: 92%; height: 92%; overflow: visible; }
+  .art text { font: 600 20px var(--display); fill: var(--ink); text-anchor: middle; }
+  .art .sub { font: 400 13px var(--mono); fill: var(--ink-2); letter-spacing: 0.05em; text-transform: uppercase; }
+  .lane text { text-anchor: start; font: 400 13px var(--mono); text-transform: uppercase; fill: var(--ink-3); }
+  .flow, .ring, .curve { fill: none; stroke: var(--ink); stroke-width: 2; stroke-dasharray: 6 8; animation: march 1.2s linear infinite; }
+  @keyframes march { to { stroke-dashoffset: -28; } }
+  .node { fill: var(--paper); stroke: var(--ink); stroke-width: 2; }
+  .plan .step rect { fill: var(--white); stroke: var(--ink); stroke-width: 2; }
+  .plan .step.gold rect { fill: var(--gold); }
+  .plan .step.red rect { fill: var(--red); }
+  .plan .step.red .lbl { fill: var(--white); }
+  .plan .num { fill: var(--ink); }
+  .plan .numt { font: 700 16px var(--display); fill: var(--paper); }
+  .plan .lbl { font: 650 18px var(--display); }
+  .plan .sub { text-anchor: middle; }
+  .plan .lbl2 { font-weight: 400; font-size: 17px; }
+  .plan .loop { stroke: var(--red); }
+
+  .tier rect { fill: var(--gold); animation: rise 3s calc(var(--i) * 0.25s) var(--ease) infinite alternate; transform-box: fill-box; transform-origin: bottom; }
+  .tier:nth-child(3) rect { fill: var(--sage); }
+  .tier:nth-child(4) rect { fill: var(--red); }
+  @keyframes rise { from { transform: scaleY(0.6); } to { transform: none; } }
+  .pulse { fill: var(--red); }
+  .stage circle { fill: var(--white); stroke: var(--ink); stroke-width: 2; transform-box: fill-box; transform-origin: center; animation: beat 6s calc(var(--i) * 1.5s) infinite; }
+  .stage text:first-of-type { font: italic 500 30px var(--serif); }
+  @keyframes beat { 0%, 22% { fill: var(--red); transform: scale(1.12); } 30%, 100% { fill: var(--white); transform: none; } }
+  .bar { fill: var(--sage); transform-box: fill-box; transform-origin: bottom; animation: rise 2.6s calc(var(--i) * 0.12s) var(--ease) infinite alternate; }
+  .bar:nth-child(3n) { fill: var(--gold); }
+  .curve { stroke: var(--red); stroke-width: 3; stroke-dasharray: none; animation: none; }
+  @media (prefers-reduced-motion: reduce) { .pulse { display: none; } }
+</style>

@@ -1,0 +1,58 @@
+---
+// Research as small cue cards. Tap one to flip it and read the summary.
+import ChapterHead from './ChapterHead.astro';
+import { research, researchBacks } from '../data/site';
+const tilt = [-3, 2, -1.5, 3];
+---
+<div class="deck" data-companion="research" data-quiet id="research">
+  <ChapterHead id="research" num="04" />
+  <div class="deck__head">
+    <h3>My research papers</h3>
+    <p>Four studies from my MSc in Psychology. <strong>Tap a card to read its summary.</strong></p>
+  </div>
+  <ul class="deck__cards" role="list">
+    {research.map((r, i) => (
+      <li style={`--tilt:${tilt[i]}deg`}>
+        <button class="rc" type="button" aria-pressed="false">
+          <span class="rc__face rc__front">
+            <span class="mono">Paper {i + 1}</span>
+            <strong>{r.title}</strong>
+            <span class="rc__hint mono">Read summary ↻</span>
+          </span>
+          <span class="rc__face rc__back">
+            <span class="mono">What it explored</span>
+            <span>{researchBacks[i]}</span>
+          </span>
+        </button>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .deck { margin-top: 0; display: grid; gap: 20px; }
+  .deck__head { display: flex; justify-content: space-between; align-items: end; gap: 16px 24px; flex-wrap: wrap; }
+  .deck__head h3 { margin: 0; font: 740 clamp(30px, 3.2vw, 48px)/1 var(--display); font-variation-settings: 'wdth' 80; letter-spacing: -0.02em; }
+  .deck__head p { max-width: 40ch; margin: 0; color: var(--ink-2); }
+  .deck__cards { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 220px)); gap: 16px; perspective: 1200px; }
+  .deck__cards li { transform: rotate(var(--tilt)); transition: transform 0.5s var(--ease); }
+  .deck__cards li:hover { transform: rotate(0) translateY(-6px); }
+  .rc { position: relative; width: 100%; aspect-ratio: 4 / 5; border: 0; padding: 0; background: none; cursor: pointer; transform-style: preserve-3d; transition: transform 0.7s var(--ease); font: inherit; color: inherit; text-align: left; }
+  .rc[aria-pressed='true'] { transform: rotateY(180deg); }
+  .rc__face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 16px; border: 1.5px solid var(--ink); padding: 16px; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
+  .rc__front { background: var(--paper); background-image: repeating-linear-gradient(transparent 0 23px, color-mix(in srgb, var(--sage) 45%, transparent) 23px 24px); }
+  .rc__front strong { font: 720 clamp(19px, 1.6vw, 23px)/1.05 var(--display); font-variation-settings: 'wdth' 84; margin-top: auto; }
+  .rc__front .mono:first-child { color: var(--red); font-size: 11px; }
+  .rc__hint { color: var(--ink-3); font-size: 11px; }
+  .rc__back { background: var(--ink); color: var(--paper); transform: rotateY(180deg); font-size: 14px; line-height: 1.4; }
+  .rc__back .mono { color: var(--gold); font-size: 11px; }
+  li:nth-child(2) .rc__front { background-color: var(--white); }
+  li:nth-child(3) .rc__back { background: var(--violet); }
+  li:nth-child(4) .rc__back { background: var(--red); }
+  @media (max-width: 960px) { .deck__cards { grid-template-columns: repeat(2, minmax(0, 220px)); } }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.rc').forEach((c) =>
+    c.addEventListener('click', () => c.setAttribute('aria-pressed', String(c.getAttribute('aria-pressed') !== 'true'))));
+</script>

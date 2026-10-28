@@ -1,0 +1,6 @@
+﻿Audio credits (Pixabay Content License, free for commercial use, no attribution required)
+music-tech-corporate.mp3  "Technology Corporate" by The_Mountain  https://pixabay.com/music/corporate-technology-corporate-186320/
+whoosh.mp3   "Simple Whoosh" by DRAGON-STUDIO  https://pixabay.com/sound-effects/film-special-effects-simple-whoosh-382724/
+click.mp3    "Mouse click" by MatthewVakaliuk73627  https://pixabay.com/sound-effects/film-special-effects-mouse-click-290204/
+success.mp3  "UI Success Chime" by SoundShelfStudio  https://pixabay.com/sound-effects/technology-ui-success-chime-513565/
+error.mp3    "Error Notification 02" by Universfield  https://pixabay.com/sound-effects/film-special-effects-error-notification-02-126514/

@@ -1,0 +1,78 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import Art from '../../components/Art.astro';
+
+export async function getStaticPaths() {
+  const work = (await getCollection('work', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);
+  return work.map((entry, i) => ({ params: { slug: entry.id }, props: { entry, next: work[(i + 1) % work.length] } }));
+}
+
+const { entry, next } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+---
+<Base title={`${d.title} | Anvith M Acharya`} description={d.kicker} image={d.cover ?? '/og.png'}>
+  <Nav />
+  <main id="main" class={`case case--${d.accent}`}>
+    <header class="wrap case__head">
+      <a class="mono case__back" href="/#work">← All work</a>
+      <p class="mono case__cat">{d.category} · {d.year}{d.confidential && <span class="case__badge">Anonymised</span>}</p>
+      <h1 class="h-lg case__title" data-split>{d.title}</h1>
+      <p class="case__kicker serif italic">{d.kicker}</p>
+      <dl class="case__facts">
+        <div><dt class="mono">Role</dt><dd>{d.role}</dd></div>
+        {d.facts.map((f) => <div><dt class="mono">{f.label}</dt><dd>{f.value}</dd></div>)}
+        {d.tools.length > 0 && <div><dt class="mono">Tools</dt><dd>{d.tools.join(', ')}</dd></div>}
+      </dl>
+    </header>
+
+    <div class="wrap case__media" data-reveal>
+      {d.video ? (
+        <video src={d.video} poster={d.cover} controls playsinline preload="metadata"></video>
+      ) : d.cover ? (
+        <img src={d.cover} alt="" />
+      ) : d.art ? <div class="case__art"><Art kind={d.art} /></div> : null}
+    </div>
+
+    <article class="wrap case__body">
+      <div class="prose"><Content /></div>
+    </article>
+
+    <a class="case__next" href={`/work/${next.id}/`}>
+      <span class="wrap">
+        <span class="mono">Next case</span>
+        <span class="h-lg">{next.data.title} <span aria-hidden="true">→</span></span>
+      </span>
+    </a>
+  </main>
+  <Footer />
+  <script>
+    import { initMotion } from '../../scripts/motion';
+    initMotion();
+  </script>
+</Base>
+
+<style>
+  .case { padding-top: 110px; }
+  .case__head { display: grid; gap: 18px; padding-bottom: 40px; }
+  .case__back { text-decoration: none; width: fit-content; }
+  .case__back:hover { color: var(--red); }
+  .case__cat { margin: 24px 0 0; color: var(--ink-3); display: flex; gap: 10px; align-items: center; }
+  .case__badge { background: var(--red); color: var(--white); padding: 4px 10px; border-radius: 999px; }
+  .case__title { max-width: 18ch; }
+  .case__kicker { font-size: clamp(22px, 2vw, 30px); line-height: 1.25; max-width: 40ch; margin: 0; color: var(--ink-2); }
+  .case__facts { display: flex; flex-wrap: wrap; gap: 0; margin: 16px 0 0; border-top: 1.5px solid var(--ink); }
+  .case__facts > div { padding: 14px 28px 0 0; margin-right: 28px; }
+  .case__facts dt { color: var(--ink-3); }
+  .case__facts dd { margin: 4px 0 0; font-weight: 600; }
+  .case__media video, .case__media img, .case__art { width: 100%; border-radius: 22px; border: 1.5px solid var(--ink); background: var(--ink); }
+  .case__art { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--paper-2); }
+  .case__body { padding-block: 40px 100px; display: grid; justify-content: center; }
+  .case__next { display: block; background: var(--ink); color: var(--paper); text-decoration: none; padding-block: 64px; }
+  .case__next .wrap { display: grid; gap: 12px; }
+  .case__next .h-lg { transition: color 0.3s; }
+  .case__next:hover .h-lg { color: var(--red); }
+</style>

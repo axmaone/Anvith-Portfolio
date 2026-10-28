@@ -1,0 +1,459 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Intro from '../components/Intro.astro';
+import Companion from '../components/Companion.astro';
+import ChapterHead from '../components/ChapterHead.astro';
+import WorkCard from '../components/WorkCard.astro';
+import Footer from '../components/Footer.astro';
+import Thread from '../components/Thread.astro';
+import MindLab from '../components/MindLab.astro';
+import MemoryGame from '../components/MemoryGame.astro';
+import ResearchDeck from '../components/ResearchDeck.astro';
+import Icon from '../components/Icon.astro';
+import { person, hero, icad, frameworks, about, journey, skills, writing } from '../data/site';
+
+const work = (await getCollection('work', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);
+const marquee = ['Learning design', 'Experience design', 'Instructional design', 'Psychology', 'Facilitation', 'Motion explainers', 'Storyboarding', 'Gamification'];
+---
+<Base>
+  <Intro />
+  <Nav />
+  <Companion />
+
+  <main id="main">
+    <!-- 01 INTEREST ─────────────────────────────── -->
+    <section class="hero" id="interest" data-companion="interest">
+      <div class="wrap hero__grid">
+        <p class="hero__eyebrow mono" data-hero-in>
+          <span class="live"></span> {person.now}
+        </p>
+        <h1 class="h-xl hero__title" aria-label={hero.lines.join(' ')}>
+          {hero.lines.map((l, i) => (
+            <span class={`hero__line hero__line--${i}`} aria-hidden="true"><span>{i === 2 ? <em class="serif italic red">{l}</em> : l}</span></span>
+          ))}
+        </h1>
+        <figure class="hero__me" data-parallax="-0.15">
+          <img class="sticker" src="/img/me-studio.webp" alt={`${person.name}, smiling, in a navy shirt`} width="727" height="1100" fetchpriority="high" />
+          <figcaption class="hero__tag">
+            <span class="hero__sig">Anvith</span>
+            <span class="mono">{person.roleLine}</span>
+          </figcaption>
+        </figure>
+        <div class="hero__foot" data-hero-in>
+          <p class="hero__intro">{hero.intro}</p>
+          <div class="hero__ctas">
+            <a class="btn" href="#work">See the work <span class="arrow" aria-hidden="true">→</span></a>
+            <a class="btn btn--ghost" href="#game">Beat my memory ☕</a>
+          </div>
+        </div>
+        <span class="hero__stamp" aria-hidden="true">
+          <svg viewBox="0 0 120 120"><defs><path id="c" d="M60 60 m-44 0 a44 44 0 1 1 88 0 a44 44 0 1 1 -88 0" /></defs>
+            <text><textPath href="#c">PSYCHOLOGIST · DESIGNER · FACILITATOR ·</textPath></text></svg>
+          <span>✺</span>
+        </span>
+      </div>
+      <Thread target="work" />
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track">
+          {[0, 1].map(() => marquee.map((m) => <span>{m} <i>✺</i></span>))}
+        </div>
+      </div>
+    </section>
+
+    <!-- 01 WORK: proof first ─────────────────────────────── -->
+    <section class="work" id="work" data-companion="application">
+      <div class="wrap">
+        <ChapterHead id="work" num="01" />
+        <h2 class="h-xl work__title">Proof,<br /><em class="serif italic red">not</em> promises.</h2>
+        <p class="work__lede" data-reveal>Banking, chip-making, cloud computing and the messy human stuff in between. A few samples of how I turn a dense topic into something people get.</p>
+        <div class="work__grid">
+          {work.map((w, i) => <WorkCard entry={w} index={i} big={i === 0 || (i === work.length - 1 && work.length % 2 === 0)} />)}
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 EXPERIENCE ─────────────────────────────── -->
+    <section class="concept" id="concept" data-companion="concept">
+      <div class="wrap">
+        <ChapterHead id="journey" num="02" />
+        <div class="concept__grid">
+          <h2 class="h-md" data-split>{about.lead}</h2>
+          <div class="concept__text">
+            {about.paragraphs.map((p) => <p data-reveal>{p}</p>)}
+          </div>
+        </div>
+
+        <ul class="numbers" role="list">
+          {about.numbers.map((n) => (
+            <li data-reveal><span class="numbers__v" data-count={n.value}>{n.value}</span><span class="numbers__l">{n.label}</span></li>
+          ))}
+        </ul>
+
+        <figure class="stage" data-reveal>
+          <img src="/img/talk.webp" alt="Anvith speaking at the podium at a UNext and Manipal Academy of BFSI event" loading="lazy" width="819" height="610" />
+          <figcaption>
+            <span class="mono red">On stage</span>
+            <strong>Facilitating rooms is half the job.</strong>
+            <span>The other half is designing what happens after I leave them.</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="journey" id="journey" data-companion="journey">
+      <div class="wrap">
+        <p class="mono journey__eyebrow">The journey so far · tap a role to open it</p>
+        <div class="journey__grid">
+          <h2 class="h-lg journey__title">From the counselling room to the <em class="serif italic gold">boardroom.</em></h2>
+          <ol class="timeline" role="list">
+            <span class="timeline__line" aria-hidden="true"><span></span></span>
+            {journey.map((r, i) => (
+              <li class="role" data-reveal>
+                <details open={i === 0}>
+                  <summary>
+                    <span class="role__when mono">{r.when}</span>
+                    <span class="role__title">{r.title}</span>
+                    <span class="role__org">{r.org}{r.note && <em> · {r.note}</em>}</span>
+                    <span class="role__plus" aria-hidden="true">+</span>
+                  </summary>
+                  <ul>{r.points.map((p) => <li>{p}</li>)}</ul>
+                </details>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 HOW I THINK: method + experiments ─────────────────────────────── -->
+    <section class="method" id="method" data-companion="method">
+      <div class="wrap">
+        <ChapterHead id="concept" num="03" />
+        <div class="approach" id="approach">
+          <div class="approach__head">
+            <p class="mono red">My method</p>
+            <h3 class="h-lg">Every session is a<br /><em class="serif italic">four-act story.</em></h3>
+            <p class="approach__lede" data-reveal><strong>ICAD</strong> (Interest, Concept, Application, Debrief) is the framework I built from research on how adults actually learn. Don't take my word for it: try it on your own brain just below.</p>
+            <ul class="fw" role="list">
+              {frameworks.map((f) => <li><strong>{f.name}</strong><span>{f.text}</span></li>)}
+            </ul>
+          </div>
+          <ol class="icad" role="list">
+            {icad.map((s, i) => (
+              <li class="icad__step" style={`--i:${i}`} data-reveal>
+                <span class="icad__letter serif italic">{s.key[0]}</span>
+                <div><h4><span class="icad__ico"><Icon name={s.icon} size={20} /></span>{s.key} <span class="mono">· {s.verb}</span></h4><p>{s.text}</p></div>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <MindLab />
+      </div>
+    </section>
+
+    <!-- 04 RESEARCH + TOOLKIT ─────────────────────────────── -->
+    <section class="skills" id="skills" data-companion="skills">
+      <div class="wrap">
+        <ResearchDeck />
+        <div class="toolkit">
+          <ChapterHead id="toolkit" num="04.5" />
+          <div class="skills__grid">
+            {skills.map((s, i) => (
+              <div class={`skillset skillset--${i}`} data-reveal>
+                <h3>{s.group}</h3>
+                <ul role="list">{s.items.map((it) => <li class="chip">{it}</li>)}</ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 THE PERSON: off the clock + writing ─────────────────────────────── -->
+    <section class="person" id="person" data-companion="person">
+      <div class="wrap">
+        <div class="offduty">
+          <p class="mono">05 · When I'm not designing</p>
+          <h2 class="h-lg">Off the clock.</h2>
+          <ul role="list">
+            {about.offDuty.map((o: any) => (
+              <li data-reveal><strong>{o.title}</strong><span>{o.text}</span>{o.href && <a href={o.href} target="_blank" rel="noopener">{o.cta}</a>}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="debrief" id="debrief" data-companion="debrief" data-quiet>
+      <div class="wrap">
+        <ChapterHead id="debrief" num="05.5" dark />
+        <h2 class="h-xl debrief__title">Thinking<br />in <em class="serif italic">words.</em></h2>
+        <div class="debrief__grid">
+          {writing.poems.map((p, i) => (
+            <article class={`poem poem--${i}`} data-reveal>
+              <p class="mono gold">Poem · {p.title}</p>
+              <p class="poem__body serif italic">
+                {p.lines.map((l) => (l ? <span data-line>{l}</span> : <span class="poem__gap" />))}
+              </p>
+            </article>
+          ))}
+          <article class="joke" data-reveal>
+            <p class="mono">{writing.oneLiner.tag}</p>
+            <p class="joke__text">{writing.oneLiner.text}</p>
+          </article>
+          {writing.essays.map((e) => (
+            <article class="essay" data-reveal>
+              <p class="mono">{e.status}</p>
+              <h3>{e.title}</h3>
+              <p>{e.blurb}</p>
+            </article>
+          ))}
+          <blockquote class="kept" data-reveal>
+            <p class="serif">“{writing.quote.text}”</p>
+            <footer class="mono">A line I keep · {writing.quote.by}</footer>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- GAME ─────────────────────────────── -->
+    <section class="game">
+      <div class="wrap">
+        <ChapterHead id="wager" num="06" />
+        <MemoryGame />
+      </div>
+    </section>
+
+    <!-- CONTACT ─────────────────────────────── -->
+    <section class="contact" id="contact" data-companion="contact">
+      <div class="wrap contact__grid">
+        <p class="mono">The take-away</p>
+        <h2 class="h-xl contact__title">Let's design<br />something people<br /><em class="serif italic">remember.</em></h2>
+        <div class="contact__actions">
+          <a class="contact__mail" href={`mailto:${person.email}`}>{person.email}</a>
+          <button class="btn btn--ghost contact__copy" type="button" data-copy={person.email}>Copy email</button>
+          <a class="btn" href={person.cv} download>Download CV <span class="arrow" aria-hidden="true">↓</span></a>
+        </div>
+        <ul class="contact__links" role="list">
+          {person.links.linkedin && <li><a href={person.links.linkedin} rel="me noopener" target="_blank">LinkedIn ↗</a></li>}
+          {person.links.instagram && <li><a href={person.links.instagram} rel="me noopener" target="_blank">Instagram ↗</a></li>}
+          {person.links.behance && <li><a href={person.links.behance} rel="me noopener" target="_blank">Behance ↗</a></li>}
+          <li><span>{person.location}</span></li>
+        </ul>
+        <img class="contact__me sticker" src="/img/me-kurta.webp" alt="" loading="lazy" width="900" height="1029" data-parallax="-0.1" />
+      </div>
+    </section>
+  </main>
+  <Footer />
+
+  <script>
+    import { initMotion } from '../scripts/motion';
+    initMotion();
+  </script>
+</Base>
+
+<style>
+  /* ── HERO ── */
+  .hero { position: relative; min-height: 100svh; padding-top: 96px; display: flex; flex-direction: column; overflow: hidden; }
+  .hero__grid { position: relative; flex: 1; display: grid; grid-template-columns: 1fr; align-content: center; gap: 24px; padding-bottom: 32px; }
+  .hero__eyebrow { display: flex; align-items: center; gap: 10px; margin: 0; color: var(--ink-2); }
+  .live { width: 9px; height: 9px; border-radius: 50%; background: #3fae6a; box-shadow: 0 0 0 4px rgba(63, 174, 106, 0.2); }
+  .hero__title { position: relative; z-index: 2; }
+  .hero__line { display: block; overflow: hidden; }
+  .hero__line > span { display: inline-block; }
+  .hero__line--1 { padding-left: 0.9em; }
+  .hero__line--2 em { font-weight: 400; text-transform: none; letter-spacing: -0.02em; font-size: 1.08em; }
+  .hero__me {
+    position: absolute; right: 2%; bottom: 0; z-index: 3; margin: 0; width: clamp(220px, 28vw, 440px);
+    transform: rotate(3deg);
+  }
+  .hero__tag { position: absolute; left: -26%; bottom: 18%; display: grid; gap: 4px; padding: 12px 16px; background: var(--white); border: 1.5px solid var(--ink); border-radius: 14px; transform: rotate(-6deg); box-shadow: 6px 6px 0 var(--ink); }
+  .hero__sig { font-family: var(--script); font-size: 46px; color: var(--red); line-height: 0.8; padding-top: 8px; }
+  .hero__tag .mono { font-size: 10px; }
+  .hero__foot { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 24px; max-width: 62%; position: relative; z-index: 4; }
+  .hero__intro { margin: 0; font-size: clamp(17px, 1.35vw, 21px); max-width: 46ch; }
+  .hero__ctas { display: flex; gap: 10px; flex-wrap: wrap; }
+  .hero__stamp { position: absolute; right: 30%; top: 4%; width: 120px; height: 120px; display: grid; place-items: center; color: var(--red); z-index: 1; }
+  .hero__stamp svg { position: absolute; inset: 0; animation: spin 18s linear infinite; }
+  .hero__stamp text { font: 600 10.5px var(--mono); letter-spacing: 0.12em; fill: currentColor; }
+  .hero__stamp > span { font-size: 30px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .marquee { background: var(--ink); color: var(--paper); overflow: hidden; transform: rotate(-1.5deg); margin: 0 -2vw 18px; border-block: 1.5px solid var(--ink); }
+  .marquee__track { display: flex; width: max-content; animation: slide 32s linear infinite; }
+  .marquee span { padding: 14px 18px; font: 600 clamp(18px, 2vw, 28px) var(--display); white-space: nowrap; text-transform: uppercase; font-variation-settings: 'wdth' 80; }
+  .marquee i { font-style: normal; color: var(--gold); padding-left: 18px; }
+  @keyframes slide { to { transform: translateX(-50%); } }
+
+  @media (max-width: 860px) {
+    .hero__me { position: relative; right: auto; justify-self: end; margin-top: -18%; width: 62vw; }
+    .hero__tag { left: -30%; bottom: 4%; padding: 8px 12px; }
+    .hero__sig { font-size: 34px; }
+    .hero__tag .mono { font-size: 9px; }
+    .hero__foot { max-width: 100%; }
+    .hero__stamp { right: 2%; top: 128px; width: 92px; height: 92px; }
+    .hero__line--1 { padding-left: 0.4em; }
+  }
+
+  /* ── CONCEPT ── */
+  section { position: relative; padding-block: clamp(80px, 12vw, 160px); }
+  .concept__grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(32px, 6vw, 96px); align-items: start; }
+  .concept__grid .h-md { font-size: clamp(34px, 4.2vw, 64px); }
+  .concept__text p { color: var(--ink-2); font-size: clamp(17px, 1.25vw, 20px); max-width: 56ch; margin-top: 0; }
+
+  .stage { margin: 0 0 clamp(56px, 8vw, 100px); display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(24px, 4vw, 56px); align-items: center; }
+  .stage img { width: 100%; border-radius: 22px; border: 1.5px solid var(--ink); transform: rotate(-1.5deg); box-shadow: 10px 12px 0 var(--red); }
+  .stage figcaption { display: grid; gap: 10px; }
+  .stage strong { font: 720 clamp(28px, 3vw, 46px)/1 var(--display); font-variation-settings: 'wdth' 82; }
+  .stage figcaption span:last-child { color: var(--ink-2); font-size: 18px; }
+
+  .fw { list-style: none; padding: 0; margin: 28px 0 0; display: grid; gap: 10px; }
+  .fw li { display: grid; gap: 2px; padding: 12px 16px; border-radius: 14px; border: 1px solid color-mix(in srgb, var(--paper) 25%, transparent); }
+  .fw strong { color: var(--gold); }
+  .fw span { color: color-mix(in srgb, var(--paper) 75%, transparent); font-size: 15px; }
+  .work__lede { max-width: 52ch; font-size: clamp(17px, 1.3vw, 21px); color: var(--ink-2); margin: -20px 0 clamp(40px, 6vw, 72px); }
+  .game { background: var(--paper-2); }
+
+  .numbers { list-style: none; padding: 0; margin: clamp(56px, 8vw, 110px) 0; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1.5px solid var(--ink); }
+  .numbers li { padding: 22px 18px 0 0; display: grid; gap: 6px; border-right: 1.5px solid var(--ink); padding-left: 18px; }
+  .numbers li:first-child { padding-left: 0; }
+  .numbers li:last-child { border-right: 0; }
+  .numbers__v { font: 760 clamp(48px, 6vw, 96px)/0.9 var(--display); font-variation-settings: 'wdth' 76; letter-spacing: -0.03em; }
+  .numbers li:nth-child(odd) .numbers__v { color: var(--red); }
+  .numbers__l { color: var(--ink-2); max-width: 20ch; }
+
+  .approach { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(32px, 6vw, 96px); padding: clamp(32px, 5vw, 64px); background: var(--ink); color: var(--paper); border-radius: 28px; }
+  .approach .h-lg em { color: var(--gold); font-weight: 400; }
+  .approach__lede { color: color-mix(in srgb, var(--paper) 80%, transparent); max-width: 40ch; margin-top: 24px; }
+  .approach__lede strong { color: var(--paper); }
+  .icad { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; counter-reset: s; }
+  .icad__step { display: grid; grid-template-columns: 72px 1fr; gap: 18px; align-items: center; padding: 16px 0; border-bottom: 1px solid color-mix(in srgb, var(--paper) 22%, transparent); }
+  .icad__letter { position: relative; width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; font-size: 34px; background: var(--paper); color: var(--ink); overflow: hidden; transition: background 0.4s, color 0.4s, transform 0.5s var(--ease); }
+      .icad__step:hover .icad__letter { background: var(--red); color: var(--white); transform: rotate(-12deg) scale(1.08); }
+    .icad__step h4 { display: flex; align-items: center; gap: 10px; }
+  .icad__ico { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: color-mix(in srgb, var(--paper) 12%, transparent); color: var(--gold); transition: background 0.3s, color 0.3s, transform 0.4s var(--ease); }
+  .icad__step:hover .icad__ico { background: var(--gold); color: var(--ink); transform: rotate(-8deg); }
+  .icad__step h4 { margin: 0 0 4px; font-size: 22px; font-weight: 650; }
+  .icad__step h4 .mono { color: var(--gold); font-size: 11px; }
+  .icad__step p { margin: 0; color: color-mix(in srgb, var(--paper) 75%, transparent); }
+
+  .offduty { margin-top: 0; }
+  .offduty ul { list-style: none; padding: 0; margin: 16px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .offduty li { display: grid; gap: 6px; padding: 22px; border: 1.5px solid var(--ink); border-radius: 18px; background: var(--paper-2); transition: transform 0.5s var(--ease); }
+  .offduty li:nth-child(2) { transform: rotate(1.5deg); }
+  .offduty li:hover { transform: rotate(-2deg) translateY(-4px); }
+  .offduty strong { font: 720 30px/1 var(--display); font-variation-settings: 'wdth' 80; }
+  .offduty a { font-weight: 650; color: var(--red); text-decoration-thickness: 2px; text-underline-offset: 4px; margin-top: 6px; }
+
+  @media (max-width: 860px) {
+    .concept__grid, .approach, .stage { grid-template-columns: 1fr; }
+    .numbers { grid-template-columns: 1fr 1fr; }
+    .numbers li { border-right: 0; padding-left: 0; border-bottom: 1.5px solid var(--ink); padding-bottom: 18px; }
+    .offduty ul { grid-template-columns: 1fr; }
+  }
+
+  /* ── JOURNEY ── */
+  .journey { background: var(--paper-2); }
+  .journey__grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(32px, 6vw, 96px); align-items: start; }
+  .journey__title { position: sticky; top: 120px; }
+  .journey__title em { font-weight: 400; }
+  .timeline { list-style: none; margin: 0; padding: 0 0 0 34px; position: relative; display: grid; gap: 12px; }
+  .timeline__line { position: absolute; left: 8px; top: 8px; bottom: 8px; width: 2px; background: color-mix(in srgb, var(--ink) 18%, transparent); }
+  .timeline__line > span { display: block; width: 100%; height: 100%; background: var(--red); transform-origin: top; transform: scaleY(var(--p, 1)); }
+  .role details { position: relative; border: 1.5px solid var(--ink); border-radius: 18px; background: var(--paper); transition: background 0.3s; }
+  .role details::before { content: ''; position: absolute; left: -34px; top: 24px; width: 18px; height: 18px; border-radius: 50%; background: var(--paper); border: 2px solid var(--ink); }
+  .role details[open] { background: var(--white); }
+  .role details[open]::before { background: var(--red); border-color: var(--red); }
+  .role summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 1fr auto; gap: 2px 16px; padding: 18px 20px; }
+  .role summary::-webkit-details-marker { display: none; }
+  .role__when { grid-column: 1; color: var(--ink-3); }
+  .role__title { grid-column: 1; font: 700 clamp(20px, 1.8vw, 26px)/1.1 var(--display); font-variation-settings: 'wdth' 86; }
+  .role__org { grid-column: 1; color: var(--ink-2); }
+  .role__org em { font-family: var(--serif); color: var(--red); }
+  .role__plus { grid-column: 2; grid-row: 1 / span 3; align-self: center; width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--ink); display: grid; place-items: center; font-size: 22px; transition: transform 0.4s var(--ease), background 0.3s; }
+  details[open] .role__plus { transform: rotate(45deg); background: var(--ink); color: var(--paper); }
+  .role ul { margin: 0; padding: 0 20px 20px 38px; color: var(--ink-2); }
+  .role li { margin: 4px 0; }
+  .role li::marker { color: var(--red); }
+  @media (max-width: 860px) { .journey__grid { grid-template-columns: 1fr; } .journey__title { position: static; } }
+
+  /* ── WORK ── */
+  .work__title { margin-bottom: clamp(40px, 6vw, 80px); }
+  .work__title em { font-weight: 400; text-transform: none; }
+  .work__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 5vw, 72px) clamp(24px, 4vw, 56px); }
+  .work__grid > :global(.card--big) { grid-column: 1 / -1; grid-template-columns: 1.5fr 1fr; align-items: end; }
+  .work__grid > :global(.card--big:not(:first-child)) { grid-template-columns: 1fr 1.5fr; }
+  .work__grid > :global(.card--big:not(:first-child) .card__media) { order: 2; }
+  .work__grid > :global(:nth-child(3)) { margin-top: clamp(0px, 8vw, 120px); }
+  @media (max-width: 860px) {
+    .work__grid { grid-template-columns: 1fr; }
+    .work__grid > :global(.card--big) { grid-template-columns: 1fr; }
+    .work__grid > :global(:nth-child(3)) { margin-top: 0; }
+  }
+
+  /* ── SKILLS ── */
+  .toolkit { margin-top: clamp(64px, 9vw, 120px); }
+  .person { padding-bottom: clamp(40px, 6vw, 80px); }
+  .person .h-lg { margin: 10px 0 0; }
+  .journey__eyebrow { margin: 0 0 clamp(32px, 5vw, 56px); color: var(--ink-3); }
+  .method { padding-top: clamp(60px, 8vw, 100px); }
+  .skills__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .skillset { padding: 24px; border-radius: 22px; border: 1.5px solid var(--ink); }
+  .skillset h3 { margin: 0 0 18px; font: 760 clamp(36px, 3.6vw, 56px)/0.9 var(--display); font-variation-settings: 'wdth' 76; text-transform: uppercase; }
+  .skillset ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .skillset .chip { white-space: normal; transition: background 0.3s, color 0.3s, transform 0.3s var(--ease); }
+  .skillset .chip:hover { transform: rotate(-3deg); }
+  .skillset--0 { background: var(--red); color: var(--white); border-color: var(--red); }
+  .skillset--0 .chip:hover { background: var(--white); color: var(--red); }
+  .skillset--1 { background: var(--sage); }
+  .skillset--1 .chip:hover, .skillset--3 .chip:hover { background: var(--ink); color: var(--paper); }
+  .skillset--2 { background: var(--gold); }
+  .skillset--2 .chip:hover { background: var(--ink); color: var(--gold); }
+  .skillset--3 { background: var(--white); }
+  .research { margin-top: 56px; }
+  .research ol { list-style: none; padding: 0; margin: 16px 0 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1.5px solid var(--ink); }
+  .research li { display: grid; gap: 6px; padding: 18px 18px 0 0; align-content: start; }
+  .research li .mono { color: var(--red); }
+  .research li strong { font-size: 20px; line-height: 1.15; }
+  .research li span:last-child { color: var(--ink-2); }
+  @media (max-width: 1080px) { .skills__grid, .research ol { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .skills__grid, .research ol { grid-template-columns: 1fr; } }
+
+  /* ── DEBRIEF ── */
+  .debrief { background: var(--ink); color: var(--paper); }
+  .debrief__title em { color: var(--gold); font-weight: 400; text-transform: none; }
+  .debrief__grid { margin-top: clamp(40px, 6vw, 80px); display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
+  .debrief article, .kept { border-radius: 22px; padding: clamp(22px, 3vw, 40px); margin: 0; }
+  .poem { grid-column: span 7; background: var(--violet); }
+  .poem__body { margin: 16px 0 0; font-size: clamp(26px, 2.8vw, 44px); line-height: 1.18; display: grid; }
+  .poem__gap { height: 0.7em; }
+  .joke { grid-column: span 5; background: var(--red); color: var(--white); transform: rotate(-1.5deg); }
+  .joke__text { font: 700 clamp(24px, 2.4vw, 36px)/1.1 var(--display); font-variation-settings: 'wdth' 84; margin: 12px 0 0; }
+  .essay { grid-column: span 4; border: 1.5px dashed color-mix(in srgb, var(--paper) 40%, transparent); }
+  .essay .mono { color: var(--gold); }
+  .essay h3 { font: italic 400 clamp(26px, 2.4vw, 36px)/1.05 var(--serif); margin: 10px 0; }
+  .essay p:last-child { color: color-mix(in srgb, var(--paper) 72%, transparent); margin: 0; }
+  .kept { grid-column: span 12; background: var(--gold); color: var(--ink); display: grid; gap: 16px; }
+  .kept p { margin: 0; font-size: clamp(28px, 3.6vw, 58px); line-height: 1.05; letter-spacing: -0.01em; }
+  .debrief .essay { grid-column: span 6; }
+  @media (max-width: 860px) {
+    .poem, .joke, .debrief .essay { grid-column: 1 / -1; }
+  }
+
+  /* ── CONTACT ── */
+  .contact { background: var(--red); color: var(--white); overflow: hidden; padding-bottom: clamp(60px, 8vw, 120px); }
+  .contact__grid { position: relative; display: grid; gap: 28px; }
+  .contact__title { position: relative; z-index: 2; }
+  .contact__title em { font-weight: 400; text-transform: none; color: var(--ink); }
+  .contact__actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; position: relative; z-index: 2; }
+  .contact__mail { font: 700 clamp(22px, 3vw, 44px)/1 var(--display); text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 2px; margin-right: 12px; word-break: break-all; }
+  .contact .btn { background: var(--ink); border-color: var(--ink); color: var(--white); }
+  .contact .btn:hover { background: var(--white); color: var(--ink); border-color: var(--white); }
+  .contact .btn--ghost { background: transparent; border-color: var(--white); }
+  .contact__links { list-style: none; padding: 0; margin: 0; display: flex; gap: 24px; flex-wrap: wrap; font-weight: 600; position: relative; z-index: 2; }
+  .contact__me { position: absolute; right: 0; bottom: calc(-1 * clamp(60px, 8vw, 120px)); width: clamp(180px, 26vw, 400px); z-index: 1; transform: rotate(-4deg); }
+  @media (max-width: 860px) { .contact__me { position: relative; justify-self: end; bottom: auto; margin-bottom: calc(-1 * clamp(60px, 8vw, 120px)); width: 58vw; } }
+</style>

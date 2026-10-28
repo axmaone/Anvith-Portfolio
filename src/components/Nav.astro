@@ -1,0 +1,57 @@
+---
+import { person } from '../data/site';
+const base = Astro.url.pathname === '/' ? '' : '/';
+const links = [
+  { href: `${base}#work`, label: 'Work' },
+  { href: `${base}#concept`, label: 'Experience' },
+  { href: `${base}#method`, label: 'Method' },
+  { href: `${base}#research`, label: 'Research' },
+  { href: `${base}#person`, label: 'Me' },
+  { href: `${base}#game`, label: 'Play' },
+  { href: `${base}#contact`, label: 'Contact' },
+];
+---
+<header class="nav">
+  <div class="nav__inner wrap">
+    <a href="/" class="nav__mark" aria-label={`${person.name}, home`}>
+      <span class="nav__sig" aria-hidden="true">Anvith</span>
+      <span class="nav__dot" aria-hidden="true"></span>
+    </a>
+    <nav aria-label="Main">
+      <ul class="nav__links">
+        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </nav>
+    <a class="nav__cv" href={person.cv} download>CV <span aria-hidden="true">↓</span></a>
+  </div>
+</header>
+
+<style>
+  .nav { position: fixed; inset: 0 0 auto 0; z-index: 60; pointer-events: none; }
+  .nav__inner { display: flex; align-items: center; gap: 20px; padding-top: 14px; padding-bottom: 14px; }
+  .nav__inner > * { pointer-events: auto; }
+  .nav__mark { display: flex; align-items: center; gap: 6px; text-decoration: none; }
+  .nav__sig { font-family: var(--script); font-size: 40px; line-height: 0.8; color: var(--red); padding-top: 8px; }
+  .nav__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); animation: pulse 2.4s infinite; }
+  @keyframes pulse { 50% { transform: scale(0.5); opacity: 0.5; } }
+  .nav__links {
+    display: flex; gap: 4px; list-style: none; margin: 0 0 0 auto; padding: 5px;
+    background: color-mix(in srgb, var(--paper) 80%, transparent); backdrop-filter: blur(10px);
+    border: 1.5px solid var(--ink); border-radius: 999px;
+  }
+  .nav__links a {
+    display: block; padding: 7px 14px; border-radius: 999px; text-decoration: none;
+    font: 500 14px/1 var(--display); transition: background 0.25s, color 0.25s;
+  }
+  .nav__links a:hover { background: var(--ink); color: var(--paper); }
+  .nav__cv {
+    font: 600 14px/1 var(--display); text-decoration: none; padding: 12px 18px; border-radius: 999px;
+    background: var(--red); color: var(--white); border: 1.5px solid var(--white);
+    transition: transform 0.3s var(--ease), background 0.3s;
+  }
+  .nav__cv:hover { transform: rotate(-4deg) scale(1.05); background: var(--ink); }
+  @media (max-width: 760px) {
+    .nav__links { display: none; }
+    .nav__cv { margin-left: auto; }
+  }
+</style>

@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en" data-composition-variables='[{"id":"hook","type":"string","label":"Hook","default":"How does sand become a chip?"}]'>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: 'Bricolage'; src: url('assets/fonts/bricolage.woff2') format('woff2'); font-weight: 200 800; font-stretch: 75% 100%; }
+      @font-face { font-family: 'FrauncesItalic'; src: url('assets/fonts/fraunces-italic.woff2') format('woff2'); font-weight: 100 900; font-style: italic; }
+      @font-face { font-family: 'JBM'; src: url('assets/fonts/jbm.woff2') format('woff2'); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #efe8da; }
+      #root { position: relative; width: 100%; height: 100%; font-family: 'Bricolage', sans-serif; color: #15202d; }
+      #bg { position: absolute; inset: 0; background: #efe8da; }
+      #stage { position: absolute; inset: 0; }
+      .label { position: absolute; left: 150px; top: 96px; font: 22px 'JBM'; letter-spacing: 0.12em; text-transform: uppercase; color: #5a626e; }
+      .ticks { position: absolute; right: 150px; top: 100px; display: flex; gap: 10px; }
+      .tick { width: 54px; height: 6px; border-radius: 3px; background: #d8ccb4; overflow: hidden; }
+      .tick i { display: block; width: 100%; height: 100%; background: #e2432a; transform-origin: left; transform: scaleX(0); }
+      .hook { position: absolute; left: 150px; top: 330px; width: 900px; font-weight: 760; font-stretch: 78%; font-size: 132px; line-height: 0.92; letter-spacing: -0.03em; }
+      .hook span { display: inline-block; margin-right: 0.22em; }
+      .hook em { font-family: 'FrauncesItalic'; font-weight: 400; color: #e2432a; font-stretch: 100%; }
+      .step { position: absolute; left: 150px; top: 330px; width: 760px; }
+      .step .n { font: 24px 'JBM'; letter-spacing: 0.1em; color: #e2432a; }
+      .step h2 { margin-top: 22px; font-weight: 740; font-stretch: 80%; font-size: 104px; line-height: 0.95; letter-spacing: -0.025em; }
+      .step p { margin-top: 30px; font-family: 'FrauncesItalic'; font-style: italic; font-size: 44px; line-height: 1.2; color: #3b4655; max-width: 700px; }
+      .end { position: absolute; left: 150px; top: 340px; width: 860px; }
+      .end h2 { font-weight: 760; font-stretch: 78%; font-size: 120px; line-height: 0.92; letter-spacing: -0.03em; }
+      .end p { margin-top: 34px; font-family: 'FrauncesItalic'; font-style: italic; font-size: 52px; line-height: 1.15; color: #e2432a; }
+      #art { position: absolute; left: 960px; top: 140px; width: 800px; height: 800px; overflow: visible; }
+      #crystalG,#dirt,#ingotG,#slices,#waferG,#maskG,#beams,#dieG,#chipG,#pass,#phone,#t1,#t2,#t3,#t4,#t5,#t6,#end,#grain,#wires,#scan,#defect,#layers rect,#layers text,.d { opacity: 0; }
+      .mono { font: 20px 'JBM'; letter-spacing: 0.08em; fill: #3b4655; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="37" data-width="1920" data-height="1080">
+      <div id="bg" class="clip" data-start="0" data-duration="37" data-track-index="0"></div>
+      <div id="stage" class="clip" data-start="0" data-duration="37" data-track-index="1" data-layout-allow-overlap>
+        <div class="label">Manufacturing · Semiconductors</div>
+        <div class="ticks">
+          <div class="tick"><i id="k1"></i></div><div class="tick"><i id="k2"></i></div><div class="tick"><i id="k3"></i></div>
+          <div class="tick"><i id="k4"></i></div><div class="tick"><i id="k5"></i></div><div class="tick"><i id="k6"></i></div>
+        </div>
+
+        <h1 class="hook" id="hook"><span>How</span><span>does</span><span><em>sand</em></span><span>become</span><span>a</span><span>chip?</span></h1>
+
+        <div class="step" id="t1"><div class="n">STAGE 01 / 06</div><h2>Purify the silicon.</h2><p>Silica is refined into ultra-pure, electronic-grade silicon.</p></div>
+        <div class="step" id="t2"><div class="n">STAGE 02 / 06</div><h2>Grow a crystal. Slice a wafer.</h2><p>A crystal ingot is grown, sliced thin and polished smooth.</p></div>
+        <div class="step" id="t3"><div class="n">STAGE 03 / 06</div><h2>Print the circuit with light.</h2><p>UV light through a mask transfers the pattern.</p></div>
+        <div class="step" id="t4"><div class="n">STAGE 04 / 06</div><h2>Build it layer by layer.</h2><p>Deposit adds. Doping changes. Etching removes.</p></div>
+        <div class="step" id="t5"><div class="n">STAGE 05 / 06</div><h2>Wire it. Inspect it.</h2><p>Metal pathways connect parts; defects are caught early.</p></div>
+        <div class="step" id="t6"><div class="n">STAGE 06 / 06</div><h2>Cut, package, test.</h2><p>Each chip is sealed, then tested before it ships.</p></div>
+        <div class="end" id="end"><h2>Every chip starts as sand.</h2><p>Six precise stages later, it runs your phone.</p></div>
+
+        <svg id="art" viewBox="0 0 800 800">
+          <defs>
+            <linearGradient id="si" x1="0" x2="1"><stop offset="0" stop-color="#8e98a4" /><stop offset="0.5" stop-color="#dfe4ea" /><stop offset="1" stop-color="#8e98a4" /></linearGradient>
+            <radialGradient id="wf" cx="0.4" cy="0.35" r="0.8"><stop offset="0" stop-color="#e9eef3" /><stop offset="0.55" stop-color="#b6bfca" /><stop offset="1" stop-color="#8a95a3" /></radialGradient>
+            <clipPath id="waferClip"><circle cx="400" cy="400" r="260" /></clipPath>
+          </defs>
+          <!-- 1: grain → crystal -->
+          <circle id="grain" cx="400" cy="400" r="14" fill="#c99a3c" />
+          <g id="crystalG"><polygon id="crystal" points="400,250 530,325 530,475 400,550 270,475 270,325" fill="#c99a3c" stroke="#15202d" stroke-width="4" /></g>
+          <g id="dirt">
+            <circle cx="330" cy="360" r="9" fill="#15202d" /><circle cx="470" cy="350" r="7" fill="#15202d" /><circle cx="440" cy="470" r="8" fill="#15202d" />
+            <circle cx="350" cy="455" r="6" fill="#15202d" /><circle cx="400" cy="310" r="6" fill="#15202d" /><circle cx="500" cy="420" r="6" fill="#15202d" />
+          </g>
+          <!-- 2: ingot → slices → wafer -->
+          <g id="ingotG"><rect id="ingot" x="320" y="150" width="160" height="440" rx="70" fill="url(#si)" stroke="#15202d" stroke-width="4" /></g>
+          <g id="slices">
+            <ellipse cx="400" cy="610" rx="80" ry="16" fill="#dfe4ea" stroke="#15202d" stroke-width="3" />
+            <ellipse cx="400" cy="640" rx="80" ry="16" fill="#dfe4ea" stroke="#15202d" stroke-width="3" />
+            <ellipse cx="400" cy="670" rx="80" ry="16" fill="#dfe4ea" stroke="#15202d" stroke-width="3" />
+          </g>
+          <g id="waferG">
+            <circle id="wafer" cx="400" cy="400" r="260" fill="url(#wf)" stroke="#15202d" stroke-width="4" />
+            <g id="dies" clip-path="url(#waferClip)"></g>
+          </g>
+          <!-- 3: mask + light -->
+          <g id="maskG">
+            <rect x="180" y="40" width="440" height="60" rx="8" fill="#15202d" />
+            <g fill="#efe8da"><rect x="210" y="58" width="50" height="24" /><rect x="290" y="58" width="50" height="24" /><rect x="370" y="58" width="50" height="24" /><rect x="450" y="58" width="50" height="24" /><rect x="530" y="58" width="50" height="24" /></g>
+          </g>
+          <g id="beams" stroke="#e2432a" stroke-width="6" stroke-linecap="round">
+            <line x1="235" y1="104" x2="235" y2="300" /><line x1="315" y1="104" x2="315" y2="300" /><line x1="395" y1="104" x2="395" y2="300" />
+            <line x1="475" y1="104" x2="475" y2="300" /><line x1="555" y1="104" x2="555" y2="300" />
+          </g>
+          <!-- 4: one die, layers -->
+          <g id="dieG">
+            <rect id="die" x="180" y="180" width="440" height="440" rx="18" fill="#dfe4ea" stroke="#15202d" stroke-width="4" />
+            <g id="layers">
+              <rect id="ly1" x="220" y="500" width="360" height="70" fill="#8e98a4" />
+              <rect id="ly2" x="220" y="420" width="360" height="70" fill="#c99a3c" />
+              <rect id="ly3" x="220" y="340" width="360" height="70" fill="#e2432a" opacity="0.75" />
+              <rect id="ly4" x="220" y="260" width="360" height="70" fill="#4f4b7a" />
+              <rect id="etch" x="350" y="260" width="100" height="70" fill="#dfe4ea" />
+              <text class="mono" x="640" y="545">BASE</text><text class="mono" x="640" y="465" id="lb2">DEPOSIT</text>
+              <text class="mono" x="640" y="385" id="lb3">DOPE</text><text class="mono" x="640" y="305" id="lb4">ETCH</text>
+            </g>
+            <g id="wires" fill="none" stroke="#c99a3c" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M230 260 H380 V420 H570" /><path d="M230 520 H300 V330 H470 V560" /><path d="M570 230 V330 H520 V520 H380" />
+            </g>
+            <rect id="scan" x="180" y="180" width="18" height="440" fill="#e2432a" opacity="0.7" />
+            <g id="defect"><circle id="defDot" cx="470" cy="330" r="22" fill="none" stroke="#e2432a" stroke-width="6" /><text id="defTxt" x="400" y="150" text-anchor="middle" class="mono" fill="#e2432a">DEFECT FOUND · FIXED</text></g>
+          </g>
+          <!-- 6: package -->
+          <g id="chipG">
+            <g fill="#8e98a4">
+              <rect x="250" y="270" width="34" height="14" /><rect x="250" y="330" width="34" height="14" /><rect x="250" y="390" width="34" height="14" /><rect x="250" y="450" width="34" height="14" /><rect x="250" y="510" width="34" height="14" />
+              <rect x="516" y="270" width="34" height="14" /><rect x="516" y="330" width="34" height="14" /><rect x="516" y="390" width="34" height="14" /><rect x="516" y="450" width="34" height="14" /><rect x="516" y="510" width="34" height="14" />
+            </g>
+            <rect x="280" y="250" width="240" height="290" rx="18" fill="#15202d" />
+            <circle cx="312" cy="282" r="9" fill="#3b4655" />
+            <text x="400" y="410" text-anchor="middle" font-family="JBM" font-size="26" fill="#c99a3c" letter-spacing="4">SI-06</text>
+          </g>
+          <g id="pass"><rect x="430" y="520" width="190" height="78" rx="10" fill="none" stroke="#3f9a6a" stroke-width="6" /><text x="525" y="574" text-anchor="middle" font-family="Bricolage" font-weight="800" font-size="44" fill="#3f9a6a">PASS</text></g>
+          <!-- end: phone -->
+          <g id="phone"><rect x="250" y="80" width="300" height="620" rx="46" fill="none" stroke="#15202d" stroke-width="8" /><rect x="360" y="104" width="80" height="12" rx="6" fill="#15202d" /></g>
+        </svg>
+      </div>
+    </div>
+    <script>
+      // Die grid on the wafer (built once, deterministic)
+      const dies = document.getElementById('dies');
+      for (let r = 0; r < 9; r++) for (let c = 0; c < 9; c++) {
+        const s = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        s.setAttribute('x', 148 + c * 56); s.setAttribute('y', 148 + r * 56);
+        s.setAttribute('width', 48); s.setAttribute('height', 48); s.setAttribute('rx', 4);
+        s.setAttribute('fill', (r + c) % 3 === 0 ? '#c99a3c' : '#4f4b7a'); s.setAttribute('class', 'd');
+        dies.appendChild(s);
+      }
+
+      const tl = gsap.timeline({ paused: true });
+      const IN = { opacity: 1, filter: 'blur(0px)', duration: 0.5, ease: 'expo.out' };
+      const textIn = (sel, t) => {
+        tl.set(sel, { opacity: 1, filter: 'blur(0px)' }, t);
+        tl.fromTo(`${sel} .n`, { opacity: 0 }, { opacity: 1, duration: 0.3 }, t);
+        tl.fromTo(`${sel} h2`, { opacity: 0, filter: 'blur(10px)' }, { ...IN, duration: 0.6 }, t + 0.08);
+        tl.fromTo(`${sel} p`, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.7, ease: 'expo.out' }, t + 0.35);
+      };
+      const textOut = (sel, t) => tl.to(sel, { opacity: 0, filter: 'blur(8px)', duration: 0.2, ease: 'power2.in' }, t);
+      const tick = (id, t) => tl.fromTo(id, { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: 'power2.inOut' }, t);
+      // hidden at start via CSS: '#crystalG,#dirt,#ingotG,#slices,#waferG,#maskG,#beams,#dieG,#chipG,#pass,#phone,#t1,#t2,#t3,#t4,#t5,#t6,#end';
+
+      // HOOK 0–4
+      tl.fromTo('#hook span', { opacity: 0, filter: 'blur(8px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.18, stagger: 0.09 }, 0.4);
+      tl.fromTo('#grain', { opacity: 0, scale: 0, transformOrigin: '50% 50%' }, { opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(2)' }, 1.4);
+      tl.to('#hook', { opacity: 0, filter: 'blur(8px)', duration: 0.22 }, 3.7);
+
+      // S1 4–9: purify
+      tick('#k1', 4.0); textIn('#t1', 4.1);
+      tl.set('#crystalG', { opacity: 1 }, 4.3);
+      tl.fromTo('#crystal', { scale: 0.08, transformOrigin: '50% 50%' }, { scale: 1, duration: 1.0, ease: 'expo.out' }, 4.3);
+      tl.to('#grain', { opacity: 0, duration: 0.2 }, 4.5);
+      tl.set('#dirt', { opacity: 1 }, 4.9);
+      tl.fromTo('#dirt circle', { scale: 0, transformOrigin: '50% 50%' }, { scale: 1, duration: 0.3, stagger: 0.05 }, 4.9);
+      tl.to('#dirt circle', { x: (i) => [-260, 240, 160, -220, 0, 280][i], y: (i) => [-140, -180, 220, 200, -260, 40][i], opacity: 0, duration: 1.0, ease: 'power3.in', stagger: 0.06 }, 5.9);
+      tl.to('#crystal', { fill: '#cfd6de', duration: 0.6, ease: 'power2.inOut' }, 6.6);
+      textOut('#t1', 8.8);
+
+      // S2 9–14: ingot, slices, wafer
+      tick('#k2', 9.0); textIn('#t2', 9.1);
+      tl.to('#crystalG', { opacity: 0, scale: 0.6, transformOrigin: '50% 50%', duration: 0.3, ease: 'power3.in' }, 9.0);
+      tl.set('#ingotG', { opacity: 1 }, 9.2);
+      tl.fromTo('#ingot', { scaleY: 0.1, transformOrigin: '50% 100%' }, { scaleY: 1, duration: 1.1, ease: 'expo.out' }, 9.2);
+      tl.set('#slices', { opacity: 1 }, 10.6);
+      tl.fromTo('#slices ellipse', { y: -60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, stagger: 0.2, ease: 'power3.out' }, 10.6);
+      tl.to(['#ingotG', '#slices'], { opacity: 0, duration: 0.3 }, 11.9);
+      tl.set('#waferG', { opacity: 1 }, 12.0);
+      tl.fromTo('#wafer', { scale: 0.3, transformOrigin: '50% 50%' }, { scale: 1, duration: 0.9, ease: 'expo.out' }, 12.0);
+      textOut('#t2', 13.8);
+
+      // S3 14–19: lithography
+      tick('#k3', 14.0); textIn('#t3', 14.1);
+      tl.set('#maskG', { opacity: 1 }, 14.3);
+      tl.fromTo('#maskG', { y: -120 }, { y: 0, duration: 0.8, ease: 'expo.out' }, 14.3);
+      tl.set('#beams', { opacity: 1 }, 15.1);
+      tl.fromTo('#beams line', { scaleY: 0, transformOrigin: '50% 0%' }, { scaleY: 1, duration: 0.5, stagger: 0.06, ease: 'power3.out' }, 15.1);
+      tl.to('#dies .d', { opacity: 1, duration: 0.25, stagger: { each: 0.016, from: 'center' } }, 15.7);
+      tl.to(['#maskG', '#beams'], { opacity: 0, duration: 0.3 }, 17.9);
+      textOut('#t3', 18.8);
+
+      // S4 19–24: zoom into one die, layers
+      tick('#k4', 19.0); textIn('#t4', 19.1);
+      tl.to('#waferG', { scale: 3.2, opacity: 0, transformOrigin: '50% 50%', duration: 0.6, ease: 'power3.in' }, 19.0);
+      tl.set('#dieG', { opacity: 1 }, 19.4);
+      tl.fromTo('#die', { scale: 0.2, transformOrigin: '50% 50%' }, { scale: 1, duration: 0.7, ease: 'expo.out' }, 19.4);
+      tl.to('#ly1, #layers text:nth-of-type(1)', { opacity: 1, duration: 0.3 }, 20.0);
+      tl.fromTo('#ly2', { scaleX: 0, transformOrigin: '0% 50%' }, { scaleX: 1, opacity: 1, duration: 0.6, ease: 'expo.out' }, 20.6);
+      tl.to('#lb2', { opacity: 1, duration: 0.3 }, 20.8);
+      tl.fromTo('#ly3', { scaleX: 0, transformOrigin: '0% 50%' }, { scaleX: 1, opacity: 0.75, duration: 0.6, ease: 'expo.out' }, 21.4);
+      tl.to('#lb3', { opacity: 1, duration: 0.3 }, 21.6);
+      tl.fromTo('#ly4', { scaleX: 0, transformOrigin: '0% 50%' }, { scaleX: 1, opacity: 1, duration: 0.6, ease: 'expo.out' }, 22.2);
+      tl.fromTo('#etch', { opacity: 0, scaleY: 0, transformOrigin: '50% 0%' }, { opacity: 1, scaleY: 1, duration: 0.5, ease: 'power3.out' }, 22.9);
+      tl.to('#lb4', { opacity: 1, duration: 0.3 }, 23.0);
+      textOut('#t4', 23.8);
+
+      // S5 24–29: wires + inspection
+      tick('#k5', 24.0); textIn('#t5', 24.1);
+      tl.to('#layers', { opacity: 0.25, duration: 0.4 }, 24.0);
+      tl.set('#wires', { opacity: 1 }, 24.3);
+      document.querySelectorAll('#wires path').forEach((p) => { const L = p.getTotalLength(); p.style.strokeDasharray = L; p.style.strokeDashoffset = L; });
+      tl.to('#wires path', { strokeDashoffset: 0, duration: 0.9, stagger: 0.25, ease: 'power2.inOut' }, 24.3);
+      tl.set('#scan', { opacity: 0.7 }, 25.9);
+      tl.fromTo('#scan', { x: 0 }, { x: 422, duration: 1.6, ease: 'none' }, 25.9);
+      tl.set('#defect', { opacity: 1 }, 26.6);
+      tl.fromTo('#defDot', { scale: 2.2, opacity: 0, transformOrigin: '50% 50%' }, { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(2)' }, 26.6);
+      tl.fromTo('#defTxt', { opacity: 0 }, { opacity: 1, duration: 0.3 }, 26.9);
+      tl.to('#scan', { opacity: 0, duration: 0.2 }, 27.5);
+      tl.to('#defDot', { stroke: '#3f9a6a', duration: 0.3 }, 27.9);
+      tl.to('#defTxt', { fill: '#3f9a6a', duration: 0.3 }, 27.9);
+      textOut('#t5', 28.8);
+
+      // S6 29–33: package + test
+      tick('#k6', 29.0); textIn('#t6', 29.1);
+      tl.to('#dieG', { scale: 0.35, opacity: 0, transformOrigin: '50% 50%', duration: 0.5, ease: 'power3.in' }, 29.0);
+      tl.set('#chipG', { opacity: 1 }, 29.4);
+      tl.fromTo('#chipG', { scale: 0.4, svgOrigin: '400 400' }, { scale: 1, duration: 0.8, ease: 'expo.out' }, 29.4);
+      tl.set('#pass', { opacity: 1 }, 31.0);
+      tl.fromTo('#pass', { scale: 2, rotation: -20, opacity: 0, transformOrigin: '50% 50%' }, { scale: 1, rotation: -8, opacity: 1, duration: 0.35, ease: 'power4.out' }, 31.0);
+      textOut('#t6', 32.8);
+
+      // END 33–37: chip into phone
+      tl.to('#pass', { opacity: 0, duration: 0.2 }, 33.0);
+      tl.set('#phone', { opacity: 1 }, 33.1);
+      tl.fromTo('#phone', { scale: 1.4, svgOrigin: '400 400', opacity: 0 }, { scale: 1, opacity: 1, duration: 0.8, ease: 'expo.out' }, 33.1);
+      tl.to('#chipG', { scale: 0.42, duration: 0.8, ease: 'power3.inOut', svgOrigin: '400 400' }, 33.2);
+      tl.set('#end', { opacity: 1 }, 33.5);
+      tl.fromTo('#end h2', { opacity: 0, filter: 'blur(10px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.6, ease: 'expo.out' }, 33.5);
+      tl.fromTo('#end p', { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.7, ease: 'expo.out' }, 34.1);
+      tl.set({}, {}, 37);
+
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
