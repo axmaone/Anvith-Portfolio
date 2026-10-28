@@ -1,0 +1,8 @@
+Gold Loan · Stage 08 — How much can you borrow? (LTV)
+Built with the Lemo-Opuscar library (github.com/lemomo-ai/lemo-opuscar, MIT) — Isometric Infographic style engine (engine.js) and core render / audio tools.
+
+Font: Jost (Owen Earl, indestructible type*) — SIL Open Font License 1.1 — github.com/google/fonts/tree/main/ofl/jost (fonts/Jost-OFL.txt)
+Music: original score, synthesized in code (mix.py) — no samples.
+Sound effects: procedural, synthesized in code (Lemo-Opuscar core/audio/sfx.py, MIT).
+Voice: none (on-screen captions only).
+Characters and figures: original; gold rate is illustrative.

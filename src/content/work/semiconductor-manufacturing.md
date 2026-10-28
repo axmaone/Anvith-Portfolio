@@ -1,18 +1,19 @@
 ---
 title: From sand to chip in six stages
-kicker: My storyboarded e-learning module on how chips are made, cut into a 90-second walkthrough with stage tracking, key ideas and a live scenario click.
-category: E-learning storyboard · Manufacturing
+kicker: A 74-second learning summary in Vox-style collage. A glass lens zooms into each stage of chip-making, a narrator explains it, and a knowledge check makes you decide.
+category: Learning summary video · Manufacturing
 year: "2026"
-role: Instructional designer · storyboard · scenario · motion
-tools: ["Storyboarding", "PowerPoint", "Scenario-based learning", "Motion graphics", "Sound design"]
+role: Instructional designer · script · storyboard · motion · sound
+tools: ["EffectCraft", "Storyboarding", "Voiceover", "Scenario-based learning", "Sound design"]
 order: 1
 cover: /video/semiconductor.jpg
 video: /video/semiconductor.mp4
+captions: /video/semiconductor.vtt
 accent: red
 facts:
   - { label: Field, value: "Semiconductor manufacturing" }
-  - { label: Audience, value: "Novice learners" }
-  - { label: Format, value: "E-learning module · 91 s walkthrough" }
+  - { label: Audience, value: "Novice learners (LMS)" }
+  - { label: Format, value: "74 s summary · voiceover · captions" }
 ---
 
 ## The brief
@@ -30,7 +31,16 @@ Explain how semiconductors are manufactured to people with no engineering backgr
 
 - **Simple to complex.** Start with *what is a semiconductor* and *why it matters* (phones, cars, medical devices, AI), then walk the process.
 - **Six learner-sized stages.** Dozens of fab steps grouped into six: silicon preparation, wafer manufacturing, circuit patterning, layer formation, interconnection and inspection, packaging and testing.
-- **A walkthrough you can follow muted.** The video above is the module itself, edited for the portfolio: a stage tracker, a key idea per screen, and the scenario played out with a real click on the best option.
+- **A summary built for an LMS.** The video above condenses my full storyboard into 74 seconds: a narrator explains each stage while the screen shows only what is being said.
+
+## How the summary video teaches
+
+- **The magnifying lens.** Every stage starts on a real cleanroom photo; a glass lens zooms 3× into the machine, then switches to a micro view of what is happening inside: impurities leaving the lattice, UV light through a mask, layers stacking, wires connecting.
+- **Always know where you are.** A six-step tracker ticks off each stage as it is completed.
+- **Two facts, not ten.** Each stage gets one headline and two short facts on a frosted-glass card, timed to the voiceover.
+- **Decide, don't just watch.** A pause-and-pick knowledge check, then the reveal.
+- **Recap.** All six stages on one checklist, and the one rule behind them: precision.
+- **Accessible by default.** Captions you can switch on or off, a calm paper palette for reading, and no text over busy footage.
 
 ## The scenario
 

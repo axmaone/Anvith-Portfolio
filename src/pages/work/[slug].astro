@@ -31,7 +31,9 @@ const { Content } = await render(entry);
 
     <div class="wrap case__media" data-reveal>
       {d.video ? (
-        <video src={d.video} poster={d.cover} controls playsinline preload="metadata"></video>
+        <video src={d.video} poster={d.cover} controls playsinline preload="metadata">
+          {d.captions && <track kind="captions" src={d.captions} srclang="en" label="English" default />}
+        </video>
       ) : d.cover ? (
         <img src={d.cover} alt="" />
       ) : d.art ? <div class="case__art"><Art kind={d.art} /></div> : null}

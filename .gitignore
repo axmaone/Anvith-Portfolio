@@ -11,3 +11,11 @@ motion/*/node_modules/
 motion/ppt/
 motion/*/assets/*.mp4
 motion/*/assets/audio/
+motion/gold-ltv/*.mp4
+motion/semi-vox/media/
+motion/semi-vox/img/
+motion/semi-vox/vo/
+motion/semi-vox/vo2/
+motion/semi-vox/audio/
+motion/semi-vox/*.mp4
+motion/semi-vox/*.png

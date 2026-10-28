@@ -17,6 +17,7 @@ const work = defineCollection({
     cover: z.string().optional(),  // path inside /public, e.g. /video/gold-loan-ltv.jpg
     art: z.enum(['engine', 'icad', 'research']).optional(), // built-in animated diagram used when there is no cover
     video: z.string().optional(),  // optional path inside /public, plays on hover and on the case page
+    captions: z.string().optional(), // optional .vtt inside /public, shown as subtitles on the case page
     accent: z.enum(['red', 'gold', 'ink', 'sage']).default('red'),
     confidential: z.boolean().default(false), // shows an "anonymised" badge
     draft: z.boolean().default(false),        // true = hidden from the site

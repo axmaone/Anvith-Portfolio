@@ -1,0 +1,43 @@
+1
+00:00:00,500 --> 00:00:04,600
+How much can you borrow against your gold?
+
+2
+00:00:05,000 --> 00:00:10,400
+First, the net weight: 92 grams of 22-karat gold.
+
+3
+00:00:10,800 --> 00:00:16,400
+At ₹10,000 a gram (illustrative), it is worth ₹9,20,000.
+
+4
+00:00:17,000 --> 00:00:24,600
+RBI caps loan-to-value (LTV): 85% up to ₹2.5 lakh, 80% up to ₹5 lakh, 75% above.
+
+5
+00:00:25,800 --> 00:00:30,800
+So the most this gold can raise is ₹6,90,000.
+
+6
+00:00:31,400 --> 00:00:36,600
+Priya needs only ₹2,00,000 — the 85% tier, far below its cap.
+
+7
+00:00:37,000 --> 00:00:41,000
+The rest is headroom.
+
+8
+00:00:41,600 --> 00:00:46,800
+The LTV must stay within the cap for the whole loan.
+
+9
+00:00:47,800 --> 00:00:52,200
+If the gold price falls: repay part, or add gold.
+
+10
+00:00:52,600 --> 00:00:56,200
+Bullet loans count the interest due, too.
+
+11
+00:00:56,600 --> 00:00:59,800
+LTV = loan ÷ gold value.
