@@ -266,7 +266,7 @@ export const headings: Record<string, { line: string; source: string; meaning: s
     line: 'Wyrd bið ful āræd',
     source: 'The Wanderer, Old English (10th century)',
     meaning: 'Fate goes ever as it must.',
-    plain: 'My research papers', icon: 'brain',
+    plain: 'Research', icon: 'brain',
     egg: 'Egg: psychology. MSc, four studies, endless curiosity.',
   },
   debrief: {

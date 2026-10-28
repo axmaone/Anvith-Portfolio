@@ -1,5 +1,6 @@
 ---
-// Section heading set in old English. Hover or focus it to translate; doing so finds an easter egg.
+// Section heading: a plain title on the left (the portfolio's structure), and an old-English line
+// on the right. Hover or focus the old-English line to translate it; doing so finds an easter egg.
 import Icon from './Icon.astro';
 import { headings } from '../data/site';
 interface Props { id: keyof typeof headings; num: string; dark?: boolean }
@@ -8,28 +9,37 @@ const h = headings[id];
 ---
 <div class={`chapter ch ${dark ? 'ch--dark' : ''}`}>
   <span class="chapter__num">{num}</span>
-  <button class="ch__line" type="button" data-egg={id} data-found={h.egg} aria-describedby={`ch-tip-${id}`}>
-    <span class="chapter__name">{h.line}</span>
-    <span class="ch__icon"><Icon name={h.icon} size={22} /></span>
-  </button>
-  <span class="chapter__hint">{h.plain}</span>
-  <span class="ch__tip" id={`ch-tip-${id}`} role="tooltip">
-    <span class="mono">In plain English</span>
-    <strong>{h.meaning}</strong>
-    <em>{h.source}</em>
+  <span class="chapter__name">{h.plain}</span>
+  <span class="ch__right">
+    <button class="ch__line" type="button" data-egg={id} data-found={h.egg} aria-describedby={`ch-tip-${id}`}>
+      <span class="ch__old">{h.line}</span>
+      <span class="ch__icon"><Icon name={h.icon} size={18} /></span>
+    </button>
+    <span class="ch__tip" id={`ch-tip-${id}`} role="tooltip">
+      <span class="mono">In plain English</span>
+      <strong>{h.meaning}</strong>
+      <em>{h.source}</em>
+    </span>
   </span>
 </div>
 
 <style>
   .ch { position: relative; }
-  .ch__line { display: inline-flex; align-items: baseline; gap: 10px; background: none; border: 0; padding: 0; color: inherit; cursor: help; text-align: left; font: inherit; }
-  .ch__line .chapter__name { text-decoration: underline dotted; text-decoration-thickness: 1.5px; text-underline-offset: 6px; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); }
-  .ch__icon { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; border: 1.5px dashed currentColor; opacity: 0.35; transform: translateY(4px); transition: opacity 0.3s, transform 0.5s var(--ease), background 0.3s, color 0.3s, border-color 0.3s; }
-  .ch__line:hover .ch__icon, .ch__line:focus-visible .ch__icon { opacity: 1; transform: translateY(4px) rotate(-12deg) scale(1.15); }
+  .ch__right { position: relative; margin-left: auto; }
+  .ch__line { display: inline-flex; align-items: center; gap: 8px; background: none; border: 0; padding: 0; color: inherit; cursor: help; text-align: right; font: inherit; }
+  .ch__old {
+    font: italic 400 clamp(14px, 1.15vw, 17px)/1.2 var(--serif); opacity: 0.7;
+    text-decoration: underline dotted; text-decoration-thickness: 1px; text-underline-offset: 4px;
+    text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+    transition: opacity 0.3s;
+  }
+  .ch__line:hover .ch__old, .ch__line:focus-visible .ch__old { opacity: 1; }
+  .ch__icon { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; border: 1.5px dashed currentColor; opacity: 0.4; transition: opacity 0.3s, transform 0.5s var(--ease), background 0.3s, color 0.3s, border-color 0.3s; }
+  .ch__line:hover .ch__icon, .ch__line:focus-visible .ch__icon { opacity: 1; transform: rotate(-12deg) scale(1.15); }
   .ch__line.is-found .ch__icon { opacity: 1; background: var(--red); color: var(--white); border-color: var(--red); border-style: solid; }
   .ch__tip {
-    position: absolute; left: 40px; top: calc(100% + 6px); z-index: 20; width: min(380px, 80vw);
-    display: grid; gap: 4px; padding: 14px 16px; border-radius: 14px;
+    position: absolute; right: 0; top: calc(100% + 8px); z-index: 20; width: min(360px, 80vw);
+    display: grid; gap: 4px; padding: 14px 16px; border-radius: 14px; text-align: left;
     background: var(--ink); color: var(--paper); box-shadow: 6px 6px 0 var(--red);
     opacity: 0; transform: translateY(-6px); pointer-events: none; transition: opacity 0.25s, transform 0.35s var(--ease);
   }
@@ -37,5 +47,10 @@ const h = headings[id];
   .ch__tip .mono { color: var(--gold); font-size: 11px; }
   .ch__tip strong { font: 600 18px/1.3 var(--display); }
   .ch__tip em { font: italic 14px var(--serif); opacity: 0.75; }
-  .ch:has(.ch__line:hover) .ch__tip, .ch:has(.ch__line:focus-visible) .ch__tip, .ch.is-open .ch__tip { opacity: 1; transform: none; }
+  .ch__right:has(.ch__line:hover) .ch__tip, .ch__right:has(.ch__line:focus-visible) .ch__tip, .ch__right.is-open .ch__tip { opacity: 1; transform: none; }
+  @media (max-width: 760px) {
+    .ch__right { margin-left: 0; width: 100%; }
+    .ch__line { text-align: left; }
+    .ch__tip { left: 0; right: auto; }
+  }
 </style>

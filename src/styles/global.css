@@ -85,7 +85,7 @@ a { color: inherit; }
 }
 .chapter__num { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; }
 .chapter__name {
-  font-family: var(--serif); font-style: italic; font-size: clamp(20px, 2.1vw, 30px); line-height: 1.15;
+  font-family: var(--serif); font-style: italic; font-size: clamp(26px, 2.8vw, 40px); line-height: 1.1;
 }
 .chapter__hint { margin-left: auto; font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.6; }
 
