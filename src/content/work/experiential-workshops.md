@@ -38,5 +38,3 @@ Instead of "did you enjoy it?", every programme had a KPI statement and a pre/po
 - % of ideas moved into prototyping
 
 Each metric came with diagnostic prompts for when it did not move: was psychological safety the blocker? Were decision-makers in the room?
-
-TODO: add a photo from a session (with permission) and one result you can share.

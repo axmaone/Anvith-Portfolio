@@ -1,6 +1,5 @@
 // ─────────────────────────────────────────────────────────────
 //  EDIT ME. Almost all the words on the home page live here.
-//  Anything marked TODO is a placeholder waiting for your input.
 // ─────────────────────────────────────────────────────────────
 
 export const person = {

@@ -50,5 +50,3 @@ Every day moves through **Interest → Concept → Application → Debrief**. Fo
 ## Measurement
 
 Pre-test → learning → post-test → peer feedback, with KPI statements written as "improvement in [behaviour] by reducing [challenge] in [setting]".
-
-TODO: add status or results once you can share them.

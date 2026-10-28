@@ -27,5 +27,3 @@ Editorial typography instead of icons keeps it calm and premium, the same visual
 ## Where it lives
 
 Designed to be dropped in as a microlearning recap, a social reel or an LMS nugget between modules.
-
-TODO: confirm where it was used.

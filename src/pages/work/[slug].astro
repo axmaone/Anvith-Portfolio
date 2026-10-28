@@ -17,19 +17,12 @@ const { Content } = await render(entry);
 <Base title={`${d.title} | Anvith M Acharya`} description={d.kicker} image={d.cover ?? '/og.png'}>
   <Nav />
   <main id="main" class={`case case--${d.accent}`}>
-    <header class="wrap case__head">
+    <!-- The work first: video (or visual) at the top, the story below. -->
+    <div class="wrap case__top">
       <a class="mono case__back" href="/#work">← All work</a>
       <p class="mono case__cat">{d.category} · {d.year}{d.confidential && <span class="case__badge">Anonymised</span>}</p>
-      <h1 class="h-lg case__title" data-split>{d.title}</h1>
-      <p class="case__kicker serif italic">{d.kicker}</p>
-      <dl class="case__facts">
-        <div><dt class="mono">Role</dt><dd>{d.role}</dd></div>
-        {d.facts.map((f) => <div><dt class="mono">{f.label}</dt><dd>{f.value}</dd></div>)}
-        {d.tools.length > 0 && <div><dt class="mono">Tools</dt><dd>{d.tools.join(', ')}</dd></div>}
-      </dl>
-    </header>
-
-    <div class="wrap case__media" data-reveal>
+    </div>
+    <div class="wrap case__media">
       {d.video ? (
         <video src={d.video} poster={d.cover} controls playsinline preload="metadata">
           {d.captions && <track kind="captions" src={d.captions} srclang="en" label="English" default />}
@@ -38,6 +31,16 @@ const { Content } = await render(entry);
         <img src={d.cover} alt="" />
       ) : d.art ? <div class="case__art"><Art kind={d.art} /></div> : null}
     </div>
+
+    <header class="wrap case__head">
+      <h1 class="h-lg case__title" data-split>{d.title}</h1>
+      <p class="case__kicker serif italic">{d.kicker}</p>
+      <dl class="case__facts">
+        <div><dt class="mono">Role</dt><dd>{d.role}</dd></div>
+        {d.facts.map((f) => <div><dt class="mono">{f.label}</dt><dd>{f.value}</dd></div>)}
+        {d.tools.length > 0 && <div><dt class="mono">Tools</dt><dd>{d.tools.join(', ')}</dd></div>}
+      </dl>
+    </header>
 
     <article class="wrap case__body">
       <div class="prose"><Content /></div>
@@ -59,10 +62,11 @@ const { Content } = await render(entry);
 
 <style>
   .case { padding-top: 110px; }
-  .case__head { display: grid; gap: 18px; padding-bottom: 40px; }
+  .case__top { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding-bottom: 18px; }
+  .case__head { display: grid; gap: 18px; padding-top: clamp(32px, 5vw, 56px); padding-bottom: 8px; }
   .case__back { text-decoration: none; width: fit-content; }
   .case__back:hover { color: var(--red); }
-  .case__cat { margin: 24px 0 0; color: var(--ink-3); display: flex; gap: 10px; align-items: center; }
+  .case__cat { margin: 0; color: var(--ink-3); display: flex; gap: 10px; align-items: center; }
   .case__badge { background: var(--red); color: var(--white); padding: 4px 10px; border-radius: 999px; }
   .case__title { max-width: 18ch; }
   .case__kicker { font-size: clamp(22px, 2vw, 30px); line-height: 1.25; max-width: 40ch; margin: 0; color: var(--ink-2); }

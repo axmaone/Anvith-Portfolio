@@ -36,7 +36,3 @@ The isometric "table-top" world keeps everything on one stage, so the eye never 
 - **One worked example beats three definitions.** The rule is learned through a case, then summarised in a legend at the end.
 - **Sequenced like the job.** The five steps match the real valuation flow, so the video doubles as a job aid.
 - **Low cognitive load.** One new idea per beat, with signalling (callouts, colour) pointing at exactly one thing at a time.
-
-## Outcome
-
-TODO: add how this was used (which programme, how many learners, any feedback). Leave this out if it is confidential.
