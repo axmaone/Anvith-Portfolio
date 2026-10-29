@@ -37,9 +37,6 @@ import { companionLines } from '../data/site';
   @keyframes c-pop { 0% { transform: scale(0.6) rotate(6deg); opacity: 0; } 100% { transform: none; opacity: 1; } }
   @keyframes c-bob { 50% { transform: translateY(-4px); } }
   @keyframes c-talk { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-4deg) translateY(-2px); } 75% { transform: rotate(3deg); } }
-  @media (max-width: 760px) {
-    .companion__face { width: 66px; }
-    .companion__bubble { font-size: 13px; max-width: 190px; margin-bottom: 46px; }
-  }
+  @media (max-width: 760px), (hover: none) { .companion { display: none; } }
   @media (prefers-reduced-motion: reduce) { .companion__face { animation: none !important; } }
 </style>

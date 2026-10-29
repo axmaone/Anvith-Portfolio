@@ -13,7 +13,7 @@ const d = entry.data;
     {d.video && (
       <video class="card__video" src={d.video} muted loop playsinline preload="none" poster={d.cover} aria-hidden="true"></video>
     )}
-    {d.video && <span class="card__play mono">▶ Plays on hover</span>}
+    {d.video && <span class="card__play mono"><span class="on-hover">▶ Plays on hover</span><span class="on-touch">▶ Video</span></span>}
     {d.confidential && <span class="card__badge mono">Anonymised</span>}
   </div>
   <div class="card__meta">
@@ -41,7 +41,10 @@ const d = entry.data;
   }
   .card__badge { left: auto; right: 14px; background: var(--red); color: var(--white); }
   .card.is-playing .card__play { opacity: 0; }
+  .on-touch { display: none; }
+  @media (hover: none) { .on-hover { display: none; } .on-touch { display: inline; } }
   .card__meta { display: grid; gap: 8px; }
+  @media (max-width: 600px) { .card { gap: 12px; } .card__kicker { display: none; } }
   .card__meta .mono { color: var(--ink-3); }
   .card__title {
     margin: 0; font-family: var(--display); font-weight: 700; font-variation-settings: 'wdth' 84;

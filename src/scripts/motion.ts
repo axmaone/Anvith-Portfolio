@@ -178,7 +178,8 @@ let say: (text: string, ms?: number) => void = () => {};
 function setupCompanion() {
   const box = document.getElementById('companion');
   const bubble = document.getElementById('companion-bubble');
-  if (!box || !bubble) return;
+  // phones: no pop-up bubbles over what people are reading
+  if (!box || !bubble || matchMedia('(max-width: 760px), (hover: none)').matches) return;
   const lines: Record<string, string> = JSON.parse(box.dataset.lines ?? '{}');
   const introOn = document.documentElement.classList.contains('intro-on');
   setTimeout(() => box.classList.add('is-on'), introOn ? 3600 : 900);
@@ -214,13 +215,9 @@ function setupCardVideos() {
   const cards = $$<HTMLAnchorElement>('.card').filter((c) => c.querySelector('video'));
   const play = (c: HTMLElement) => { const v = c.querySelector('video')!; v.play().then(() => c.classList.add('is-playing')).catch(() => {}); };
   const stop = (c: HTMLElement) => { c.querySelector('video')!.pause(); c.classList.remove('is-playing'); };
-  if (reduced()) return;
-  if (matchMedia('(hover: hover)').matches) {
-    cards.forEach((c) => { c.addEventListener('mouseenter', () => play(c)); c.addEventListener('mouseleave', () => stop(c)); c.addEventListener('focus', () => play(c)); c.addEventListener('blur', () => stop(c)); });
-  } else {
-    const io = new IntersectionObserver((es) => es.forEach((e) => (e.isIntersecting ? play(e.target as HTMLElement) : stop(e.target as HTMLElement))), { threshold: 0.6 });
-    cards.forEach((c) => io.observe(c));
-  }
+  // previews play only when a mouse asks for them; on phones nothing starts by itself (it reads like an ad)
+  if (reduced() || !matchMedia('(hover: hover)').matches) return;
+  cards.forEach((c) => { c.addEventListener('mouseenter', () => play(c)); c.addEventListener('mouseleave', () => stop(c)); c.addEventListener('focus', () => play(c)); c.addEventListener('blur', () => stop(c)); });
 }
 
 function setupCopy() {

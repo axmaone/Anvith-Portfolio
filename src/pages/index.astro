@@ -127,10 +127,18 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
       </div>
     </section>
 
-    <!-- 03 HOW I THINK: method + experiments ─────────────────────────────── -->
+    <!-- 03 PLAY: a break in the middle ─────────────────────────────── -->
+    <section class="game">
+      <div class="wrap">
+        <ChapterHead id="wager" num="03" />
+        <MemoryGame />
+      </div>
+    </section>
+
+    <!-- 04 HOW I THINK: method + experiments ─────────────────────────────── -->
     <section class="method" id="method" data-companion="method">
       <div class="wrap">
-        <ChapterHead id="concept" num="03" />
+        <ChapterHead id="concept" num="04" />
         <div class="approach" id="approach">
           <div class="approach__head">
             <p class="mono red">My method</p>
@@ -154,12 +162,12 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
       </div>
     </section>
 
-    <!-- 04 RESEARCH + TOOLKIT ─────────────────────────────── -->
+    <!-- 05 RESEARCH + TOOLKIT ─────────────────────────────── -->
     <section class="skills" id="skills" data-companion="skills">
       <div class="wrap">
         <ResearchDeck />
         <div class="toolkit">
-          <ChapterHead id="toolkit" num="04.5" />
+          <ChapterHead id="toolkit" num="05.5" />
           <div class="skills__grid">
             {skills.map((s, i) => (
               <div class={`skillset skillset--${i}`} data-reveal>
@@ -172,11 +180,11 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
       </div>
     </section>
 
-    <!-- 05 THE PERSON: off the clock + writing ─────────────────────────────── -->
+    <!-- 06 THE PERSON: off the clock + writing ─────────────────────────────── -->
     <section class="person" id="person" data-companion="person">
       <div class="wrap">
         <div class="offduty">
-          <p class="mono">05 · When I'm not designing</p>
+          <p class="mono">06 · When I'm not designing</p>
           <h2 class="h-lg">Off the clock.</h2>
           <ul role="list">
             {about.offDuty.map((o: any) => (
@@ -189,7 +197,7 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
 
     <section class="debrief" id="debrief" data-companion="debrief" data-quiet>
       <div class="wrap">
-        <ChapterHead id="debrief" num="05.5" dark />
+        <ChapterHead id="debrief" num="06.5" dark />
         <h2 class="h-xl debrief__title">Thinking<br />in <em class="serif italic">words.</em></h2>
         <div class="debrief__grid">
           {writing.poems.map((p, i) => (
@@ -219,14 +227,6 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
       </div>
     </section>
 
-    <!-- GAME ─────────────────────────────── -->
-    <section class="game">
-      <div class="wrap">
-        <ChapterHead id="wager" num="06" />
-        <MemoryGame />
-      </div>
-    </section>
-
     <!-- CONTACT ─────────────────────────────── -->
     <section class="contact" id="contact" data-companion="contact">
       <div class="wrap contact__grid">
@@ -243,7 +243,6 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
           {person.links.behance && <li><a href={person.links.behance} rel="me noopener" target="_blank">Behance ↗</a></li>}
           <li><span>{person.location}</span></li>
         </ul>
-        <img class="contact__me sticker" src="/img/me-kurta.webp" alt="" loading="lazy" width="900" height="1029" data-parallax="-0.1" />
       </div>
     </section>
   </main>
@@ -315,7 +314,7 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
   .fw strong { color: var(--gold); }
   .fw span { color: color-mix(in srgb, var(--paper) 75%, transparent); font-size: 15px; }
   .work__lede { max-width: 52ch; font-size: clamp(17px, 1.3vw, 21px); color: var(--ink-2); margin: -20px 0 clamp(40px, 6vw, 72px); }
-  .game { background: var(--paper-2); }
+  .game { background: var(--paper); border-top: 1.5px solid var(--ink); }
 
   .numbers { list-style: none; padding: 0; margin: clamp(56px, 8vw, 110px) 0; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1.5px solid var(--ink); }
   .numbers li { padding: 22px 18px 0 0; display: grid; gap: 6px; border-right: 1.5px solid var(--ink); padding-left: 18px; }
@@ -454,6 +453,20 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
   .contact .btn:hover { background: var(--white); color: var(--ink); border-color: var(--white); }
   .contact .btn--ghost { background: transparent; border-color: var(--white); }
   .contact__links { list-style: none; padding: 0; margin: 0; display: flex; gap: 24px; flex-wrap: wrap; font-weight: 600; position: relative; z-index: 2; }
-  .contact__me { position: absolute; right: 0; bottom: calc(-1 * clamp(60px, 8vw, 120px)); width: clamp(180px, 26vw, 400px); z-index: 1; transform: rotate(-4deg); }
-  @media (max-width: 860px) { .contact__me { position: relative; justify-self: end; bottom: auto; margin-bottom: calc(-1 * clamp(60px, 8vw, 120px)); width: 58vw; } }
+
+  /* ── PHONES: a shorter read. Keep the proof and the play; drop the extras. ── */
+  @media (max-width: 600px) {
+    section { padding-block: 64px; }
+    .concept__text p:not(:first-child), .stage, .fw, .debrief .essay, .kept { display: none; }
+    .numbers { margin: 40px 0 0; }
+    .skillset { padding: 18px; }
+    .skills__grid { gap: 10px; }
+    .skillset h3 { font-size: 26px; margin-bottom: 10px; }
+    .skillset ul { gap: 6px; }
+    .skillset .chip { font-size: 13px; padding: 4px 10px; }
+    .approach { padding: 24px 20px; gap: 24px; }
+    .icad__step { grid-template-columns: 48px 1fr; gap: 14px; padding: 12px 0; }
+    .icad__letter { width: 46px; height: 46px; font-size: 26px; }
+    .offduty li:nth-child(2) { transform: none; }
+  }
 </style>
