@@ -32,6 +32,8 @@ const ogImage = new URL(image, Astro.site);
       email: `mailto:${person.email}`, address: { '@type': 'PostalAddress', addressLocality: 'Bengaluru', addressCountry: 'IN' },
       sameAs: Object.values(person.links).filter(Boolean),
     })} />
+    <!-- Vercel Web Analytics: cookieless page-view counts, shown in the Vercel dashboard once enabled there -->
+    <script is:inline defer src="/_vercel/insights/script.js"></script>
     <script is:inline>
       document.documentElement.classList.add('js');
       // Bold (default) or Calm. ?mode=calm in a link sets it; the choice is remembered.

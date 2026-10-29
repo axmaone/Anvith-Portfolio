@@ -300,12 +300,13 @@ const skillMeta: Record<string, { icon: string; c: string; blurb: string }> = {
 
   /* SECTION HEADS: number, plain title, a faint oversized word behind */
   .c-sec { position: relative; padding-block: clamp(56px, 7vw, 96px); }
-  .c-head { position: relative; display: flex; align-items: baseline; gap: 14px; margin-bottom: clamp(28px, 4vw, 44px); padding-bottom: 14px; border-bottom: 1px solid var(--c-line); }
+  .c-head { position: relative; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 14px; margin-bottom: clamp(28px, 4vw, 44px); padding-bottom: 14px; border-bottom: 1px solid var(--c-line); }
   .c-head h2 { margin: 0; font-weight: 600; font-size: clamp(26px, 2.6vw, 38px); letter-spacing: -0.02em; }
   .c-num { font: 500 13px var(--mono); color: #fff; background: var(--sc, var(--c-accent)); padding: 3px 8px; border-radius: 999px; align-self: center; }
   .c-head { border-bottom-color: color-mix(in srgb, var(--sc, var(--c-accent)) 35%, transparent); }
   .c-ghost {
-    position: absolute; right: 0; bottom: -0.12em; z-index: -1; font-weight: 700; font-size: clamp(64px, 13vw, 200px); line-height: 1;
+    /* its own row above the title, so it never sits on top of the heading words */
+    order: -1; flex-basis: 100%; text-align: right; margin-bottom: -0.16em; pointer-events: none; font-weight: 700; font-size: clamp(56px, 10vw, 150px); line-height: 1;
     letter-spacing: -0.04em; text-transform: uppercase; -webkit-text-stroke: 1.5px color-mix(in srgb, var(--sc, var(--c-accent)) 55%, transparent);
     color: color-mix(in srgb, var(--sc, var(--c-accent)) 9%, transparent);
   }
@@ -520,7 +521,7 @@ const skillMeta: Record<string, { icon: string; c: string; blurb: string }> = {
     .c-roles summary { grid-template-columns: 1fr auto; grid-template-areas: 'when plus' 'title plus' 'org plus'; }
     .c-roles details ul { padding-left: 18px; }
     .c-sec { padding-block: 44px; }
-    .c-ghost { font-size: 72px; }
+    .c-ghost { font-size: 60px; }
   }
   @media (max-width: 480px) {
     .c-row { grid-template-columns: 76px 1fr 36px; column-gap: 14px; }
