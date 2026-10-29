@@ -29,15 +29,17 @@ const steps = ['Interest', 'Concept', 'Application', 'Debrief'];
         <>
           <section class="exp__panel" data-panel="0">
             <p class="exp__q">Can you miss something obvious, even when it's right in front of you?</p>
-            <p>Count how many times the <strong>gold ball passes between the light players</strong>. Ignore the dark team, the bouncing balls and the lights. Keep the count in your head.</p>
-            <div class="court" aria-label="An animated scene: three light players and three dark players passing balls" role="img">
+            <p>Count how many times the <strong>gold ball passes between the light players</strong>. Only completed passes count: a fake that comes back to the same player doesn't. Ignore the dark team, the bouncing balls, the holes and the lights. Keep the count in your head.</p>
+            <div class="court" aria-label="An animated scene: three light players and three dark players passing balls around holes" role="img">
+              {[0, 1, 2, 3, 4].map((i) => <span class="hole"></span>)}
               {[0, 1, 2].map((i) => <span class={`pl pl--l pl-l${i}`}></span>)}
               {[0, 1, 2].map((i) => <span class={`pl pl--d pl-d${i}`}></span>)}
               <span class="ball ball--l"></span><span class="ball ball--d"></span>
               {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => <span class={`lite lite-${i}`}></span>)}
-              {[0, 1, 2, 3].map((i) => <span class={`bnc bnc-${i}`}></span>)}
+              {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => <span class={`bnc bnc-${i}`}></span>)}
+              {[0, 1, 2].map((i) => <span class={`bnc orb orb-${i}`}></span>)}
               <span class="sneak"></span>
-              <button class="btn court__go" type="button" data-run>▶ Start (12 sec)</button>
+              <button class="btn court__go" type="button" data-run>▶ Start (14 sec)</button>
             </div>
             <div class="exp__answer" hidden data-after-run>
               <label>Passes you counted <input type="number" min="0" max="40" inputmode="numeric" data-count-input /></label>
@@ -49,7 +51,7 @@ const steps = ['Interest', 'Concept', 'Application', 'Debrief'];
             </div>
           </section>
           <section class="exp__panel" data-panel="1" hidden>
-            <p class="exp__big">There were <strong>11 passes</strong>. And <strong>a big yellow ball bounced straight across the court</strong>.</p>
+            <p class="exp__big">There were <strong>13 passes</strong> (and 3 fakes). And <strong>a big yellow ball bounced straight across the court</strong>.</p>
             <p data-verdict></p>
             <p>This is <strong>inattentional blindness</strong>. When attention is busy with a demanding task, people can miss an unexpected thing that is plainly visible. Your goal decided what your brain bothered to process.</p>
             <p class="exp__cite mono">Based on Simons &amp; Chabris (1999), "Gorillas in our midst". Original demo, not the study video.</p>
@@ -126,23 +128,27 @@ const steps = ['Interest', 'Concept', 'Application', 'Debrief'];
   .exp__big { font: 600 clamp(22px, 2.2vw, 30px)/1.25 var(--display); }
   .exp__cite { color: var(--ink-3); font-size: 11px; }
   .court { position: relative; aspect-ratio: 16 / 8; border-radius: 18px; background: #2c3a4a; overflow: hidden; }
-  .pl { position: absolute; width: 34px; height: 34px; border-radius: 50%; transform: translate(-50%, -50%); }
+  .pl { position: absolute; z-index: 1; width: 34px; height: 34px; border-radius: 50%; transform: translate(-50%, -50%); }
+  .hole { position: absolute; z-index: 0; width: 6%; aspect-ratio: 1; border-radius: 50%; transform: translate(-50%, -50%); background: #000; border: 2px dashed #9fb2c6; box-shadow: inset 0 4px 8px rgba(255, 255, 255, 0.08); }
   .pl--l { background: var(--paper); }
   .pl--d { background: #0d141c; border: 2px solid #4a5a6c; }
-  .ball { position: absolute; width: 14px; height: 14px; border-radius: 50%; transform: translate(-50%, -50%); background: var(--gold); }
+  /* sized in % of the court width so the near-misses with the holes stay near-misses at every screen size */
+  .ball { position: absolute; z-index: 3; width: 2.2%; aspect-ratio: 1; border-radius: 50%; transform: translate(-50%, -50%); background: var(--gold); }
+  .ball--l { z-index: 6; box-shadow: 0 0 0 1.5px #fff6; }
   .ball--d { background: #6b7380; }
-  .sneak { position: absolute; width: 64px; height: 64px; border-radius: 50%; left: -30%; top: 50%; z-index: 1; opacity: 0; background: radial-gradient(circle at 35% 30%, #fff6b0, #ffd400 45%, #e0a800); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35); }
+  .sneak { position: absolute; width: 64px; height: 64px; border-radius: 50%; left: -30%; top: 50%; z-index: 4; opacity: 0; background: radial-gradient(circle at 35% 30%, #fff6b0, #ffd400 45%, #e0a800); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35); }
   .court.is-running .sneak { opacity: 1; }
-  .bnc { position: absolute; width: 12px; height: 12px; border-radius: 50%; transform: translate(-50%, -50%); background: var(--red); left: -5%; }
-  .bnc-1 { background: var(--sage); } .bnc-2 { background: #a7a3d6; width: 16px; height: 16px; } .bnc-3 { background: var(--white); width: 9px; height: 9px; }
-  .lite { position: absolute; width: 90px; height: 90px; border-radius: 50%; filter: blur(18px); opacity: 0; pointer-events: none; }
+  .bnc { position: absolute; z-index: 3; width: 1.8%; aspect-ratio: 1; border-radius: 50%; transform: translate(-50%, -50%); background: var(--red); left: -5%; }
+  .bnc-1, .bnc-5 { background: var(--sage); } .bnc-2, .bnc-6 { background: #a7a3d6; width: 2.3%; } .bnc-3, .bnc-7 { background: var(--white); width: 1.4%; } .bnc-4 { background: #6f8cff; }
+  .orb-0 { background: #ff7ad9; } .orb-1 { background: var(--sage); } .orb-2 { background: var(--white); }
+  .lite { position: absolute; z-index: 2; width: 90px; height: 90px; border-radius: 50%; filter: blur(18px); opacity: 0; pointer-events: none; }
   .court.is-running .lite { animation: lite 1.3s ease-in-out infinite; }
   .lite-0 { left: 4%; top: 6%; background: var(--red); } .lite-1 { left: 30%; top: 70%; background: var(--gold); animation-delay: 0.3s !important; }
   .lite-2 { left: 62%; top: 8%; background: #6f8cff; animation-delay: 0.6s !important; } .lite-3 { left: 86%; top: 60%; background: var(--sage); animation-delay: 0.15s !important; }
   .lite-4 { left: 46%; top: 36%; background: #ff7ad9; animation-delay: 0.9s !important; } .lite-5 { left: 16%; top: 44%; background: #6f8cff; animation-delay: 0.45s !important; }
   .lite-6 { left: 74%; top: 30%; background: var(--gold); animation-delay: 1.05s !important; } .lite-7 { left: 54%; top: 76%; background: var(--red); animation-delay: 0.75s !important; }
   @keyframes lite { 0%, 100% { opacity: 0; } 50% { opacity: 0.55; } }
-  .court__go { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: var(--red); border-color: var(--red); }
+  .court__go { position: absolute; z-index: 7; white-space: nowrap; left: 50%; top: 50%; transform: translate(-50%, -50%); background: var(--red); border-color: var(--red); }
   .exp__answer { display: flex; flex-wrap: wrap; gap: 16px; align-items: end; }
   .exp__answer label { display: grid; gap: 6px; font-weight: 600; }
   .exp__answer input[type='number'] { width: 120px; padding: 10px 12px; border-radius: 10px; border: 1.5px solid var(--ink); font: 600 18px var(--display); background: var(--paper); }
@@ -198,28 +204,49 @@ const steps = ['Interest', 'Concept', 'Application', 'Debrief'];
       const bl = court.querySelector<HTMLElement>('.ball--l')!, bd = court.querySelector<HTMLElement>('.ball--d')!;
       const place = (b: HTMLElement, p: number[]) => { b.style.left = p[0] + '%'; b.style.top = p[1] + '%'; };
       place(bl, L[0]); place(bd, D[0]);
-      const seqL = [1, 2, 0, 2, 1, 0, 1, 2, 0, 1, 2]; // 11 passes, one per second
-      const bnc = Array.from(court.querySelectorAll<HTMLElement>('.bnc'));
+      // holes (x%, y%). The gold ball skims past them but never touches: paths were checked for clearance
+      // in units of court width, which is why the balls and holes are sized in % of the width.
+      const H = [[44, 6], [36, 88], [64, 82], [90, 46], [8, 60]];
+      court.querySelectorAll<HTMLElement>('.hole').forEach((h, i) => place(h, H[i]));
+      // [to player, ms, skim point or null]. to === from is a fake that comes back (not a pass): 13 passes, 3 fakes.
+      const seqL: [number, number, number[] | null][] = [
+        [1, 900, null], [2, 700, null], [2, 900, [84, 41]], [0, 1100, [44, 17]], [1, 600, null],
+        [1, 800, [37, 77]], [2, 800, null], [0, 700, null], [2, 1200, [20, 52]], [1, 600, null],
+        [0, 900, null], [0, 800, [13, 51]], [1, 700, null], [2, 900, [59, 70]], [0, 500, null], [2, 600, null],
+      ];
+      const starts: number[] = []; seqL.reduce((acc, s) => (starts.push(acc), acc + s[1]), 0);
+      const goldAt = (t: number) => {
+        let k = starts.length - 1; while (k > 0 && starts[k] > t) k--;
+        const from = k === 0 ? 0 : seqL[k - 1][0], [to, ms, skim] = seqL[k];
+        const a = L[from], b = L[to], u = Math.min((t - starts[k]) / (ms * 0.75), 1);
+        if (!skim) return [a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u - Math.sin(u * Math.PI) * 8];
+        const c = [2 * skim[0] - (a[0] + b[0]) / 2, 2 * skim[1] - (a[1] + b[1]) / 2]; // curve passes the skim point halfway
+        return [0, 1].map((j) => (1 - u) ** 2 * a[j] + 2 * (1 - u) * u * c[j] + u * u * b[j]);
+      };
+      const bnc = Array.from(court.querySelectorAll<HTMLElement>('.bnc:not(.orb)'));
+      const orbs = Array.from(court.querySelectorAll<HTMLElement>('.orb'));
       run.addEventListener('click', () => {
         run.hidden = true;
         court.classList.add('is-running');
-        const dur = 12000, t0 = performance.now();
+        const dur = 14000, t0 = performance.now();
         const sneak = court.querySelector<HTMLElement>('.sneak')!;
         const tick = (now: number) => {
           const t = now - t0;
           // light ball: the one to count
-          const seg = Math.min(Math.floor(t / 1000), seqL.length);
-          const u = Math.min((t % 1000) / 650, 1);
-          const a = seg === 0 ? L[0] : L[seqL[seg - 1]], b = seg < seqL.length ? L[seqL[seg]] : a;
-          if (seg >= seqL.length) place(bl, a); else place(bl, [a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u - Math.sin(u * Math.PI) * 10]);
+          place(bl, goldAt(t));
           // dark ball: faster, distracting
           const dk = Math.floor(t / 700) % 3, du = (t % 700) / 700, da = D[dk], db = D[(dk + 1) % 3];
           place(bd, [da[0] + (db[0] - da[0]) * du, da[1] + (db[1] - da[1]) * du]);
           // stray balls bouncing around the court
           bnc.forEach((el, i) => {
-            const sp = 0.00011 + i * 0.00004, x = 8 + (((t * sp * 100) + i * 23) % 84);
-            const y = 88 - Math.abs(Math.sin(t / (380 + i * 90) + i)) * (46 + i * 8);
+            const sp = 0.00016 + i * 0.00005, x = 6 + (((t * sp * 100) + i * 23) % 88);
+            const y = 90 - Math.abs(Math.sin(t / (300 + i * 70) + i)) * (40 + (i % 4) * 10);
             place(el, [x, y]);
+          });
+          // decoys circling three holes, dipping toward the rim without dropping in
+          orbs.forEach((el, i) => {
+            const h = H[[1, 3, 4][i]], w = t / (520 + i * 140) + i * 2, r = 5 + 0.7 * Math.sin(t / 300 + i);
+            place(el, [h[0] + r * Math.cos(w), h[1] + 2 * r * Math.sin(w)]);
           });
           // the sneak: a big yellow ball bounces across between 4 s and 9 s
           const s = Math.max(0, Math.min(1, (t - 4000) / 5000));
@@ -236,7 +263,7 @@ const steps = ['Interest', 'Concept', 'Application', 'Debrief'];
         const n = (exp.querySelector<HTMLInputElement>('[data-count-input]')!.value || '').trim();
         const saw = exp.querySelector<HTMLInputElement>('input[name="saw"]:checked')?.value;
         exp.querySelector('[data-verdict]')!.textContent =
-          (n ? `You counted ${n}${n === '11' ? '. Spot on.' : '.'} ` : '') +
+          (n ? `You counted ${n}${n === '13' ? '. Spot on.' : '.'} ` : '') +
           (saw === 'yes' ? 'You spotted the yellow ball. Your attention is either excellent or suspicious.' : saw === 'no' ? 'You missed the yellow ball. Most people do, and that is the point.' : '');
       });
       // application choices
