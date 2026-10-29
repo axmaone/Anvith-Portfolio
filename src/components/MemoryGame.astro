@@ -3,8 +3,9 @@
 // Tiles flash; click them back. Each level adds a tile and the grid grows. 3 lives.
 // Beat my level and I buy the coffee. Lose and you do.
 import { person, memoryGame } from '../data/site';
+const { prefix = '' } = Astro.props as { prefix?: string };
 ---
-<div class="mg" id="game" data-companion="game" data-quiet data-my-level={memoryGame.myLevel} data-email={person.email}>
+<div class="mg" id={`${prefix}game`} data-companion="game" data-quiet data-my-level={memoryGame.myLevel} data-email={person.email}>
   <div class="mg__copy">
     <p class="mono red">Instead of "say hello"</p>
     <h2 class="h-lg">Beat my memory.<br /><em class="serif italic">Win a coffee.</em></h2>
@@ -50,8 +51,7 @@ import { person, memoryGame } from '../data/site';
 </style>
 
 <script>
-  const root = document.getElementById('game');
-  if (root) {
+  document.querySelectorAll<HTMLElement>('.mg').forEach((root) => {
     const my = Number(root.dataset.myLevel);
     const grid = root.querySelector<HTMLElement>('[data-grid]')!;
     const overlay = root.querySelector<HTMLElement>('[data-overlay]')!;
@@ -107,11 +107,11 @@ import { person, memoryGame } from '../data/site';
         : `You cleared level ${reached}. I'm at ${my}. You owe me a coffee. Black, no sugar, no excuses.`;
       start.textContent = 'Play again';
       const subject = won ? `I beat your memory (level ${reached}). Coffee?` : `I owe you a coffee (level ${reached})`;
-      claim.href = `mailto:${root!.dataset.email}?subject=${encodeURIComponent(subject)}`;
+      claim.href = `mailto:${root.dataset.email}?subject=${encodeURIComponent(subject)}`;
       claim.textContent = won ? 'Claim my coffee ☕' : 'Fine, let\'s get coffee ☕';
       claim.hidden = false;
     }
 
     start.addEventListener('click', () => { level = 1; lives = 3; overlay.hidden = true; claim.hidden = true; round(); });
-  }
+  });
 </script>

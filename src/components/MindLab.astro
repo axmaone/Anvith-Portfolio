@@ -8,19 +8,21 @@ const probes = [
   { w: 'yawn', seen: true }, { w: 'cushion', seen: false }, { w: 'night', seen: true }, { w: 'window', seen: false },
 ];
 const steps = ['Interest', 'Concept', 'Application', 'Debrief'];
+// prefix keeps ids unique when the lab appears twice (Bold and Calm)
+const { prefix = '' } = Astro.props as { prefix?: string };
 ---
-<div class="lab" id="lab" data-companion="lab" data-quiet>
+<div class="lab" id={`${prefix}lab`} data-companion="lab" data-quiet>
   <div class="lab__head">
     <p class="mono red">Two 60-second experiments · each one is a full ICAD session</p>
     <h3 class="h-lg">Let's play. <em class="serif italic">Pick your poison.</em></h3>
     <div class="lab__tabs" role="tablist" aria-label="Choose an experiment">
-      <button role="tab" aria-selected="true" aria-controls="exp-attention" id="tab-attention" data-tab="attention">Did you see it?</button>
-      <button role="tab" aria-selected="false" aria-controls="exp-memory" id="tab-memory" data-tab="memory" tabindex="-1">Trust your memory?</button>
+      <button role="tab" aria-selected="true" aria-controls={`${prefix}exp-attention`} id={`${prefix}tab-attention`} data-tab="attention">Did you see it?</button>
+      <button role="tab" aria-selected="false" aria-controls={`${prefix}exp-memory`} id={`${prefix}tab-memory`} data-tab="memory" tabindex="-1">Trust your memory?</button>
     </div>
   </div>
 
   {['attention', 'memory'].map((id) => (
-    <div class="exp" id={`exp-${id}`} role="tabpanel" aria-labelledby={`tab-${id}`} data-exp={id} hidden={id !== 'attention'}>
+    <div class="exp" id={`${prefix}exp-${id}`} role="tabpanel" aria-labelledby={`${prefix}tab-${id}`} data-exp={id} hidden={id !== 'attention'}>
       <ol class="exp__steps" aria-label="ICAD progress">
         {steps.map((s, i) => <li data-step-dot={i} class={i === 0 ? 'is-on' : ''}><span>{s[0]}</span>{s}</li>)}
       </ol>
@@ -44,8 +46,8 @@ const steps = ['Interest', 'Concept', 'Application', 'Debrief'];
             <div class="exp__answer" hidden data-after-run>
               <label>Passes you counted <input type="number" min="0" max="40" inputmode="numeric" data-count-input /></label>
               <fieldset><legend>Anything unusual?</legend>
-                <label><input type="radio" name="saw" value="yes" /> Yes</label>
-                <label><input type="radio" name="saw" value="no" /> No</label>
+                <label><input type="radio" name={`${prefix}saw`} value="yes" /> Yes</label>
+                <label><input type="radio" name={`${prefix}saw`} value="no" /> No</label>
               </fieldset>
               <button class="btn" type="button" data-next>Reveal <span class="arrow">→</span></button>
             </div>
@@ -261,7 +263,7 @@ const steps = ['Interest', 'Concept', 'Application', 'Debrief'];
       // verdict
       exp.querySelector('[data-panel="0"] [data-next]')!.addEventListener('click', () => {
         const n = (exp.querySelector<HTMLInputElement>('[data-count-input]')!.value || '').trim();
-        const saw = exp.querySelector<HTMLInputElement>('input[name="saw"]:checked')?.value;
+        const saw = exp.querySelector<HTMLInputElement>('input[type=radio]:checked')?.value;
         exp.querySelector('[data-verdict]')!.textContent =
           (n ? `You counted ${n}${n === '13' ? '. Spot on.' : '.'} ` : '') +
           (saw === 'yes' ? 'You spotted the yellow ball. Your attention is either excellent or suspicious.' : saw === 'no' ? 'You missed the yellow ball. Most people do, and that is the point.' : '');
@@ -303,9 +305,11 @@ const steps = ['Interest', 'Concept', 'Application', 'Debrief'];
   }
 
   document.querySelectorAll<HTMLElement>('[data-exp]').forEach(setup);
-  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('.lab__tabs [role=tab]'));
-  tabs.forEach((t) => t.addEventListener('click', () => {
-    tabs.forEach((x) => { const on = x === t; x.setAttribute('aria-selected', String(on)); x.tabIndex = on ? 0 : -1;
-      document.getElementById(`exp-${x.dataset.tab}`)!.hidden = !on; });
-  }));
+  document.querySelectorAll<HTMLElement>('.lab').forEach((lab) => {
+    const tabs = Array.from(lab.querySelectorAll<HTMLButtonElement>('.lab__tabs [role=tab]'));
+    tabs.forEach((t) => t.addEventListener('click', () => {
+      tabs.forEach((x) => { const on = x === t; x.setAttribute('aria-selected', String(on)); x.tabIndex = on ? 0 : -1;
+        lab.querySelector<HTMLElement>(`[data-exp="${x.dataset.tab}"]`)!.hidden = !on; });
+    }));
+  });
 </script>
