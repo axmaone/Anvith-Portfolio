@@ -21,6 +21,8 @@ export const person = {
 
 export const hero = {
   lines: ['I design', 'how people', 'learn.'],
+  // the skills a recruiter scans for first; shown under the intro in both Bold and Calm
+  keySkills: ['Instructional design', 'Articulate Storyline', 'After Effects', 'Facilitation', 'Psychology'],
   intro:
     'A psychologist who designs learning and experiences across fields: finance, semiconductors, cloud tech, leadership and behavioural skills. Workshops, e-learning, motion explainers and the systems behind them.',
 };

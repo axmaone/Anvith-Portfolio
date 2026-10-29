@@ -45,6 +45,7 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
         </figure>
         <div class="hero__foot" data-hero-in>
           <p class="hero__intro">{hero.intro}</p>
+          <ul class="hero__skills" role="list">{hero.keySkills.map((s) => <li>{s}</li>)}</ul>
           <div class="hero__ctas">
             <a class="btn" href="#work">See the work <span class="arrow" aria-hidden="true">→</span></a>
             <a class="btn btn--ghost" href="#game">Beat my memory ☕</a>
@@ -77,10 +78,25 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
       </div>
     </section>
 
-    <!-- 02 EXPERIENCE ─────────────────────────────── -->
+    <!-- 02 SKILLS: right after the proof ─────────────────────────────── -->
+    <section class="skills" id="skills" data-companion="skills">
+      <div class="wrap">
+        <ChapterHead id="toolkit" num="02" />
+          <div class="skills__grid">
+            {skills.map((s, i) => (
+              <div class={`skillset skillset--${i}`} data-reveal>
+                <h3>{s.group}</h3>
+                <ul role="list">{s.items.map((it) => <li class="chip">{it}</li>)}</ul>
+              </div>
+            ))}
+          </div>
+      </div>
+    </section>
+
+    <!-- 03 EXPERIENCE ─────────────────────────────── -->
     <section class="concept" id="concept" data-companion="concept">
       <div class="wrap">
-        <ChapterHead id="journey" num="02" />
+        <ChapterHead id="journey" num="03" />
         <div class="concept__grid">
           <h2 class="h-md" data-split>{about.lead}</h2>
           <div class="concept__text">
@@ -130,15 +146,7 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
       </div>
     </section>
 
-    <!-- 03 PLAY: a break in the middle ─────────────────────────────── -->
-    <section class="game">
-      <div class="wrap">
-        <ChapterHead id="wager" num="03" />
-        <MemoryGame />
-      </div>
-    </section>
-
-    <!-- 04 HOW I THINK: method + experiments ─────────────────────────────── -->
+    <!-- 04 HOW I THINK: method ─────────────────────────────── -->
     <section class="method" id="method" data-companion="method">
       <div class="wrap">
         <ChapterHead id="concept" num="04" />
@@ -146,7 +154,7 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
           <div class="approach__head">
             <p class="mono red">My method</p>
             <h3 class="h-lg">Every session is a<br /><em class="serif italic">four-act story.</em></h3>
-            <p class="approach__lede" data-reveal><strong>ICAD</strong> (Interest, Concept, Application, Debrief) is the framework I built from research on how adults actually learn. Don't take my word for it: try it on your own brain just below.</p>
+            <p class="approach__lede" data-reveal><strong>ICAD</strong> (Interest, Concept, Application, Debrief) is the framework I built from research on how adults actually learn. Don't take my word for it: try it on your own brain in the next section.</p>
             <ul class="fw" role="list">
               {frameworks.map((f) => <li><strong>{f.name}</strong><span>{f.text}</span></li>)}
             </ul>
@@ -161,33 +169,30 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
           </ol>
         </div>
 
+      </div>
+    </section>
+
+    <!-- 05 PLAY: the games, a break in the middle ─────────────────────────────── -->
+    <section class="game" id="play">
+      <div class="wrap">
+        <ChapterHead id="wager" num="05" />
+        <MemoryGame />
         <MindLab />
       </div>
     </section>
 
-    <!-- 05 RESEARCH + TOOLKIT ─────────────────────────────── -->
-    <section class="skills" id="skills" data-companion="skills">
+    <!-- 06 RESEARCH ─────────────────────────────── -->
+    <section class="papers" id="papers" data-companion="skills">
       <div class="wrap">
         <ResearchDeck />
-        <div class="toolkit">
-          <ChapterHead id="toolkit" num="05.5" />
-          <div class="skills__grid">
-            {skills.map((s, i) => (
-              <div class={`skillset skillset--${i}`} data-reveal>
-                <h3>{s.group}</h3>
-                <ul role="list">{s.items.map((it) => <li class="chip">{it}</li>)}</ul>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
 
-    <!-- 06 THE PERSON: off the clock + writing ─────────────────────────────── -->
+    <!-- 07 THE PERSON: off the clock + writing ─────────────────────────────── -->
     <section class="person" id="person" data-companion="person">
       <div class="wrap">
         <div class="offduty">
-          <p class="mono">06 · When I'm not designing</p>
+          <p class="mono">07 · When I'm not designing</p>
           <h2 class="h-lg">Off the clock.</h2>
           <ul role="list">
             {about.offDuty.map((o: any) => (
@@ -200,7 +205,7 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
 
     <section class="debrief" id="debrief" data-companion="debrief" data-quiet>
       <div class="wrap">
-        <ChapterHead id="debrief" num="06.5" dark />
+        <ChapterHead id="debrief" num="07.5" dark />
         <h2 class="h-xl debrief__title">Thinking<br />in <em class="serif italic">words.</em></h2>
         <div class="debrief__grid">
           {writing.lines.map((l, i) => (
@@ -264,6 +269,9 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
   .hero__foot { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 24px; max-width: 62%; position: relative; z-index: 4; }
   .hero__intro { margin: 0; font-size: clamp(17px, 1.35vw, 21px); max-width: 46ch; }
   .hero__ctas { display: flex; gap: 10px; flex-wrap: wrap; }
+  .hero__skills { flex-basis: 100%; list-style: none; margin: -8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .hero__skills li { font: 500 12px/1 var(--mono); letter-spacing: 0.04em; padding: 7px 10px; border-radius: 999px; border: 1.5px solid var(--ink); background: var(--white); }
+  .hero__skills li:nth-child(odd) { background: var(--gold); }
   .mode-hint { flex-basis: 100%; justify-self: start; text-align: left; background: none; border: 0; padding: 0; font: 500 14px var(--display); color: var(--ink-3); cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
   .mode-hint:hover { color: var(--red); }
   .hero__stamp { position: absolute; right: 30%; top: 4%; width: 120px; height: 120px; display: grid; place-items: center; color: var(--red); z-index: 1; }
@@ -385,7 +393,7 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
   }
 
   /* ── SKILLS ── */
-  .toolkit { margin-top: clamp(48px, 6vw, 80px); }
+  .papers { padding-top: 0; }
   .person { padding-bottom: clamp(40px, 5vw, 64px); }
   .person .h-lg { margin: 10px 0 0; }
   .journey__eyebrow { margin: 0 0 clamp(24px, 4vw, 40px); color: var(--ink-3); }

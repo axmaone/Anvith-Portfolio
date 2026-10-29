@@ -15,11 +15,12 @@ const ring = [C.indigo, C.coral, C.teal, C.amber, C.sky];
 const head = (n: string, title: string, ghost: string, c: string) => ({ n, title, ghost, c });
 const heads = {
   work: head('01', 'Selected work', 'Work', C.indigo),
-  exp: head('02', 'Experience', 'Path', C.coral),
-  method: head('03', 'Method', 'ICAD', C.teal),
-  play: head('04', 'Play', 'Play', C.amber),
-  research: head('05', 'Research & skills', 'Mind', C.sky),
-  words: head('06', 'Thinking in words', 'Words', C.indigo),
+  skills: head('02', 'Skills & tools', 'Skills', C.teal),
+  exp: head('03', 'Experience', 'Path', C.coral),
+  method: head('04', 'Method', 'ICAD', C.sky),
+  play: head('05', 'Play', 'Play', C.amber),
+  research: head('06', 'Research', 'Mind', C.indigo),
+  words: head('07', 'Off the clock & words', 'Words', C.coral),
 };
 const orgs = ['UNext Learning', 'Manipal Academy of BFSI', 'AXMA Learning', 'Unbox Experience', 'Buoyancee', 'Aster CMI'];
 // one real example per ICAD stage, from the work on this site
@@ -75,6 +76,7 @@ const skillMeta: Record<string, { icon: string; c: string; blurb: string }> = {
       <p class="c-meta c-in" style="--d: 0s"><span class="c-dot"></span>{person.now}</p>
       <h1 class="c-h1" aria-label={hero.lines.join(' ')}><span class="c-line" aria-hidden="true"><span>I design how</span></span> <span class="c-line" aria-hidden="true"><span>people <span class="c-accent">{hero.lines[2]}</span></span></span></h1>
       <p class="c-lede c-in" style="--d: 0.35s">{hero.intro}</p>
+      <ul class="c-keys c-in" style="--d: 0.4s" role="list">{hero.keySkills.map((s, k) => <li style={`--c: ${ring[k % ring.length]}`}>{s}</li>)}</ul>
       <div class="c-ctas c-in" style="--d: 0.45s">
         <a class="c-btn" href="#c-work">See the work <span aria-hidden="true">→</span></a>
         <a class="c-btn c-btn--ghost" href={person.cv} download>Download CV <span aria-hidden="true">↓</span></a>
@@ -117,6 +119,26 @@ const skillMeta: Record<string, { icon: string; c: string; blurb: string }> = {
       ))}
     </ol>
     <div class="c-preview c-glass" aria-hidden="true"><img alt="" /><video muted loop playsinline preload="none"></video><div class="c-preview__art"></div></div>
+  </section>
+
+  <!-- SKILLS: right after the proof -->
+  <section class="c-sec c-wrap" id="c-skills" style={`--sc: ${heads.skills.c}`}>
+    <header class="c-head" data-c-reveal><span class="c-num">{heads.skills.n}</span><h2>{heads.skills.title}</h2><span class="c-ghost" aria-hidden="true">{heads.skills.ghost}</span></header>
+    <div class="c-skills">
+      {skills.map((s) => {
+        const m = skillMeta[s.group];
+        return (
+          <article class={`c-skillset c-glass ${s.group === 'Tools' ? 'c-skillset--tools' : ''}`} style={`--c: ${m.c}`} data-c-reveal>
+            <header>
+              <span class="c-skillset__ico" set:html={svg(m.icon, 22)} />
+              <div><h3>{s.group}</h3><p>{m.blurb}</p></div>
+              <span class="c-skillset__count">{s.items.length}</span>
+            </header>
+            <ul role="list">{s.items.map((it) => <li>{it}</li>)}</ul>
+          </article>
+        );
+      })}
+    </div>
   </section>
 
   <!-- EXPERIENCE -->
@@ -172,31 +194,12 @@ const skillMeta: Record<string, { icon: string; c: string; blurb: string }> = {
     </div>
   </section>
 
-  <!-- RESEARCH + SKILLS -->
+  <!-- RESEARCH -->
   <section class="c-sec c-wrap" id="c-research" style={`--sc: ${heads.research.c}`}>
     <header class="c-head" data-c-reveal><span class="c-num">{heads.research.n}</span><h2>{heads.research.title}</h2><span class="c-ghost" aria-hidden="true">{heads.research.ghost}</span></header>
     <ol class="c-papers" role="list">
       {research.map((r, k) => <li style={`--c: ${ring[(k + 1) % ring.length]}`} data-c-reveal><span class="c-papers__ico" set:html={svg('paper', 20)} /><strong>{r.title}</strong><span>{r.text}</span></li>)}
     </ol>
-    <div class="c-skills">
-      {skills.map((s) => {
-        const m = skillMeta[s.group];
-        return (
-          <article class={`c-skillset c-glass ${s.group === 'Tools' ? 'c-skillset--tools' : ''}`} style={`--c: ${m.c}`} data-c-reveal>
-            <header>
-              <span class="c-skillset__ico" set:html={svg(m.icon, 22)} />
-              <div><h3>{s.group}</h3><p>{m.blurb}</p></div>
-              <span class="c-skillset__count">{s.items.length}</span>
-            </header>
-            <ul role="list">{s.items.map((it) => <li>{it}</li>)}</ul>
-          </article>
-        );
-      })}
-    </div>
-    <p class="c-off">
-      <strong>Off the clock:</strong> seven years of chess (<a href={about.offDuty[0].href} target="_blank" rel="noopener">challenge AXMA1 on chess.com ↗</a>),
-      Trek Lead with Bengaluru Trekkers, and eight years of cricket.
-    </p>
   </section>
 
   <!-- WRITING: each line writes itself, a feather leading the ink -->
@@ -210,6 +213,10 @@ const skillMeta: Record<string, { icon: string; c: string; blurb: string }> = {
         </li>
       ))}
     </ol>
+    <p class="c-off">
+      <strong>Off the clock:</strong> seven years of chess (<a href={about.offDuty[0].href} target="_blank" rel="noopener">challenge AXMA1 on chess.com ↗</a>),
+      Trek Lead with Bengaluru Trekkers, and eight years of cricket.
+    </p>
     <span class="c-quill" aria-hidden="true" set:html={svg('feather', 30)} />
   </section>
 
@@ -275,6 +282,8 @@ const skillMeta: Record<string, { icon: string; c: string; blurb: string }> = {
   .c-h1 { margin: 0; font-weight: 620; font-size: clamp(44px, 7vw, 104px); line-height: 0.98; letter-spacing: -0.035em; }
   .c-lede { margin: 0; max-width: 50ch; font-size: clamp(17px, 1.3vw, 20px); color: var(--c-ink-2); }
   .c-ctas { display: flex; flex-wrap: wrap; gap: 10px; }
+  .c-keys { list-style: none; margin: -6px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .c-keys li { font: 500 13px/1 var(--display); padding: 7px 11px; border-radius: 999px; color: var(--c); background: color-mix(in srgb, var(--c) 10%, rgba(255, 255, 255, 0.7)); border: 1px solid color-mix(in srgb, var(--c) 30%, transparent); }
   .c-hint { justify-self: start; background: none; border: 0; padding: 0; font: 500 14px var(--display); color: var(--c-ink-3); cursor: pointer; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--c-line); }
   .c-hint:hover { color: var(--c-accent); }
 
@@ -358,7 +367,7 @@ const skillMeta: Record<string, { icon: string; c: string; blurb: string }> = {
   .c-papers li { display: grid; gap: 4px; padding: 16px 0; border-bottom: 1px solid var(--c-line); }
   .c-papers strong { font-weight: 600; font-size: 19px; }
   .c-papers span { color: var(--c-ink-2); }
-  .c-off { margin: clamp(24px, 3vw, 36px) 0 0; color: var(--c-ink-2); }
+  .c-off { margin: clamp(20px, 3vw, 32px) 0 0; padding: 16px 20px; border-radius: 18px; background: rgba(255, 255, 255, 0.5); color: var(--c-ink-2); }
   .c-off strong { color: var(--c-ink); }
   .c-off a { color: var(--c-accent); }
 

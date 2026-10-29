@@ -3,19 +3,19 @@ import { person } from '../data/site';
 const base = Astro.url.pathname === '/' ? '' : '/';
 const links = [
   { href: `${base}#work`, label: 'Work' },
+  { href: `${base}#skills`, label: 'Skills' },
   { href: `${base}#concept`, label: 'Experience' },
-  { href: `${base}#game`, label: 'Play' },
   { href: `${base}#method`, label: 'Method' },
+  { href: `${base}#play`, label: 'Play' },
   { href: `${base}#research`, label: 'Research' },
-  { href: `${base}#person`, label: 'Me' },
   { href: `${base}#contact`, label: 'Contact' },
 ];
 const calmLinks = [
   { href: `${base}#c-work`, label: 'Work' },
+  { href: `${base}#c-skills`, label: 'Skills' },
   { href: `${base}#c-exp`, label: 'Experience' },
   { href: `${base}#c-method`, label: 'Method' },
   { href: `${base}#c-play`, label: 'Play' },
-  { href: `${base}#c-research`, label: 'Research' },
   { href: `${base}#c-contact`, label: 'Contact' },
 ];
 ---
