@@ -14,7 +14,7 @@
     var el = document.getElementById('intro');
     var seen = false;
     try { seen = sessionStorage.getItem('intro-seen') === '1'; } catch (e) {}
-    if (seen || matchMedia('(prefers-reduced-motion: reduce)').matches) { el.remove(); return; }
+    if (seen || document.documentElement.dataset.mode === 'calm' || matchMedia('(prefers-reduced-motion: reduce)').matches) { el.remove(); return; }
     document.documentElement.classList.add('intro-on');
     try { sessionStorage.setItem('intro-seen', '1'); } catch (e) {}
   })();

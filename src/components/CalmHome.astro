@@ -1,0 +1,309 @@
+---
+// The Calm version of the home page: same content as Bold, said quietly.
+// Warm off-white, one typeface, one accent, and soft glass shapes instead of stickers and motion.
+import type { CollectionEntry } from 'astro:content';
+import { person, hero, icad, frameworks, about, journey, skills, research, writing } from '../data/site';
+interface Props { work: CollectionEntry<'work'>[] }
+const { work } = Astro.props;
+const head = (n: string, title: string, ghost: string) => ({ n, title, ghost });
+const heads = {
+  work: head('01', 'Selected work', 'Work'),
+  exp: head('02', 'Experience', 'Path'),
+  method: head('03', 'Method', 'ICAD'),
+  research: head('04', 'Research & skills', 'Mind'),
+  words: head('05', 'Thinking in words', 'Words'),
+};
+---
+<div class="calm calm-only">
+  <div class="c-bg" aria-hidden="true">
+    <span class="c-blob c-blob--1"></span><span class="c-blob c-blob--2"></span><span class="c-blob c-blob--3"></span>
+  </div>
+
+  <!-- HERO -->
+  <section class="c-hero c-wrap" id="c-top">
+    <div class="c-hero__text">
+      <p class="c-meta"><span class="c-dot"></span>{person.now}</p>
+      <h1 class="c-h1">{hero.lines.slice(0, 2).join(' ')} <span class="c-accent">{hero.lines[2]}</span></h1>
+      <p class="c-lede">{hero.intro}</p>
+      <div class="c-ctas">
+        <a class="c-btn" href="#c-work">See the work <span aria-hidden="true">→</span></a>
+        <a class="c-btn c-btn--ghost" href={person.cv} download>Download CV <span aria-hidden="true">↓</span></a>
+      </div>
+      <button class="c-hint" type="button" data-set-mode="bold">Want the full show? Switch to Bold <span aria-hidden="true">→</span></button>
+    </div>
+    <div class="c-hero__art" aria-hidden="true">
+      <span class="c-glass c-sphere"></span>
+      <span class="c-glass c-tile"></span>
+      <span class="c-ring"></span>
+      <figure class="c-glass c-portrait">
+        <img src="/img/me-studio.webp" alt="" width="727" height="1100" />
+        <figcaption><strong>{person.name}</strong><span>{person.roleLine.split(' · ').slice(0, 2).join(' · ')}</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section class="c-sec c-wrap" id="c-work">
+    <header class="c-head"><span class="c-num">{heads.work.n}</span><h2>{heads.work.title}</h2><span class="c-ghost" aria-hidden="true">{heads.work.ghost}</span></header>
+    <ol class="c-work" role="list">
+      {work.map((w) => (
+        <li>
+          <a class="c-row" href={`/work/${w.id}/`}>
+            <span class="c-row__meta">{w.data.year} · {w.data.category}{w.data.video && ' · ▶ video'}</span>
+            <span class="c-row__title">{w.data.title}</span>
+            <span class="c-row__kicker">{w.data.kicker}</span>
+            {w.data.cover && <img class="c-row__thumb" src={w.data.cover} alt="" loading="lazy" decoding="async" />}
+            <span class="c-row__go" aria-hidden="true">↗</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="c-sec c-wrap" id="c-exp">
+    <header class="c-head"><span class="c-num">{heads.exp.n}</span><h2>{heads.exp.title}</h2><span class="c-ghost" aria-hidden="true">{heads.exp.ghost}</span></header>
+    <p class="c-statement">{about.lead} <span>{about.paragraphs[0]}</span></p>
+    <ul class="c-stats" role="list">
+      {about.numbers.map((n) => <li class="c-glass"><strong>{n.value}</strong><span>{n.label}</span></li>)}
+    </ul>
+    <ol class="c-roles" role="list">
+      {journey.map((r) => (
+        <li>
+          <details>
+            <summary>
+              <span class="c-roles__when">{r.when}</span>
+              <span class="c-roles__title">{r.title}</span>
+              <span class="c-roles__org">{r.org}{r.note && ` · ${r.note}`}</span>
+              <span class="c-roles__plus" aria-hidden="true">+</span>
+            </summary>
+            <ul>{r.points.map((p) => <li>{p}</li>)}</ul>
+          </details>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- METHOD -->
+  <section class="c-sec c-wrap" id="c-method">
+    <header class="c-head"><span class="c-num">{heads.method.n}</span><h2>{heads.method.title}</h2><span class="c-ghost" aria-hidden="true">{heads.method.ghost}</span></header>
+    <p class="c-statement">Every session is a four-act story. <span>ICAD is the framework I built from research on how adults actually learn, used alongside {frameworks.map((f) => f.name).join(', ').replace(/, ([^,]*)$/, ' and $1')}.</span></p>
+    <ol class="c-icad" role="list">
+      {icad.map((s, i) => (
+        <li class="c-glass">
+          <span class="c-icad__n">0{i + 1}</span>
+          <strong>{s.key}</strong>
+          <span class="c-icad__verb">{s.verb}</span>
+          <p>{s.text}</p>
+        </li>
+      ))}
+    </ol>
+    <div class="c-play c-glass">
+      <p><strong>Want to test your own attention?</strong> <span>Two 60-second psychology experiments and a memory game live in the Bold version.</span></p>
+      <button class="c-btn" type="button" data-set-mode="bold" data-go="#lab">Play <span aria-hidden="true">→</span></button>
+    </div>
+  </section>
+
+  <!-- RESEARCH + SKILLS -->
+  <section class="c-sec c-wrap" id="c-research">
+    <header class="c-head"><span class="c-num">{heads.research.n}</span><h2>{heads.research.title}</h2><span class="c-ghost" aria-hidden="true">{heads.research.ghost}</span></header>
+    <ol class="c-papers" role="list">
+      {research.map((r) => <li><strong>{r.title}</strong><span>{r.text}</span></li>)}
+    </ol>
+    <dl class="c-skills">
+      {skills.map((s) => <div><dt>{s.group}</dt><dd>{s.items.join(' · ')}</dd></div>)}
+    </dl>
+    <p class="c-off">
+      <strong>Off the clock:</strong> seven years of chess (<a href={about.offDuty[0].href} target="_blank" rel="noopener">challenge AXMA1 on chess.com ↗</a>),
+      Trek Lead with Bengaluru Trekkers, and eight years of cricket.
+    </p>
+  </section>
+
+  <!-- WRITING -->
+  <section class="c-sec c-wrap" id="c-words">
+    <header class="c-head"><span class="c-num">{heads.words.n}</span><h2>{heads.words.title}</h2><span class="c-ghost" aria-hidden="true">{heads.words.ghost}</span></header>
+    <ol class="c-lines" role="list">
+      {writing.lines.map((l, i) => <li><span>0{i + 1}</span><q>{l}</q></li>)}
+    </ol>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="c-sec c-wrap" id="c-contact">
+    <div class="c-contact c-glass">
+      <span class="c-glass c-sphere c-sphere--sm" aria-hidden="true"></span>
+      <p class="c-meta">Contact</p>
+      <h2 class="c-h2">Let's design something people <span class="c-accent">remember.</span></h2>
+      <a class="c-mail" href={`mailto:${person.email}`}>{person.email}</a>
+      <div class="c-ctas">
+        <button class="c-btn c-btn--ghost" type="button" data-copy={person.email}>Copy email</button>
+        <a class="c-btn" href={person.cv} download>Download CV <span aria-hidden="true">↓</span></a>
+      </div>
+      <p class="c-links">
+        {person.links.linkedin && <a href={person.links.linkedin} rel="me noopener" target="_blank">LinkedIn ↗</a>}
+        {person.links.instagram && <a href={person.links.instagram} rel="me noopener" target="_blank">Instagram ↗</a>}
+        <span>{person.location}</span>
+      </p>
+    </div>
+  </section>
+</div>
+
+<style>
+  .calm {
+    --c-bg: #f4f2ee; --c-ink: #141a23; --c-ink-2: #4d5562; --c-ink-3: #808796;
+    --c-line: rgba(20, 26, 35, 0.12); --c-accent: #4b47b8;
+    position: relative; isolation: isolate; color: var(--c-ink); font-family: var(--display);
+  }
+  .c-wrap { width: min(100% - 2 * var(--gutter), 1200px); margin-inline: auto; }
+
+  /* soft colour fields behind everything; the glass picks them up */
+  .c-bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+  .c-blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.75; animation: c-drift 26s ease-in-out infinite alternate; }
+  .c-blob--1 { width: 46vw; height: 46vw; left: -10vw; top: -12vw; background: #cfc9ff; }
+  .c-blob--2 { width: 40vw; height: 40vw; right: -12vw; top: 18vh; background: #ffd9c7; animation-delay: -8s; }
+  .c-blob--3 { width: 36vw; height: 36vw; left: 30vw; bottom: -18vw; background: #c6eadf; animation-delay: -16s; }
+  @keyframes c-drift { to { transform: translate(4vw, 3vh) scale(1.08); } }
+
+  .c-glass {
+    background: rgba(255, 255, 255, 0.42);
+    backdrop-filter: blur(18px) saturate(140%); -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.75); border-radius: 22px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 24px 48px -28px rgba(40, 36, 90, 0.35);
+  }
+
+  .c-meta { margin: 0; font: 400 12px/1.4 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-ink-3); display: flex; align-items: center; gap: 10px; }
+  .c-dot { width: 8px; height: 8px; border-radius: 50%; background: #3fae6a; box-shadow: 0 0 0 4px rgba(63, 174, 106, 0.18); }
+  .c-accent { color: var(--c-accent); }
+
+  .c-btn {
+    display: inline-flex; align-items: center; gap: 8px; padding: 13px 20px; border-radius: 999px;
+    font: 600 15px/1 var(--display); text-decoration: none; cursor: pointer;
+    background: var(--c-ink); color: #fff; border: 1px solid var(--c-ink); transition: background 0.25s, color 0.25s, transform 0.25s var(--ease);
+  }
+  .c-btn:hover { background: var(--c-accent); border-color: var(--c-accent); }
+  .c-btn--ghost { background: rgba(255, 255, 255, 0.5); color: var(--c-ink); border-color: var(--c-line); backdrop-filter: blur(10px); }
+  .c-btn--ghost:hover { background: #fff; color: var(--c-ink); border-color: var(--c-ink); }
+
+  /* HERO */
+  .c-hero { min-height: 100svh; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: clamp(24px, 5vw, 72px); align-items: center; padding-block: 120px 56px; }
+  .c-hero__text { display: grid; gap: 22px; }
+  .c-h1 { margin: 0; font-weight: 620; font-size: clamp(44px, 7vw, 104px); line-height: 0.98; letter-spacing: -0.035em; }
+  .c-lede { margin: 0; max-width: 50ch; font-size: clamp(17px, 1.3vw, 20px); color: var(--c-ink-2); }
+  .c-ctas { display: flex; flex-wrap: wrap; gap: 10px; }
+  .c-hint { justify-self: start; background: none; border: 0; padding: 0; font: 500 14px var(--display); color: var(--c-ink-3); cursor: pointer; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--c-line); }
+  .c-hint:hover { color: var(--c-accent); }
+
+  .c-hero__art { position: relative; height: min(70vh, 620px); }
+  .c-portrait { position: absolute; inset: 6% 8% 0 10%; margin: 0; padding: 14px 14px 0; overflow: hidden; display: grid; align-content: end; }
+  .c-portrait img { width: 86%; justify-self: center; }
+  .c-portrait figcaption { position: absolute; left: 14px; right: 14px; bottom: 14px; display: grid; gap: 2px; padding: 12px 14px; border-radius: 14px; background: rgba(255, 255, 255, 0.72); backdrop-filter: blur(12px); font-size: 14px; }
+  .c-portrait figcaption span { font: 400 11px var(--mono); color: var(--c-ink-3); text-transform: uppercase; letter-spacing: 0.06em; }
+  .c-sphere { position: absolute; width: clamp(110px, 13vw, 190px); aspect-ratio: 1; border-radius: 50%; right: -2%; top: 0; z-index: 2;
+    background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.25) 42%, rgba(207, 201, 255, 0.35) 75%); animation: c-float 9s ease-in-out infinite; }
+  .c-tile { position: absolute; width: clamp(80px, 9vw, 130px); aspect-ratio: 1; left: 0; bottom: 14%; z-index: 2; border-radius: 28px; transform: rotate(-14deg); animation: c-float 11s ease-in-out infinite reverse; }
+  .c-ring { position: absolute; width: clamp(60px, 6vw, 90px); aspect-ratio: 1; border-radius: 50%; left: 4%; top: 4%; border: 1.5px solid rgba(75, 71, 184, 0.35); }
+  @keyframes c-float { 50% { translate: 0 -14px; } }
+
+  /* SECTION HEADS: number, plain title, a faint oversized word behind */
+  .c-sec { position: relative; padding-block: clamp(56px, 7vw, 96px); }
+  .c-head { position: relative; display: flex; align-items: baseline; gap: 14px; margin-bottom: clamp(28px, 4vw, 44px); padding-bottom: 14px; border-bottom: 1px solid var(--c-line); }
+  .c-head h2 { margin: 0; font-weight: 600; font-size: clamp(26px, 2.6vw, 38px); letter-spacing: -0.02em; }
+  .c-num { font: 400 13px var(--mono); color: var(--c-accent); }
+  .c-ghost {
+    position: absolute; right: 0; bottom: -0.12em; z-index: -1; font-weight: 700; font-size: clamp(64px, 13vw, 200px); line-height: 1;
+    letter-spacing: -0.04em; text-transform: uppercase; color: transparent; -webkit-text-stroke: 1px rgba(20, 26, 35, 0.09);
+  }
+  .c-statement { margin: 0 0 clamp(28px, 4vw, 44px); max-width: 30ch; font-weight: 560; font-size: clamp(24px, 2.6vw, 38px); line-height: 1.15; letter-spacing: -0.02em; }
+  .c-statement span { display: block; margin-top: 14px; max-width: 58ch; font-weight: 400; font-size: clamp(16px, 1.2vw, 19px); line-height: 1.55; letter-spacing: 0; color: var(--c-ink-2); }
+
+  /* WORK LIST */
+  .c-work { list-style: none; margin: 0; padding: 0; }
+  .c-row { position: relative; display: grid; grid-template-columns: 1fr 200px 48px; grid-template-areas: 'meta thumb go' 'title thumb go' 'kicker thumb go'; column-gap: 28px; row-gap: 6px; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--c-line); text-decoration: none; }
+  .c-row__meta { grid-area: meta; font: 400 12px var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-ink-3); }
+  .c-row__title { grid-area: title; font-weight: 600; font-size: clamp(26px, 3.4vw, 50px); line-height: 1.02; letter-spacing: -0.03em; transition: color 0.25s; }
+  .c-row__kicker { grid-area: kicker; color: var(--c-ink-2); max-width: 64ch; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .c-row__thumb { grid-area: thumb; width: 200px; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.8); box-shadow: 0 16px 30px -20px rgba(40, 36, 90, 0.45); transition: transform 0.5s var(--ease); }
+  .c-row__go { grid-area: go; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--c-line); transition: background 0.25s, color 0.25s, transform 0.4s var(--ease); }
+  .c-row:hover .c-row__title { color: var(--c-accent); }
+  .c-row:hover .c-row__thumb { transform: scale(1.04) rotate(-1deg); }
+  .c-row:hover .c-row__go { background: var(--c-ink); color: #fff; transform: rotate(45deg); }
+
+  /* EXPERIENCE */
+  .c-stats { list-style: none; margin: 0 0 clamp(28px, 4vw, 44px); padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .c-stats li { padding: 20px; display: grid; gap: 4px; }
+  .c-stats strong { font-weight: 640; font-size: clamp(32px, 3.4vw, 52px); line-height: 1; letter-spacing: -0.03em; }
+  .c-stats span { color: var(--c-ink-2); font-size: 15px; }
+  .c-roles { list-style: none; margin: 0; padding: 0; }
+  .c-roles details { border-bottom: 1px solid var(--c-line); }
+  .c-roles summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 170px 1fr auto; grid-template-areas: 'when title plus' 'when org plus'; column-gap: 20px; padding: 18px 0; }
+  .c-roles summary::-webkit-details-marker { display: none; }
+  .c-roles__when { grid-area: when; font: 400 13px/1.8 var(--mono); color: var(--c-ink-3); }
+  .c-roles__title { grid-area: title; font-weight: 600; font-size: 20px; }
+  .c-roles__org { grid-area: org; color: var(--c-ink-2); }
+  .c-roles__plus { grid-area: plus; align-self: center; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--c-line); display: grid; place-items: center; transition: transform 0.3s var(--ease); }
+  .c-roles details[open] .c-roles__plus { transform: rotate(45deg); }
+  .c-roles details ul { margin: 0; padding: 0 0 18px calc(170px + 20px + 18px); color: var(--c-ink-2); }
+  .c-roles details li { margin: 4px 0; }
+
+  /* METHOD */
+  .c-icad { list-style: none; margin: 0 0 20px; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .c-icad li { padding: 22px; display: grid; gap: 6px; align-content: start; }
+  .c-icad__n { font: 400 12px var(--mono); color: var(--c-accent); }
+  .c-icad strong { font-weight: 620; font-size: 24px; letter-spacing: -0.02em; }
+  .c-icad__verb { font: 400 11px var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-ink-3); }
+  .c-icad p { margin: 6px 0 0; color: var(--c-ink-2); font-size: 15px; }
+  .c-play { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding: 20px 24px; }
+  .c-play p { margin: 0; display: grid; gap: 2px; }
+  .c-play span { color: var(--c-ink-2); }
+
+  /* RESEARCH + SKILLS */
+  .c-papers { list-style: none; margin: 0 0 clamp(28px, 4vw, 44px); padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); column-gap: 40px; }
+  .c-papers li { display: grid; gap: 4px; padding: 16px 0; border-bottom: 1px solid var(--c-line); }
+  .c-papers strong { font-weight: 600; font-size: 19px; }
+  .c-papers span { color: var(--c-ink-2); }
+  .c-skills { margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 40px; }
+  .c-skills div { display: grid; grid-template-columns: 80px 1fr; gap: 16px; padding: 12px 0; }
+  .c-skills dt { font: 400 12px/1.9 var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-accent); }
+  .c-skills dd { margin: 0; color: var(--c-ink-2); }
+  .c-off { margin: clamp(24px, 3vw, 36px) 0 0; color: var(--c-ink-2); }
+  .c-off strong { color: var(--c-ink); }
+  .c-off a { color: var(--c-accent); }
+
+  /* WRITING */
+  .c-lines { list-style: none; margin: 0; padding: 0; }
+  .c-lines li { display: grid; grid-template-columns: 48px 1fr; gap: 12px; padding: 20px 0; border-bottom: 1px solid var(--c-line); }
+  .c-lines span { font: 400 12px/2.6 var(--mono); color: var(--c-accent); }
+  .c-lines q { quotes: none; font-weight: 500; font-size: clamp(22px, 2.4vw, 34px); line-height: 1.2; letter-spacing: -0.015em; }
+
+  /* CONTACT */
+  .c-contact { position: relative; overflow: hidden; padding: clamp(28px, 5vw, 64px); display: grid; gap: 20px; border-radius: 30px; }
+  .c-h2 { margin: 0; max-width: 16ch; font-weight: 620; font-size: clamp(36px, 5vw, 72px); line-height: 1; letter-spacing: -0.035em; }
+  .c-mail { justify-self: start; font-weight: 600; font-size: clamp(20px, 2.4vw, 32px); text-underline-offset: 6px; text-decoration-thickness: 1px; word-break: break-all; }
+  .c-links { margin: 0; display: flex; flex-wrap: wrap; gap: 22px; font-weight: 500; }
+  .c-links a { text-decoration: none; }
+  .c-links a:hover { color: var(--c-accent); }
+  .c-links span { color: var(--c-ink-3); }
+  .c-sphere--sm { width: clamp(120px, 16vw, 220px); right: -40px; top: -40px; }
+
+  @media (max-width: 960px) {
+    .c-icad, .c-stats { grid-template-columns: 1fr 1fr; }
+    .c-row { grid-template-columns: 1fr 44px; grid-template-areas: 'meta go' 'title go' 'kicker go'; }
+    .c-row__thumb { display: none; }
+  }
+  @media (max-width: 760px) {
+    .c-hero { grid-template-columns: 1fr; min-height: 0; padding-top: 104px; }
+    .c-hero__art { height: 360px; order: -1; max-width: 360px; width: 100%; justify-self: center; }
+    .c-portrait { inset: 4% 12% 0 12%; }
+    .c-papers, .c-skills { grid-template-columns: 1fr; }
+    .c-skills div { grid-template-columns: 1fr; gap: 4px; }
+    .c-roles summary { grid-template-columns: 1fr auto; grid-template-areas: 'when plus' 'title plus' 'org plus'; }
+    .c-roles details ul { padding-left: 18px; }
+    .c-sec { padding-block: 44px; }
+    .c-ghost { font-size: 72px; }
+  }
+  @media (max-width: 480px) {
+    .c-icad, .c-stats { grid-template-columns: 1fr; }
+    .c-stats { grid-template-columns: 1fr 1fr; }
+    .c-hero__art { height: 300px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .c-blob, .c-sphere, .c-tile { animation: none; } }
+</style>

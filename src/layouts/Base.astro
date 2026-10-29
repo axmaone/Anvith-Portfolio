@@ -32,7 +32,15 @@ const ogImage = new URL(image, Astro.site);
       email: `mailto:${person.email}`, address: { '@type': 'PostalAddress', addressLocality: 'Bengaluru', addressCountry: 'IN' },
       sameAs: Object.values(person.links).filter(Boolean),
     })} />
-    <script is:inline>document.documentElement.classList.add('js');</script>
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      // Bold (default) or Calm. ?mode=calm in a link sets it; the choice is remembered.
+      (function () {
+        var m = null;
+        try { m = new URLSearchParams(location.search).get('mode'); if (m === 'calm' || m === 'bold') localStorage.setItem('mode', m); else m = localStorage.getItem('mode'); } catch (e) {}
+        document.documentElement.dataset.mode = m === 'calm' ? 'calm' : 'bold';
+      })();
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>

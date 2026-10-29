@@ -12,6 +12,7 @@ import MindLab from '../components/MindLab.astro';
 import MemoryGame from '../components/MemoryGame.astro';
 import ResearchDeck from '../components/ResearchDeck.astro';
 import Icon from '../components/Icon.astro';
+import CalmHome from '../components/CalmHome.astro';
 import { person, hero, icad, frameworks, about, journey, skills, writing } from '../data/site';
 
 const work = (await getCollection('work', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);
@@ -23,6 +24,7 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
   <Companion />
 
   <main id="main">
+    <div class="bold-only">
     <!-- 01 INTEREST ─────────────────────────────── -->
     <section class="hero" id="interest" data-companion="interest">
       <div class="wrap hero__grid">
@@ -47,6 +49,7 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
             <a class="btn" href="#work">See the work <span class="arrow" aria-hidden="true">→</span></a>
             <a class="btn btn--ghost" href="#game">Beat my memory ☕</a>
           </div>
+          <button class="mode-hint" type="button" data-set-mode="calm">Prefer it quiet? Switch to Calm <span aria-hidden="true">→</span></button>
         </div>
         <span class="hero__stamp" aria-hidden="true">
           <svg viewBox="0 0 120 120"><defs><path id="c" d="M60 60 m-44 0 a44 44 0 1 1 88 0 a44 44 0 1 1 -88 0" /></defs>
@@ -228,6 +231,8 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
         </ul>
       </div>
     </section>
+    </div>
+    <CalmHome work={work} />
   </main>
   <Footer />
 
@@ -259,6 +264,8 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
   .hero__foot { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 24px; max-width: 62%; position: relative; z-index: 4; }
   .hero__intro { margin: 0; font-size: clamp(17px, 1.35vw, 21px); max-width: 46ch; }
   .hero__ctas { display: flex; gap: 10px; flex-wrap: wrap; }
+  .mode-hint { flex-basis: 100%; justify-self: start; text-align: left; background: none; border: 0; padding: 0; font: 500 14px var(--display); color: var(--ink-3); cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
+  .mode-hint:hover { color: var(--red); }
   .hero__stamp { position: absolute; right: 30%; top: 4%; width: 120px; height: 120px; display: grid; place-items: center; color: var(--red); z-index: 1; }
   .hero__stamp svg { position: absolute; inset: 0; animation: spin 18s linear infinite; }
   .hero__stamp text { font: 600 9.5px var(--mono); letter-spacing: 0.04em; fill: currentColor; }

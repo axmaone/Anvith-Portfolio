@@ -10,18 +10,33 @@ const links = [
   { href: `${base}#person`, label: 'Me' },
   { href: `${base}#contact`, label: 'Contact' },
 ];
+const calmLinks = [
+  { href: `${base}#c-work`, label: 'Work' },
+  { href: `${base}#c-exp`, label: 'Experience' },
+  { href: `${base}#c-method`, label: 'Method' },
+  { href: `${base}#c-research`, label: 'Research' },
+  { href: `${base}#c-contact`, label: 'Contact' },
+];
 ---
 <header class="nav">
   <div class="nav__inner wrap">
     <a href="/" class="nav__mark" aria-label={`${person.name}, home`}>
-      <span class="nav__sig" aria-hidden="true">Anvith</span>
-      <span class="nav__dot" aria-hidden="true"></span>
+      <span class="nav__sig bold-only" aria-hidden="true">Anvith</span>
+      <span class="nav__dot bold-only" aria-hidden="true"></span>
+      <span class="nav__name calm-only" aria-hidden="true">Anvith M Acharya</span>
     </a>
     <nav aria-label="Main">
-      <ul class="nav__links">
+      <ul class="nav__links bold-only">
         {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
       </ul>
+      <ul class="nav__links calm-only">
+        {calmLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
     </nav>
+    <div class="mode" role="group" aria-label="Page style">
+      <button type="button" data-set-mode="bold">Bold</button>
+      <button type="button" data-set-mode="calm">Calm</button>
+    </div>
     <a class="nav__cv" href={person.cv} download>CV <span aria-hidden="true">↓</span></a>
   </div>
 </header>
@@ -50,8 +65,44 @@ const links = [
     transition: transform 0.3s var(--ease), background 0.3s;
   }
   .nav__cv:hover { transform: rotate(-4deg) scale(1.05); background: var(--ink); }
+  .nav nav { margin-left: auto; }
+  .nav__name { font: 600 16px/1 var(--display); letter-spacing: -0.01em; white-space: nowrap; }
+  .nav__cv, .mode { flex: none; white-space: nowrap; }
+
+  /* Bold / Calm switch */
+  .mode { display: flex; padding: 4px; gap: 2px; border-radius: 999px; border: 1.5px solid var(--ink); background: color-mix(in srgb, var(--paper) 80%, transparent); backdrop-filter: blur(10px); }
+  .mode button { border: 0; background: none; padding: 7px 12px; border-radius: 999px; font: 600 13px/1 var(--display); color: inherit; cursor: pointer; transition: background 0.25s, color 0.25s; }
+  :global(html[data-mode='bold']) .mode [data-set-mode='bold'], :global(html[data-mode='calm']) .mode [data-set-mode='calm'] { background: var(--ink); color: var(--paper); }
+
+  /* Calm: frosted glass, no signature, no stamps */
+  :global(html[data-mode='calm']) .nav__links, :global(html[data-mode='calm']) .mode {
+    background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(255, 255, 255, 0.8); backdrop-filter: blur(16px) saturate(140%);
+    box-shadow: 0 10px 30px -18px rgba(40, 36, 90, 0.35);
+  }
+  :global(html[data-mode='calm']) .nav__links a:hover { background: #141a23; color: #fff; }
+  :global(html[data-mode='calm']) .mode [data-set-mode='calm'] { background: #141a23; color: #fff; }
+  :global(html[data-mode='calm']) .nav__cv { background: #141a23; border-color: #141a23; }
+  :global(html[data-mode='calm']) .nav__cv:hover { transform: none; background: #4b47b8; border-color: #4b47b8; }
+
   @media (max-width: 760px) {
-    .nav__links { display: none; }
-    .nav__cv { margin-left: auto; }
+    .nav__links { display: none !important; }
+    .mode { margin-left: auto; }
+    .mode button { padding: 7px 10px; }
+    .nav__name { font-size: 14px; }
   }
 </style>
+
+<script>
+  // Switch between Bold and Calm without a reload; motion.ts listens for 'modechange' to re-measure and scroll.
+  document.querySelectorAll<HTMLElement>('[data-set-mode]').forEach((b) => b.addEventListener('click', () => {
+    const mode = b.dataset.setMode!, go = b.dataset.go;
+    if (document.documentElement.dataset.mode === mode && !go) return;
+    try { localStorage.setItem('mode', mode); } catch {}
+    const apply = () => {
+      document.documentElement.dataset.mode = mode;
+      window.dispatchEvent(new CustomEvent('modechange', { detail: { go } }));
+    };
+    const vt = (document as any).startViewTransition;
+    if (vt && !matchMedia('(prefers-reduced-motion: reduce)').matches) vt.call(document, apply); else apply();
+  }));
+</script>

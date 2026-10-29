@@ -16,6 +16,14 @@ export function initMotion() {
   setupCopy();
   setupThread();
   setupEggs();
+  // Bold ⇄ Calm (switched in Nav.astro): the layout changed, so re-measure and start from the top (or the asked-for section)
+  window.addEventListener('modechange', (e) => {
+    const go = (e as CustomEvent).detail?.go, el = go ? document.querySelector<HTMLElement>(go) : null;
+    ScrollTrigger.refresh();
+    lenis?.resize(); // the page height just changed; Lenis caches it
+    if (lenis) lenis.scrollTo(el ?? 0, { immediate: true, force: true, offset: el ? -20 : 0 });
+    else if (el) el.scrollIntoView(); else window.scrollTo(0, 0);
+  });
   if (reduced()) return;
 
   // Smooth scroll, driven by GSAP's ticker so ScrollTrigger stays in sync
