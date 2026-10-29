@@ -167,9 +167,17 @@ function setupEggs() {
     e.addEventListener('mouseenter', () => { t = window.setTimeout(() => find(e), 450); });
     e.addEventListener('mouseleave', () => clearTimeout(t));
     e.addEventListener('focus', () => find(e));
-    // touch: tap toggles the translation
-    e.addEventListener('click', () => { e.parentElement?.classList.toggle('is-open'); find(e); });
+    // touch: tap opens the translation, a second tap (or a tap anywhere else) closes it
+    e.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      const box = e.parentElement!, open = !box.classList.contains('is-open');
+      eggs.forEach((o) => o.parentElement?.classList.remove('is-open'));
+      box.classList.toggle('is-open', open);
+      if (!open) e.blur();
+      find(e);
+    });
   });
+  document.addEventListener('click', () => eggs.forEach((o) => o.parentElement?.classList.remove('is-open')));
 }
 
 let say: (text: string, ms?: number) => void = () => {};

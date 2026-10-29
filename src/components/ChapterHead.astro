@@ -47,7 +47,11 @@ const h = headings[id];
   .ch__tip .mono { color: var(--gold); font-size: 11px; }
   .ch__tip strong { font: 600 18px/1.3 var(--display); }
   .ch__tip em { font: italic 14px var(--serif); opacity: 0.75; }
-  .ch__right:has(.ch__line:hover) .ch__tip, .ch__right:has(.ch__line:focus-visible) .ch__tip, .ch__right.is-open .ch__tip { opacity: 1; transform: none; }
+  .ch__right.is-open .ch__tip { opacity: 1; transform: none; }
+  /* mouse: hover or keyboard focus shows it; touch: only the tap toggle (a tap leaves :hover stuck on) */
+  @media (hover: hover) {
+    .ch__right:has(.ch__line:hover) .ch__tip, .ch__right:has(.ch__line:focus-visible) .ch__tip { opacity: 1; transform: none; }
+  }
   @media (max-width: 760px) {
     .ch__right { margin-left: 0; width: 100%; }
     .ch__line { text-align: left; }

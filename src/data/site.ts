@@ -6,7 +6,7 @@ export const person = {
   name: 'Anvith M Acharya',
   firstName: 'Anvith',
   role: 'Learning & Experience Designer',
-  roleLine: 'Learning design · Experience design · Psychology',
+  roleLine: 'Instructional design · Learning design · Experience design · Psychology',
   location: 'Bengaluru, India',
   now: 'Instructional Designer at UNext Learning',
   email: 'anvithma@gmail.com',
@@ -178,29 +178,13 @@ export const researchBacks = [
 
 // Your own writing. Edit freely.
 export const writing = {
-  poems: [
-    {
-      title: 'Paradox',
-      lines: ['To understand is to know,', 'And to know is to know not.'],
-    },
+  lines: [
+    'Every fall meant that you were once flying.',
+    'People don’t let the mind wander often.',
+    'You lost your freedom once they gave you an identity.',
+    'Either the fear goes away, or the opportunity does.',
+    'Better to miss a shot than not to take it.',
   ],
-  oneLiner: {
-    text: 'I finally understood the meaning of life. Unfortunately, life was unavailable for comment.',
-    tag: 'Dark humour',
-  },
-  essays: [
-    {
-      title: 'Being present is a lie',
-      blurb: 'An argument against the "be here now" industry: you cannot leave the present, so you cannot be sent back to it.',
-      status: 'Draft essay',
-    },
-    {
-      title: 'From thought to words',
-      blurb: 'How raw fragments become poems through human–AI iteration, while the voice stays mine.',
-      status: 'Process note',
-    },
-  ],
-  quote: { text: 'The only difference between a mob and a trained army is organization.', by: 'Calvin Coolidge' },
 };
 
 // Lines the little "me" sticker says as you scroll into each section.

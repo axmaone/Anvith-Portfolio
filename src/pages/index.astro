@@ -38,7 +38,7 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
           <img class="sticker" src="/img/me-studio.webp" alt={`${person.name}, smiling, in a navy shirt`} width="727" height="1100" fetchpriority="high" />
           <figcaption class="hero__tag">
             <span class="hero__sig">Anvith</span>
-            <span class="mono">{person.roleLine}</span>
+            <span class="mono hero__roles">{person.roleLine.split(' · ').map((r) => <span>{r}</span>)}</span>
           </figcaption>
         </figure>
         <div class="hero__foot" data-hero-in>
@@ -50,8 +50,8 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
         </div>
         <span class="hero__stamp" aria-hidden="true">
           <svg viewBox="0 0 120 120"><defs><path id="c" d="M60 60 m-44 0 a44 44 0 1 1 88 0 a44 44 0 1 1 -88 0" /></defs>
-            <text><textPath href="#c">PSYCHOLOGIST · DESIGNER · FACILITATOR ·</textPath></text></svg>
-          <span>✺</span>
+            <text textLength="272" lengthAdjust="spacingAndGlyphs"><textPath href="#c" textLength="272" lengthAdjust="spacingAndGlyphs">PSYCHOLOGIST · DESIGNER · FACILITATOR · </textPath></text></svg>
+          <span>★</span>
         </span>
       </div>
       <Thread target="work" />
@@ -200,29 +200,12 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
         <ChapterHead id="debrief" num="06.5" dark />
         <h2 class="h-xl debrief__title">Thinking<br />in <em class="serif italic">words.</em></h2>
         <div class="debrief__grid">
-          {writing.poems.map((p, i) => (
-            <article class={`poem poem--${i}`} data-reveal>
-              <p class="mono gold">Poem · {p.title}</p>
-              <p class="poem__body serif italic">
-                {p.lines.map((l) => (l ? <span data-line>{l}</span> : <span class="poem__gap" />))}
-              </p>
-            </article>
+          {writing.lines.map((l, i) => (
+            <blockquote class={`line line--${i}`} data-reveal>
+              <span class="mono">{String(i + 1).padStart(2, '0')}</span>
+              <p class="serif italic">{l}</p>
+            </blockquote>
           ))}
-          <article class="joke" data-reveal>
-            <p class="mono">{writing.oneLiner.tag}</p>
-            <p class="joke__text">{writing.oneLiner.text}</p>
-          </article>
-          {writing.essays.map((e) => (
-            <article class="essay" data-reveal>
-              <p class="mono">{e.status}</p>
-              <h3>{e.title}</h3>
-              <p>{e.blurb}</p>
-            </article>
-          ))}
-          <blockquote class="kept" data-reveal>
-            <p class="serif">“{writing.quote.text}”</p>
-            <footer class="mono">A line I keep · {writing.quote.by}</footer>
-          </blockquote>
         </div>
       </div>
     </section>
@@ -272,13 +255,14 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
   .hero__tag { position: absolute; left: -26%; bottom: 18%; display: grid; gap: 4px; padding: 12px 16px; background: var(--white); border: 1.5px solid var(--ink); border-radius: 14px; transform: rotate(-6deg); box-shadow: 6px 6px 0 var(--ink); }
   .hero__sig { font-family: var(--script); font-size: 46px; color: var(--red); line-height: 0.8; padding-top: 8px; }
   .hero__tag .mono { font-size: 10px; }
+  .hero__roles { display: grid; gap: 2px; }
   .hero__foot { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 24px; max-width: 62%; position: relative; z-index: 4; }
   .hero__intro { margin: 0; font-size: clamp(17px, 1.35vw, 21px); max-width: 46ch; }
   .hero__ctas { display: flex; gap: 10px; flex-wrap: wrap; }
   .hero__stamp { position: absolute; right: 30%; top: 4%; width: 120px; height: 120px; display: grid; place-items: center; color: var(--red); z-index: 1; }
   .hero__stamp svg { position: absolute; inset: 0; animation: spin 18s linear infinite; }
-  .hero__stamp text { font: 600 10.5px var(--mono); letter-spacing: 0.12em; fill: currentColor; }
-  .hero__stamp > span { font-size: 30px; }
+  .hero__stamp text { font: 600 9.5px var(--mono); letter-spacing: 0.04em; fill: currentColor; }
+  .hero__stamp > span { font-size: 28px; line-height: 1; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
   .marquee { background: var(--ink); color: var(--paper); overflow: hidden; transform: rotate(-1.5deg); margin: 0 -2vw 18px; border-block: 1.5px solid var(--ink); }
@@ -298,12 +282,12 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
   }
 
   /* ── CONCEPT ── */
-  section { position: relative; padding-block: clamp(80px, 12vw, 160px); }
+  section { position: relative; padding-block: clamp(48px, 5.5vw, 80px); }
   .concept__grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(32px, 6vw, 96px); align-items: start; }
   .concept__grid .h-md { font-size: clamp(34px, 4.2vw, 64px); }
   .concept__text p { color: var(--ink-2); font-size: clamp(17px, 1.25vw, 20px); max-width: 56ch; margin-top: 0; }
 
-  .stage { margin: 0 0 clamp(56px, 8vw, 100px); display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(24px, 4vw, 56px); align-items: center; }
+  .stage { margin: 0; display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(24px, 4vw, 56px); align-items: center; }
   .stage img { width: 100%; border-radius: 22px; border: 1.5px solid var(--ink); transform: rotate(-1.5deg); box-shadow: 10px 12px 0 var(--red); }
   .stage figcaption { display: grid; gap: 10px; }
   .stage strong { font: 720 clamp(28px, 3vw, 46px)/1 var(--display); font-variation-settings: 'wdth' 82; }
@@ -316,7 +300,7 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
   .work__lede { max-width: 52ch; font-size: clamp(17px, 1.3vw, 21px); color: var(--ink-2); margin: -20px 0 clamp(40px, 6vw, 72px); }
   .game { background: var(--paper); border-top: 1.5px solid var(--ink); }
 
-  .numbers { list-style: none; padding: 0; margin: clamp(56px, 8vw, 110px) 0; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1.5px solid var(--ink); }
+  .numbers { list-style: none; padding: 0; margin: clamp(40px, 5vw, 72px) 0; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1.5px solid var(--ink); }
   .numbers li { padding: 22px 18px 0 0; display: grid; gap: 6px; border-right: 1.5px solid var(--ink); padding-left: 18px; }
   .numbers li:first-child { padding-left: 0; }
   .numbers li:last-child { border-right: 0; }
@@ -380,7 +364,7 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
   @media (max-width: 860px) { .journey__grid { grid-template-columns: 1fr; } .journey__title { position: static; } }
 
   /* ── WORK ── */
-  .work__title { margin-bottom: clamp(40px, 6vw, 80px); }
+  .work__title { margin-bottom: clamp(32px, 5vw, 64px); }
   .work__title em { font-weight: 400; text-transform: none; }
   .work__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 5vw, 72px) clamp(24px, 4vw, 56px); }
   .work__grid > :global(.card--big) { grid-column: 1 / -1; grid-template-columns: 1.5fr 1fr; align-items: end; }
@@ -394,11 +378,11 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
   }
 
   /* ── SKILLS ── */
-  .toolkit { margin-top: clamp(64px, 9vw, 120px); }
-  .person { padding-bottom: clamp(40px, 6vw, 80px); }
+  .toolkit { margin-top: clamp(48px, 6vw, 80px); }
+  .person { padding-bottom: clamp(40px, 5vw, 64px); }
   .person .h-lg { margin: 10px 0 0; }
-  .journey__eyebrow { margin: 0 0 clamp(32px, 5vw, 56px); color: var(--ink-3); }
-  .method { padding-top: clamp(60px, 8vw, 100px); }
+  .journey__eyebrow { margin: 0 0 clamp(24px, 4vw, 40px); color: var(--ink-3); }
+  .method { padding-top: clamp(48px, 6vw, 80px); }
   .skills__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
   .skillset { padding: 24px; border-radius: 22px; border: 1.5px solid var(--ink); }
   .skillset h3 { margin: 0 0 18px; font: 760 clamp(36px, 3.6vw, 56px)/0.9 var(--display); font-variation-settings: 'wdth' 76; text-transform: uppercase; }
@@ -424,26 +408,20 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
   /* ── DEBRIEF ── */
   .debrief { background: var(--ink); color: var(--paper); }
   .debrief__title em { color: var(--gold); font-weight: 400; text-transform: none; }
-  .debrief__grid { margin-top: clamp(40px, 6vw, 80px); display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
-  .debrief article, .kept { border-radius: 22px; padding: clamp(22px, 3vw, 40px); margin: 0; }
-  .poem { grid-column: span 7; background: var(--violet); }
-  .poem__body { margin: 16px 0 0; font-size: clamp(26px, 2.8vw, 44px); line-height: 1.18; display: grid; }
-  .poem__gap { height: 0.7em; }
-  .joke { grid-column: span 5; background: var(--red); color: var(--white); transform: rotate(-1.5deg); }
-  .joke__text { font: 700 clamp(24px, 2.4vw, 36px)/1.1 var(--display); font-variation-settings: 'wdth' 84; margin: 12px 0 0; }
-  .essay { grid-column: span 4; border: 1.5px dashed color-mix(in srgb, var(--paper) 40%, transparent); }
-  .essay .mono { color: var(--gold); }
-  .essay h3 { font: italic 400 clamp(26px, 2.4vw, 36px)/1.05 var(--serif); margin: 10px 0; }
-  .essay p:last-child { color: color-mix(in srgb, var(--paper) 72%, transparent); margin: 0; }
-  .kept { grid-column: span 12; background: var(--gold); color: var(--ink); display: grid; gap: 16px; }
-  .kept p { margin: 0; font-size: clamp(28px, 3.6vw, 58px); line-height: 1.05; letter-spacing: -0.01em; }
-  .debrief .essay { grid-column: span 6; }
+  .debrief__grid { margin-top: clamp(32px, 5vw, 56px); display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
+  .line { margin: 0; border-radius: 22px; padding: clamp(22px, 3vw, 36px); display: grid; gap: 14px; align-content: space-between; grid-column: span 4; min-height: 200px; }
+  .line p { margin: 0; font-size: clamp(26px, 2.6vw, 40px); line-height: 1.12; }
+  .line .mono { opacity: 0.7; }
+  .line--0 { grid-column: span 7; background: var(--violet); }
+  .line--1 { grid-column: span 5; background: var(--red); color: var(--white); transform: rotate(-1.2deg); }
+  .line--2 { background: var(--gold); color: var(--ink); }
+  .line--3 { background: var(--sage); color: var(--ink); }
+  .line--4 { border: 1.5px dashed color-mix(in srgb, var(--paper) 45%, transparent); }
   @media (max-width: 860px) {
-    .poem, .joke, .debrief .essay { grid-column: 1 / -1; }
+    .line, .line--0, .line--1 { grid-column: 1 / -1; min-height: 0; }
   }
-
   /* ── CONTACT ── */
-  .contact { background: var(--red); color: var(--white); overflow: hidden; padding-bottom: clamp(60px, 8vw, 120px); }
+  .contact { background: var(--red); color: var(--white); overflow: hidden; }
   .contact__grid { position: relative; display: grid; gap: 28px; }
   .contact__title { position: relative; z-index: 2; }
   .contact__title em { font-weight: 400; text-transform: none; color: var(--ink); }
@@ -456,8 +434,8 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
 
   /* ── PHONES: a shorter read. Keep the proof and the play; drop the extras. ── */
   @media (max-width: 600px) {
-    section { padding-block: 64px; }
-    .concept__text p:not(:first-child), .stage, .fw, .debrief .essay, .kept { display: none; }
+    section { padding-block: 44px; }
+    .concept__text p:not(:first-child), .stage, .fw { display: none; }
     .numbers { margin: 40px 0 0; }
     .skillset { padding: 18px; }
     .skills__grid { gap: 10px; }

@@ -36,7 +36,7 @@ const steps = ['Interest', 'Concept', 'Application', 'Debrief'];
               <span class="ball ball--l"></span><span class="ball ball--d"></span>
               {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => <span class={`lite lite-${i}`}></span>)}
               {[0, 1, 2, 3].map((i) => <span class={`bnc bnc-${i}`}></span>)}
-              <img class="sneak" src="/img/avatar.webp" alt="" />
+              <span class="sneak"></span>
               <button class="btn court__go" type="button" data-run>▶ Start (12 sec)</button>
             </div>
             <div class="exp__answer" hidden data-after-run>
@@ -49,7 +49,7 @@ const steps = ['Interest', 'Concept', 'Application', 'Debrief'];
             </div>
           </section>
           <section class="exp__panel" data-panel="1" hidden>
-            <p class="exp__big">There were <strong>11 passes</strong>. And <strong>I walked straight across the court</strong>, smiling.</p>
+            <p class="exp__big">There were <strong>11 passes</strong>. And <strong>a big yellow ball bounced straight across the court</strong>.</p>
             <p data-verdict></p>
             <p>This is <strong>inattentional blindness</strong>. When attention is busy with a demanding task, people can miss an unexpected thing that is plainly visible. Your goal decided what your brain bothered to process.</p>
             <p class="exp__cite mono">Based on Simons &amp; Chabris (1999), "Gorillas in our midst". Original demo, not the study video.</p>
@@ -131,7 +131,8 @@ const steps = ['Interest', 'Concept', 'Application', 'Debrief'];
   .pl--d { background: #0d141c; border: 2px solid #4a5a6c; }
   .ball { position: absolute; width: 14px; height: 14px; border-radius: 50%; transform: translate(-50%, -50%); background: var(--gold); }
   .ball--d { background: #6b7380; }
-  .sneak { position: absolute; width: 96px; bottom: -6px; left: -14%; z-index: 1; }
+  .sneak { position: absolute; width: 64px; height: 64px; border-radius: 50%; left: -30%; top: 50%; z-index: 1; opacity: 0; background: radial-gradient(circle at 35% 30%, #fff6b0, #ffd400 45%, #e0a800); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35); }
+  .court.is-running .sneak { opacity: 1; }
   .bnc { position: absolute; width: 12px; height: 12px; border-radius: 50%; transform: translate(-50%, -50%); background: var(--red); left: -5%; }
   .bnc-1 { background: var(--sage); } .bnc-2 { background: #a7a3d6; width: 16px; height: 16px; } .bnc-3 { background: var(--white); width: 9px; height: 9px; }
   .lite { position: absolute; width: 90px; height: 90px; border-radius: 50%; filter: blur(18px); opacity: 0; pointer-events: none; }
@@ -220,10 +221,11 @@ const steps = ['Interest', 'Concept', 'Application', 'Debrief'];
             const y = 88 - Math.abs(Math.sin(t / (380 + i * 90) + i)) * (46 + i * 8);
             place(el, [x, y]);
           });
-          // the sneak: I stroll across between 4 s and 9 s
+          // the sneak: a big yellow ball bounces across between 4 s and 9 s
           const s = Math.max(0, Math.min(1, (t - 4000) / 5000));
-          sneak.style.left = `${-12 + s * 124}%`;
-          sneak.style.transform = `translateY(${-Math.abs(Math.sin(t / 160)) * 10}px) rotate(${Math.sin(t / 160) * 6}deg)`;
+          sneak.style.left = `${-30 + s * 140}%`;
+          sneak.style.top = `${78 - Math.abs(Math.sin(t / 260)) * 58}%`;
+          sneak.style.transform = `translate(-50%, -50%) rotate(${t / 4}deg)`;
           if (t < dur) requestAnimationFrame(tick);
           else { court.classList.remove('is-running'); exp.querySelector<HTMLElement>('[data-after-run]')!.hidden = false; }
         };
@@ -235,7 +237,7 @@ const steps = ['Interest', 'Concept', 'Application', 'Debrief'];
         const saw = exp.querySelector<HTMLInputElement>('input[name="saw"]:checked')?.value;
         exp.querySelector('[data-verdict]')!.textContent =
           (n ? `You counted ${n}${n === '11' ? '. Spot on.' : '.'} ` : '') +
-          (saw === 'yes' ? 'You spotted me. Your attention is either excellent or suspicious.' : saw === 'no' ? 'You missed me. Most people do, and that is the point.' : '');
+          (saw === 'yes' ? 'You spotted the yellow ball. Your attention is either excellent or suspicious.' : saw === 'no' ? 'You missed the yellow ball. Most people do, and that is the point.' : '');
       });
       // application choices
       const fb = exp.querySelector<HTMLElement>('.choices__fb')!;
