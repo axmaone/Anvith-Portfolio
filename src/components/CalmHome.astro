@@ -79,7 +79,7 @@ const skillMeta: Record<string, { icon: string; c: string; blurb: string }> = {
       <ul class="c-keys c-in" style="--d: 0.4s" role="list">{hero.keySkills.map((s, k) => <li style={`--c: ${ring[k % ring.length]}`}>{s}</li>)}</ul>
       <div class="c-ctas c-in" style="--d: 0.45s">
         <a class="c-btn" href="#c-work">See the work <span aria-hidden="true">→</span></a>
-        <a class="c-btn c-btn--ghost" href={person.cv} download>Download CV <span aria-hidden="true">↓</span></a>
+        <a class="c-btn c-btn--ghost" href={person.cv} download data-cv>Download CV <span aria-hidden="true">↓</span></a>
       </div>
       <button class="c-hint" type="button" data-set-mode="bold">Want the full show? Switch to Bold <span aria-hidden="true">→</span></button>
     </div>
@@ -229,7 +229,7 @@ const skillMeta: Record<string, { icon: string; c: string; blurb: string }> = {
       <a class="c-mail" href={`mailto:${person.email}`}>{person.email}</a>
       <div class="c-ctas">
         <button class="c-btn c-btn--ghost" type="button" data-copy={person.email}>Copy email</button>
-        <a class="c-btn" href={person.cv} download>Download CV <span aria-hidden="true">↓</span></a>
+        <a class="c-btn" href={person.cv} download data-cv>Download CV <span aria-hidden="true">↓</span></a>
       </div>
       <p class="c-links">
         {person.links.linkedin && <a href={person.links.linkedin} rel="me noopener" target="_blank">LinkedIn ↗</a>}

@@ -226,7 +226,7 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
         <div class="contact__actions">
           <a class="contact__mail" href={`mailto:${person.email}`}>{person.email}</a>
           <button class="btn btn--ghost contact__copy" type="button" data-copy={person.email}>Copy email</button>
-          <a class="btn" href={person.cv} download>Download CV <span class="arrow" aria-hidden="true">↓</span></a>
+          <a class="btn" href={person.cv} download data-cv>Download CV <span class="arrow" aria-hidden="true">↓</span></a>
         </div>
         <ul class="contact__links" role="list">
           {person.links.linkedin && <li><a href={person.links.linkedin} rel="me noopener" target="_blank">LinkedIn ↗</a></li>}

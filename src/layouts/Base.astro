@@ -32,7 +32,16 @@ const ogImage = new URL(image, Astro.site);
       email: `mailto:${person.email}`, address: { '@type': 'PostalAddress', addressLocality: 'Bengaluru', addressCountry: 'IN' },
       sameAs: Object.values(person.links).filter(Boolean),
     })} />
-    <!-- Vercel Web Analytics: cookieless page-view counts, shown in the Vercel dashboard once enabled there -->
+    <!-- Vercel Web Analytics: cookieless page-view counts, shown in the Vercel dashboard once enabled there.
+         The free plan has no custom events, so a CV download is counted as a view of the page "/cv"
+         (the same path as the shareable /cv link), giving one "CV downloads" number in the dashboard. -->
+    <script is:inline>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest && e.target.closest('a[data-cv]');
+        if (a) window.va('pageview', { route: '/cv', path: '/cv' });
+      });
+    </script>
     <script is:inline defer src="/_vercel/insights/script.js"></script>
     <script is:inline>
       document.documentElement.classList.add('js');
