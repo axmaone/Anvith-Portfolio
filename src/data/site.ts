@@ -270,12 +270,17 @@ export const headings: Record<string, { line: string; source: string; meaning: s
   },
 };
 
-// Side project shown under "Off the clock" in both Bold and Calm.
+// Side project: its own section in both Bold and Calm.
 export const sideProject = {
   name: 'Middle Class Maths',
   handle: '@MiddleClassMaths',
   href: 'https://www.youtube.com/@MiddleClassMaths',
-  show: 'Rahul vs Money',
-  what: 'My YouTube channel of short animated stories about how money really works in India: salaries, EMIs, UPI, SIPs and the habits in between.',
-  why: 'By day I design BFSI learning for banks. This is the same craft for the people on the other side of the counter, and my lab for trying new storytelling and animation before it reaches client work.',
+  tagline: 'Money, made simple.',
+  what: 'My YouTube channel: short animated stories about how money really works in India, from salaries and EMIs to UPI, SIPs and the habits in between.',
+  why: 'I want to help Indians build some financial literacy, or at least hope to. It is also my playground for trying out new animation and design.',
+  cta: 'Watch on YouTube',
+  // the questions Season 1 is built around
+  questions: ['Is UPI really free?', 'Why does a pay rise leave you with less money?', 'Rent or buy a home?', 'Is a no-cost EMI really free?', 'Why do the rich look less rich?'],
+  banner: '/img/mcm-banner.webp',
+  logo: '/img/mcm-logo.webp',
 };

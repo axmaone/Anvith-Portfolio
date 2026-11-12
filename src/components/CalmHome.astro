@@ -20,7 +20,8 @@ const heads = {
   method: head('04', 'Method', 'ICAD', C.sky),
   play: head('05', 'Play', 'Play', C.amber),
   research: head('06', 'Research', 'Mind', C.indigo),
-  words: head('07', 'Off the clock & words', 'Words', C.coral),
+  mcm: head('07', 'Side project', 'YouTube', C.coral),
+  words: head('08', 'Off the clock & words', 'Words', C.indigo),
 };
 const orgs = ['UNext Learning', 'Manipal Academy of BFSI', 'AXMA Learning', 'Unbox Experience', 'Buoyancee', 'Aster CMI'];
 // one real example per ICAD stage, from the work on this site
@@ -202,6 +203,31 @@ const skillMeta: Record<string, { icon: string; c: string; blurb: string }> = {
     </ol>
   </section>
 
+  <!-- SIDE PROJECT: Middle Class Maths -->
+  <section class="c-sec c-wrap" id="c-mcm" style={`--sc: ${heads.mcm.c}`}>
+    <header class="c-head" data-c-reveal><span class="c-num">{heads.mcm.n}</span><h2>{heads.mcm.title}</h2><span class="c-ghost" aria-hidden="true">{heads.mcm.ghost}</span></header>
+    <p class="c-statement" data-c-reveal>I also make money make sense. <span>{sideProject.what}</span></p>
+    <a class="c-mcm__banner c-glass" href={sideProject.href} target="_blank" rel="noopener" data-c-reveal>
+      <img src={sideProject.banner} alt="Middle Class Maths: Money, made simple. Animated money stories for India." width="1240" height="382" loading="lazy" />
+    </a>
+    <div class="c-mcm__grid">
+      <div class="c-mcm__card c-glass" style="--c: #d9573a" data-c-reveal>
+        <div class="c-mcm__id">
+          <img src={sideProject.logo} alt="" width="64" height="64" loading="lazy" />
+          <div><strong>{sideProject.name}</strong><span class="c-meta">{sideProject.handle}</span></div>
+        </div>
+        <a class="c-btn" href={sideProject.href} target="_blank" rel="noopener">{sideProject.cta} <span aria-hidden="true">↗</span></a>
+      </div>
+      <blockquote class="c-mcm__card c-glass" style="--c: #4b47b8" data-c-reveal>
+        <span class="c-meta">Why I do it</span>
+        <p class="c-mcm__why">{sideProject.why}</p>
+      </blockquote>
+      <div class="c-mcm__card c-glass" style="--c: #1f8a7d" data-c-reveal>
+        <span class="c-meta">Season 1 asks</span>
+        <ul role="list">{sideProject.questions.map((q) => <li>{q}</li>)}</ul>
+      </div>
+    </div>
+  </section>
   <!-- WRITING: each line writes itself, a feather leading the ink -->
   <section class="c-sec c-wrap" id="c-words" style={`--sc: ${heads.words.c}`}>
     <header class="c-head" data-c-reveal><span class="c-num">{heads.words.n}</span><h2>{heads.words.title}</h2><span class="c-ghost" aria-hidden="true">{heads.words.ghost}</span></header>
@@ -217,16 +243,6 @@ const skillMeta: Record<string, { icon: string; c: string; blurb: string }> = {
       <strong>Off the clock:</strong> seven years of chess (<a href={about.offDuty[0].href} target="_blank" rel="noopener">challenge AXMA1 on chess.com ↗</a>),
       Trek Lead with Bengaluru Trekkers, and eight years of cricket.
     </p>
-    <a class="c-yt c-glass" href={sideProject.href} target="_blank" rel="noopener" data-c-reveal>
-      <span class="c-yt__play" aria-hidden="true">▶</span>
-      <span class="c-yt__body">
-        <span class="c-meta">Side project · YouTube · {sideProject.handle}</span>
-        <strong>{sideProject.name}</strong>
-        <span>{sideProject.what}</span>
-        <span class="c-yt__why"><b>Why I do it:</b> {sideProject.why}</span>
-      </span>
-      <span class="c-yt__cta">Watch “{sideProject.show}” ↗</span>
-    </a>
     <span class="c-quill" aria-hidden="true" set:html={svg('feather', 30)} />
   </section>
 
@@ -381,15 +397,6 @@ const skillMeta: Record<string, { icon: string; c: string; blurb: string }> = {
   .c-off { margin: clamp(20px, 3vw, 32px) 0 0; padding: 16px 20px; border-radius: 18px; background: rgba(255, 255, 255, 0.5); color: var(--c-ink-2); }
   .c-off strong { color: var(--c-ink); }
   .c-off a { color: var(--c-accent); }
-  .c-yt { margin-top: 14px; display: grid; grid-template-columns: auto 1fr auto; gap: 20px; align-items: center; padding: 22px 24px; border-top: 3px solid #d9573a; text-decoration: none; color: var(--c-ink); transition: transform 0.4s var(--ease); }
-  .c-yt:hover { transform: translateY(-3px); }
-  .c-yt__play { width: 60px; height: 44px; border-radius: 14px; display: grid; place-items: center; color: #fff; background: linear-gradient(135deg, #d9573a, #e8785c); font-size: 18px; }
-  .c-yt__body { display: grid; gap: 6px; }
-  .c-yt__body strong { font-weight: 620; font-size: 24px; letter-spacing: -0.02em; color: #d9573a; }
-  .c-yt__body > span:not(.c-meta) { color: var(--c-ink-2); }
-  .c-yt__why b { color: var(--c-ink); font-weight: 600; }
-  .c-yt__cta { font-weight: 600; color: #4b47b8; white-space: nowrap; }
-  @media (max-width: 760px) { .c-yt { grid-template-columns: 1fr; } .c-yt__cta { white-space: normal; } }
 
   /* WRITING */
   .c-lines { list-style: none; margin: 0; padding: 0; }
@@ -521,6 +528,21 @@ const skillMeta: Record<string, { icon: string; c: string; blurb: string }> = {
 
   /* contact */
   .c-contact__ico { position: absolute; right: clamp(20px, 3vw, 36px); top: clamp(20px, 3vw, 36px); width: 64px; height: 64px; border-radius: 20px; display: grid; place-items: center; color: #d9573a; rotate: 8deg; }
+
+  /* side project */
+  .c-mcm__banner { display: block; padding: 8px; border-radius: 26px; overflow: hidden; transition: transform 0.4s var(--ease); }
+  .c-mcm__banner img { width: 100%; border-radius: 18px; }
+  .c-mcm__banner:hover { transform: translateY(-3px); }
+  .c-mcm__grid { margin-top: 14px; display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 14px; }
+  .c-mcm__card { margin: 0; padding: 22px; display: grid; gap: 12px; align-content: start; border-top: 3px solid var(--c); }
+  .c-mcm__id { display: flex; align-items: center; gap: 14px; }
+  .c-mcm__id img { width: 60px; height: 60px; border-radius: 50%; }
+  .c-mcm__id strong { display: block; font-weight: 620; font-size: 22px; letter-spacing: -0.02em; color: var(--c); }
+  .c-mcm__card .c-btn { justify-self: start; }
+  .c-mcm__why { margin: 0; font: italic 400 clamp(20px, 1.8vw, 26px)/1.3 var(--serif); }
+  .c-mcm__card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .c-mcm__card li { padding: 8px 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.72); border: 1px solid color-mix(in srgb, var(--c) 30%, transparent); font-size: 15px; }
+  @media (max-width: 960px) { .c-mcm__grid { grid-template-columns: 1fr; } }
 
   @media (max-width: 960px) {
     .c-skills { grid-template-columns: 1fr 1fr; }
