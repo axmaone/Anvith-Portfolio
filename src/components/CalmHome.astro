@@ -5,7 +5,7 @@ import type { CollectionEntry } from 'astro:content';
 import Art from './Art.astro';
 import MindLab from './MindLab.astro';
 import MemoryGame from './MemoryGame.astro';
-import { person, hero, icad, frameworks, about, journey, skills, research, writing } from '../data/site';
+import { person, hero, icad, frameworks, about, journey, skills, research, writing, sideProject } from '../data/site';
 interface Props { work: CollectionEntry<'work'>[] }
 const { work } = Astro.props;
 
@@ -217,6 +217,16 @@ const skillMeta: Record<string, { icon: string; c: string; blurb: string }> = {
       <strong>Off the clock:</strong> seven years of chess (<a href={about.offDuty[0].href} target="_blank" rel="noopener">challenge AXMA1 on chess.com ↗</a>),
       Trek Lead with Bengaluru Trekkers, and eight years of cricket.
     </p>
+    <a class="c-yt c-glass" href={sideProject.href} target="_blank" rel="noopener" data-c-reveal>
+      <span class="c-yt__play" aria-hidden="true">▶</span>
+      <span class="c-yt__body">
+        <span class="c-meta">Side project · YouTube · {sideProject.handle}</span>
+        <strong>{sideProject.name}</strong>
+        <span>{sideProject.what}</span>
+        <span class="c-yt__why"><b>Why I do it:</b> {sideProject.why}</span>
+      </span>
+      <span class="c-yt__cta">Watch “{sideProject.show}” ↗</span>
+    </a>
     <span class="c-quill" aria-hidden="true" set:html={svg('feather', 30)} />
   </section>
 
@@ -371,6 +381,15 @@ const skillMeta: Record<string, { icon: string; c: string; blurb: string }> = {
   .c-off { margin: clamp(20px, 3vw, 32px) 0 0; padding: 16px 20px; border-radius: 18px; background: rgba(255, 255, 255, 0.5); color: var(--c-ink-2); }
   .c-off strong { color: var(--c-ink); }
   .c-off a { color: var(--c-accent); }
+  .c-yt { margin-top: 14px; display: grid; grid-template-columns: auto 1fr auto; gap: 20px; align-items: center; padding: 22px 24px; border-top: 3px solid #d9573a; text-decoration: none; color: var(--c-ink); transition: transform 0.4s var(--ease); }
+  .c-yt:hover { transform: translateY(-3px); }
+  .c-yt__play { width: 60px; height: 44px; border-radius: 14px; display: grid; place-items: center; color: #fff; background: linear-gradient(135deg, #d9573a, #e8785c); font-size: 18px; }
+  .c-yt__body { display: grid; gap: 6px; }
+  .c-yt__body strong { font-weight: 620; font-size: 24px; letter-spacing: -0.02em; color: #d9573a; }
+  .c-yt__body > span:not(.c-meta) { color: var(--c-ink-2); }
+  .c-yt__why b { color: var(--c-ink); font-weight: 600; }
+  .c-yt__cta { font-weight: 600; color: #4b47b8; white-space: nowrap; }
+  @media (max-width: 760px) { .c-yt { grid-template-columns: 1fr; } .c-yt__cta { white-space: normal; } }
 
   /* WRITING */
   .c-lines { list-style: none; margin: 0; padding: 0; }

@@ -13,7 +13,7 @@ import MemoryGame from '../components/MemoryGame.astro';
 import ResearchDeck from '../components/ResearchDeck.astro';
 import Icon from '../components/Icon.astro';
 import CalmHome from '../components/CalmHome.astro';
-import { person, hero, icad, frameworks, about, journey, skills, writing } from '../data/site';
+import { person, hero, icad, frameworks, about, journey, skills, writing, sideProject } from '../data/site';
 
 const work = (await getCollection('work', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);
 const marquee = ['Learning design', 'Experience design', 'Instructional design', 'Psychology', 'Facilitation', 'Motion explainers', 'Storyboarding', 'Gamification'];
@@ -199,6 +199,16 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
               <li data-reveal><strong>{o.title}</strong><span>{o.text}</span>{o.href && <a href={o.href} target="_blank" rel="noopener">{o.cta}</a>}</li>
             ))}
           </ul>
+          <a class="yt" href={sideProject.href} target="_blank" rel="noopener" data-reveal>
+            <span class="yt__play" aria-hidden="true">▶</span>
+            <span class="yt__body">
+              <span class="mono">Side project · YouTube · {sideProject.handle}</span>
+              <strong>{sideProject.name}</strong>
+              <span>{sideProject.what}</span>
+              <em class="serif">Why I do it: {sideProject.why}</em>
+            </span>
+            <span class="yt__cta">Watch “{sideProject.show}” ↗</span>
+          </a>
         </div>
       </div>
     </section>
@@ -345,6 +355,15 @@ const marquee = ['Learning design', 'Experience design', 'Instructional design',
   .offduty li:hover { transform: rotate(-2deg) translateY(-4px); }
   .offduty strong { font: 720 30px/1 var(--display); font-variation-settings: 'wdth' 80; }
   .offduty a { font-weight: 650; color: var(--red); text-decoration-thickness: 2px; text-underline-offset: 4px; margin-top: 6px; }
+  .offduty .yt { margin-top: 16px; display: grid; grid-template-columns: auto 1fr auto; gap: 20px; align-items: center; padding: 22px 24px; border: 1.5px solid var(--ink); border-radius: 18px; background: var(--ink); color: var(--paper); text-decoration: none; transition: transform 0.5s var(--ease); }
+  .offduty .yt:hover { transform: rotate(-0.6deg) translateY(-3px); }
+  .yt__play { width: 64px; height: 46px; border-radius: 14px; background: var(--red); color: var(--white); display: grid; place-items: center; font-size: 20px; }
+  .yt__body { display: grid; gap: 6px; }
+  .yt__body .mono { color: var(--gold); }
+  .yt__body strong { font: 720 30px/1 var(--display); font-variation-settings: 'wdth' 80; color: var(--paper); }
+  .yt__body em { font-style: italic; color: color-mix(in srgb, var(--paper) 78%, transparent); }
+  .yt__cta { font-weight: 650; color: var(--gold); white-space: nowrap; }
+  @media (max-width: 760px) { .offduty .yt { grid-template-columns: 1fr; } .yt__cta { white-space: normal; } }
 
   @media (max-width: 860px) {
     .concept__grid, .approach, .stage { grid-template-columns: 1fr; }

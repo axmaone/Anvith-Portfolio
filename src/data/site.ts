@@ -269,3 +269,13 @@ export const headings: Record<string, { line: string; source: string; meaning: s
     egg: 'Egg: coffee. The stakes of my memory game. Black, no sugar.',
   },
 };
+
+// Side project shown under "Off the clock" in both Bold and Calm.
+export const sideProject = {
+  name: 'Middle Class Maths',
+  handle: '@MiddleClassMaths',
+  href: 'https://www.youtube.com/@MiddleClassMaths',
+  show: 'Rahul vs Money',
+  what: 'My YouTube channel of short animated stories about how money really works in India: salaries, EMIs, UPI, SIPs and the habits in between.',
+  why: 'By day I design BFSI learning for banks. This is the same craft for the people on the other side of the counter, and my lab for trying new storytelling and animation before it reaches client work.',
+};
